@@ -12,14 +12,15 @@ import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
 
+userrepo = [user2, user2...]
+activityArray = [act1, act2 ....]
+activityArray.forEach
 
 
-let userRepository = new UserRepository();
-
-userData.forEach(user => {
-  user = new User(user);
-  userRepository.users.push(user)
-});
+let userRepository = new UserRepository(userData.map(person => {
+  let user = new User(person);
+  return user;
+}));
 
 activityData.forEach(activity => {
   activity = new Activity(activity, userRepository);
@@ -37,6 +38,7 @@ let user = userRepository.users[0];
 let todayDate = "2019/09/22";
 user.findFriendsNames(userRepository.users);
 
+//EM: too many variables
 let dailyOz = document.querySelectorAll('.daily-oz');
 let dropdownEmail = document.querySelector('#dropdown-email');
 let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
@@ -64,6 +66,7 @@ let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality
 let sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
 let sleepMainCard = document.querySelector('#sleep-main-card');
 let sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
+//EM: sortedHydrationDataByDate should be in a function?
 let sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
   if (Object.keys(a)[0] > Object.keys(b)[0]) {
     return -1;
@@ -116,6 +119,7 @@ function showDropdown() {
   userInfoDropdown.classList.toggle('hide');
 }
 
+//EM: needs refactoring
 function showInfo() {
   if (event.target.classList.contains('steps-info-button')) {
     flipCard(stepsMainCard, stepsInfoCard);
@@ -178,15 +182,18 @@ function updateTrendingStairsDays() {
   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
 }
 
+//EM: duplicate function?
 function updateTrendingStepDays() {
   user.findTrendingStepDays();
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 }
 
+//EM: for loop outside of function?
 for (var i = 0; i < dailyOz.length; i++) {
   dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
 }
 
+//EM: should be inside function
 dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
 
 dropdownEmail.innerText = `EMAIL | ${user.email}`;
@@ -289,6 +296,7 @@ user.friendsActivityRecords.forEach(friend => {
 
 let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
 
+//EM: refactor
 friendsStepsParagraphs.forEach(paragraph => {
   if (friendsStepsParagraphs[0] === paragraph) {
     paragraph.classList.add('green-text');
