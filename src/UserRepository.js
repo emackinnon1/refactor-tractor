@@ -10,6 +10,7 @@ class UserRepository {
       return user.id === id;
     })
   }
+  
   calculateAverageStepGoal() {
     let total = this.users.reduce((sum, user) => {
       sum += user.dailyStepGoal;

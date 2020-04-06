@@ -7,7 +7,7 @@ class Activity {
     this.flightsOfStairs = data.flightsOfStairs;
     this.milesWalked = 0;
     this.reachedStepGoal = false;
-  }
+  } 
 
   doActivity(userRepo) {
     var activity = this;

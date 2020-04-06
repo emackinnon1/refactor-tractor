@@ -12,10 +12,6 @@ import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
 
-userrepo = [user2, user2...]
-activityArray = [act1, act2 ....]
-activityArray.forEach
-
 
 let userRepository = new UserRepository(userData.map(person => {
   let user = new User(person);
