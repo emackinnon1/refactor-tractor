@@ -77,7 +77,7 @@ describe('UserRepository', function() {
 
 
   it.only('should have a method that finds the longest sleepers', function() {
-    expect(userRepository.getLongestSleepers("2019/06/15")).to.deep.equal([3, 4]);
+    expect(userRepository.getLongestSleepers("2019/06/15")).to.deep.equal([user3, user4]);
   });
 
   it('should have a method that finds the best sleepers', function() {
