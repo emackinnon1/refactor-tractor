@@ -13,6 +13,7 @@ import Activity from '../src/Activity';
 describe('UserRepository', function() {
   let activity1, activity2, activity3;
   let user1, user2, user3;
+  let sleep1, sleep2, sleep3;
   let userRepository;
 
   beforeEach(() => {
@@ -24,9 +25,17 @@ describe('UserRepository', function() {
     activity2 = new Activity(activityTestData[1]);
     activity3 = new Activity(activityTestData[2]);
 
+    sleep1 = new Sleep(sleepTestData[0]);
+    sleep2 = new Sleep(sleepTestData[1]);
+    sleep3 = new Sleep(sleepTestData[2]);
+
     user1.activityRecord.push(activity1);
     user2.activityRecord.push(activity2);
     user3.activityRecord.push(activity3);
+
+    user1.sleepRecord.push(sleep1);
+    user2.sleepRecord.push(sleep2);
+    user3.sleepRecord.push(sleep3);
 
     userRepository = new UserRepository([user1, user2, user3]);
   });
@@ -49,11 +58,20 @@ describe('UserRepository', function() {
   });
 
   it('calculateAverageSleepQuality should return average sleep quality for all users', function() {
-    user1.sleepQualityAverage = 3.3;
-    user2.sleepQualityAverage = 5;
-    user3.sleepQualityAverage = 1;
-    expect(userRepository.calculateAverageSleepQuality()).to.equal(3.1);
+    expect(userRepository.calculateAverageSleepQuality()).to.equal(3.9);
   });
+
+  it('should have a method that calculates average amount of activity for users', function() {
+    expect(userRepository.calculateAverageActivity("2019/06/15", 'numSteps')).to.equal(5091);
+    expect(userRepository.calculateAverageActivity("2019/06/15", 'minutesActive')).to.equal(131);
+    expect(userRepository.calculateAverageActivity("2019/06/15", 'flightsOfStairs')).to.equal(20);
+  });
+
+  it('should return 0 if no activity on specified date', function() {
+    expect(userRepository.calculateAverageActivity("2020/04/05", 'numSteps')).to.equal(0);
+  })
+});
+
 
   it('should have a method that calculates friends average ounces of water', function() {
     user1.ouncesRecord = [
@@ -135,14 +153,3 @@ describe('UserRepository', function() {
     }];
     expect(userRepository.getWorstSleepers("2019/06/15")).to.equal(1);
   });
-
-  it('should have a method that calculates average amount of activity for users', function() {
-    expect(userRepository.calculateAverageActivity("2019/06/15", 'numSteps')).to.equal(5091);
-    expect(userRepository.calculateAverageActivity("2019/06/15", 'minutesActive')).to.equal(131);
-    expect(userRepository.calculateAverageActivity("2019/06/15", 'flightsOfStairs')).to.equal(20);
-  });
-
-  it('should return 0 if no activity on specified date', function() {
-    expect(userRepository.calculateAverageActivity("2020/04/05", 'numSteps')).to.equal(0);
-  })
-});

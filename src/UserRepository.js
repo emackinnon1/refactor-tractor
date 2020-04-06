@@ -10,21 +10,13 @@ class UserRepository {
       return user.id === id;
     })
   }
-  
+
   calculateAverageStepGoal() {
     let total = this.users.reduce((sum, user) => {
       sum += user.dailyStepGoal;
       return sum;
     }, 0);
     return total / this.users.length;
-  }
-
-  calculateAverageSleepQuality() {
-    let totalSleepQuality = this.users.reduce((sum, user) => {
-      sum += user.sleepQualityAverage;
-      return sum;
-    }, 0);
-    return totalSleepQuality / this.users.length;
   }
 
   calculateAverageActivity(date, property) {
@@ -46,6 +38,21 @@ class UserRepository {
     return Math.round(totalCount / activityCounts.length);
   }
 
+  calculateAverageSleepQuality() {
+    let totalSleepQuality = this.users.reduce((acc, user) => {
+      user.sleepRecord.forEach(sleep => {
+        acc.push(sleep.sleepQuality)
+      })
+      return acc;
+    }, []);
+    let averageSleepQuality = totalSleepQuality.reduce((acc, num) => {
+      acc += num;
+      return acc;
+    }, 0)
+    return Number((averageSleepQuality / totalSleepQuality.length).toFixed(1))
+  }
+
+// this method is not in spec
   // calculateAverageDailyWater(date) {
   //   let todaysDrinkers = this.users.filter(user => {
   //     return user.addDailyOunces(date) > 0;
