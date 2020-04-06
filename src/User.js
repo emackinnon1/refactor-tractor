@@ -14,8 +14,9 @@
     this.sleepQualityAverage = 0;
     //sleep array?
     //hydration array?
-    this.sleepHoursRecord = [];
-    this.sleepQualityRecord = [];
+    // this.sleepHoursRecord = [];
+    // this.sleepQualityRecord = [];
+    this.sleepRecord = [];
     this.activityRecord = [];
     this.accomplishedDays = [];
     this.trendingStepDays = [];

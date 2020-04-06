@@ -7,6 +7,7 @@ import hydrationTestData from '../src/data/hydration-test-data';
 
 
 import User from '../src/User';
+import Sleep from '../src/Sleep';
 
 
 describe('User', function() {
@@ -40,7 +41,7 @@ describe('User', function() {
     expect(user.email).to.equal('Diana.Hayes1@hotmail.com');
   });
 
-  it.only('should have a stride length', function() {
+  it('should have a stride length', function() {
     expect(user.strideLength).to.equal(4.3);
   });
 

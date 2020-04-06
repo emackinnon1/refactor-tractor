@@ -1,4 +1,4 @@
-export const sleepData = [
+const sleepTestData = [
   {
     "userID": 1,
     "date": "2019/06/15",
@@ -16,5 +16,13 @@ export const sleepData = [
     "date": "2019/06/15",
     "hoursSlept": 10.8,
     "sleepQuality": 4.7
+  },
+  {
+    "userID": 4,
+    "date": "2019/06/15",
+    "hoursSlept": 10.8,
+    "sleepQuality": 4.7
   }
 ]
+
+export default sleepTestData
