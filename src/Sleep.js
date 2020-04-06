@@ -1,11 +1,12 @@
-class Sleep { // instance for the user's sleep each day
-  constructor(data, userRepository) {
-    this.userId = data.userID;
-    this.date = data.date;
-    this.hoursSlept = data.hoursSlept;
-    this.sleepQuality = data.sleepQuality;
+class Sleep {
+  constructor(sleepData, userRepository) {
+    this.userId = sleepData.userID;
+    this.date = sleepData.date;
+    tsleepDis.hoursSlept = sleepData.hoursSlept;
+    this.sleepQuality = sleepData.sleepQuality;
     this.sleep(userRepository);
   }
+
   sleep(userRepo) {
     var sleep = this;
     userRepo.users.find(function(user) {

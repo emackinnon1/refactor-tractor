@@ -30,9 +30,7 @@ describe('UserRepository', function() {
 
     userRepository = new UserRepository([user1, user2, user3]);
   });
-  // it('should be a function', function() {
-  //   expect(UserRepository).to.be.a('function');
-  // });
+
   it('should be an instance of user repository', function() {
     expect(userRepository).to.be.an.instanceof(UserRepository);
   });
@@ -44,16 +42,19 @@ describe('UserRepository', function() {
 
   it('getUser should return user object when given a user id', function() {
     expect(userRepository.getUser(2)).to.equal(user2);
-  })
+  });
+
   it('calculateAverageStepGoal should return average step goal for all users', function() {
     expect(userRepository.calculateAverageStepGoal()).to.equal(10000);
-  })
+  });
+
   it('calculateAverageSleepQuality should return average sleep quality for all users', function() {
     user1.sleepQualityAverage = 3.3;
     user2.sleepQualityAverage = 5;
     user3.sleepQualityAverage = 1;
     expect(userRepository.calculateAverageSleepQuality()).to.equal(3.1);
   });
+
   it('should have a method that calculates friends average ounces of water', function() {
     user1.ouncesRecord = [
       {"2019/06/15": 1},
@@ -141,7 +142,7 @@ describe('UserRepository', function() {
     expect(userRepository.calculateAverageActivity("2019/06/15", 'flightsOfStairs')).to.equal(20);
   });
 
-  it.only('should return 0 if no activity on specified date', function() {
+  it('should return 0 if no activity on specified date', function() {
     expect(userRepository.calculateAverageActivity("2020/04/05", 'numSteps')).to.equal(0);
   })
 });
