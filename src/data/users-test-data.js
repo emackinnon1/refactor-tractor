@@ -39,6 +39,20 @@ const userTestData = [
       42,
       33
     ]
+  },
+  {
+    "id": 4,
+    "name": "Mae Connelly",
+    "address": "28926 Schinner Islands, Turnermouth NE 23720-3230",
+    "email": "Marcos_Pollich@hotmail.com",
+    "strideLength": 3.1,
+    "dailyStepGoal": 4000,
+    "friends": [
+      48,
+      7,
+      44,
+      8
+    ]
   }
 ]
 

@@ -3,6 +3,7 @@ import sleepData from './data/sleep';
 class UserRepository {
   constructor(data) {
     this.users = data;
+    this.longestSleepers = [];
   }
 
   getUser(id) {
@@ -52,7 +53,34 @@ class UserRepository {
     return Number((averageSleepQuality / totalSleepQuality.length).toFixed(1))
   }
 
-// this method is not in spec
+//For a given day (identified by the date), find the users who slept the most number of hours (one or more if they tied)
+  getLongestSleepers(date) {
+    // go through users, access sleep sleepRecord
+    // filter by date
+    //
+    let usersSleepByDate = this.users.filter(user => {
+      return user.sleepRecord.filter(sleep => sleep.date === date)
+    })
+
+    let sorted = usersSleepByDate.sort((a, b) => {
+      return b.sleepRecord.hoursSlept - a.sleepRecord.hoursSlept;
+    })
+    console.log(usersSleepByDate[0].sleepRecord.userId);
+    // return sleepData.filter(sleep => {
+    //   return sleep.date === date;
+    //   }).sort((a, b) => {
+    //     return b.hoursSlept - a.hoursSlept;
+    //       })[0].userID;
+    }
+
+// Find all users who average a sleep quality greater than 3 for a given week (7 days) - you should be able to calculate this for any week, not just the latest week
+  findBestSleepers(date) {
+    return this.users.filter(user => {
+        return user.calculateAverageQualityThisWeek(date) > 3;
+      })
+    }
+
+// these methods are not in spec
   // calculateAverageDailyWater(date) {
   //   let todaysDrinkers = this.users.filter(user => {
   //     return user.addDailyOunces(date) > 0;
@@ -61,20 +89,6 @@ class UserRepository {
   //     return sum += drinker.addDailyOunces(date);
   //   }, 0)
   //   return Math.floor(sumDrankOnDate / todaysDrinkers.length);
-  // }
-
-  // findBestSleepers(date) {
-  //   return this.users.filter(user => {
-  //     return user.calculateAverageQualityThisWeek(date) > 3;
-  //   })
-  // }
-
-  // getLongestSleepers(date) {
-  //   return sleepData.filter(sleep => {
-  //     return sleep.date === date;
-  //   }).sort((a, b) => {
-  //     return b.hoursSlept - a.hoursSlept;
-  //   })[0].userID;
   // }
 
   // getWorstSleepers(date) {
