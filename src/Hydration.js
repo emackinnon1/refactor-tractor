@@ -3,7 +3,6 @@ class Hydration {
     this.userID = data.userID;
     this.date = data.date;
     this.numOunces = data.numOunces;
-    // this.drink(userRepository);
   }
   // drink(userRepo) {
   //     var hydrate = this;
@@ -24,6 +23,7 @@ class Hydration {
   getFluidOuncesByWeek(week) {
     // For a user, how many fluid ounces of water consumed each day over the course of a week (7 days) - return the amount for each day
   }
+
 }
 
 
