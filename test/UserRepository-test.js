@@ -74,9 +74,7 @@ describe('UserRepository', function() {
     expect(userRepository.calculateAverageActivity("2020/04/05", 'numSteps')).to.equal(0);
   })
 
-
-
-  it.only('should have a method that finds the longest sleepers', function() {
+  it('should have a method that finds the longest sleepers', function() {
     expect(userRepository.getLongestSleepers("2019/06/15")).to.deep.equal([3, 4]);
   });
 
