@@ -4,7 +4,6 @@ class Sleep {
     this.date = sleepData.date;
     this.hoursSlept = sleepData.hoursSlept;
     this.sleepQuality = sleepData.sleepQuality;
-    // this.sleep(userRepository);
   }
 
   sleep(userRepo) {

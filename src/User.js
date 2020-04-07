@@ -1,5 +1,9 @@
+import Activity from './Activity';
+import Hydration from './Hydration';
+import Sleep from './Sleep';
+
  class User {
-  constructor(userData) {
+  constructor(userData, hydrationData, activityData, sleepData) {
     this.id = userData.id;
     this.name = userData.name;
     this.address = userData.address;
@@ -7,27 +11,64 @@
     this.strideLength = userData.strideLength;
     this.dailyStepGoal = userData.dailyStepGoal;
     this.friends = userData.friends;
-    this.totalStepsThisWeek = 0;
-    this.ouncesAverage = 0;
-    this.ouncesRecord = [];
-    this.hoursSleptAverage = 0;
-    this.sleepQualityAverage = 0;
+    this.activityRecord = this.makeActivityRecord(activityData);
+    this.sleepRecord = this.makeSleepRecord(sleepData);
+    this.hydrationRecord = this.makeHydrationRecord(hydrationData);
+
+    // this.totalStepsThisWeek = 0;
+    // this.ouncesAverage = 0;
+    // this.ouncesRecord = [];
+    // this.hoursSleptAverage = 0;
+    // this.sleepQualityAverage = 0;
     //sleep array?
     //hydration array?
     // this.sleepHoursRecord = [];
     // this.sleepQualityRecord = [];
-    this.sleepRecord = [];
-    this.activityRecord = [];
-    this.accomplishedDays = [];
-    this.trendingStepDays = [];
-    this.trendingStairsDays = [];
-    this.friendsNames = [];
-    this.friendsActivityRecords = []
+    // this.sleepRecord = [];
+    // this.accomplishedDays = [];
+    // this.trendingStepDays = [];
+    // this.trendingStairsDays = [];
+    // this.friendsNames = [];
+    // this.friendsActivityRecords = [];
   }
 
   getFirstName() {
     var names = this.name.split(' ');
     return names[0].toUpperCase();
+  }
+
+  makeActivityRecord(activityData) {
+      return activityData.reduce((acc, currentActivity) => {
+        if (currentActivity.userID === this.id) {
+        let activity = new Activity(currentActivity);
+        acc.push(activity);
+      }
+      return acc;
+    }, [])
+  }
+
+  makeHydrationRecord(hydrationData) {
+      return hydrationData.reduce((acc, currentHydration) => {
+        if (currentHydration.userID === this.id) {
+        let hydration = new Hydration(currentHydration);
+        acc.push(hydration);
+      }
+      return acc;
+    }, [])
+  }
+
+  makeSleepRecord(sleepData) {
+      return sleepData.reduce((acc, currentSleep) => {
+        if (currentSleep.userID === this.id) {
+        let sleep = new Sleep(currentSleep);
+        acc.push(sleep);
+      }
+      return acc;
+    }, [])
+  }
+
+  getAverageHydration(){
+
   }
 
   updateHydration(date, amount) {

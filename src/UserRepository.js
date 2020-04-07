@@ -1,9 +1,16 @@
-import sleepData from './data/sleep';
+import User from './User';
 
 class UserRepository {
-  constructor(data) {
-    this.users = data;
+  constructor(userList, sleepData, hydrationData, activityData) {
+    this.users = this.makeUsers(userList, sleepData, hydrationData, activityData);
     this.longestSleepers = [];
+  }
+
+  makeUsers(userList, sleepData, hydrationData, activityData) {
+    return userList.map(currentUser => {
+      let user = new User(currentUser, sleepData, hydrationData, activityData);
+      return user;
+    })
   }
 
   getUser(id) {
@@ -73,25 +80,6 @@ class UserRepository {
       return user.calculateAverageQualityThisWeek(date) > 3;
     })
   }
-
-  // these methods are not in spec
-  // calculateAverageDailyWater(date) {
-  //   let todaysDrinkers = this.users.filter(user => {
-  //     return user.addDailyOunces(date) > 0;
-  //   });
-  //   let sumDrankOnDate = todaysDrinkers.reduce((sum, drinker) => {
-  //     return sum += drinker.addDailyOunces(date);
-  //   }, 0)
-  //   return Math.floor(sumDrankOnDate / todaysDrinkers.length);
-  // }
-
-  // getWorstSleepers(date) {
-  //   return sleepData.filter(sleep => {
-  //     return sleep.date === date;
-  //   }).sort((a, b) => {
-  //     return a.hoursSlept - b.hoursSlept;
-  //   })[0].userID;
-  // }
 }
 
 export default UserRepository;
