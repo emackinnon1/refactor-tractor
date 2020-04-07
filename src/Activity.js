@@ -7,20 +7,20 @@ class Activity {
     this.flightsOfStairs = data.flightsOfStairs;
     this.milesWalked = 0;
     this.reachedStepGoal = false;
-  } 
-
-  doActivity(userRepo) {
-    var activity = this;
-    userRepo.users.find(function(user) {
-      return user.id === activity.userId;
-    }).updateActivities(this);
   }
+
+  // addActivity(userRepo) {
+  //   let currentUser = userRepo.users.find(user => {
+  //     return user.id === activity.userId;
+  //   });
+  //   currentUser.activityRecord.push()
+  // }
 
   calculateMiles(userRepository) {
     let walkingUser = userRepository.users.find(user => {
       return user.id === this.userId;
     });
-    return Math.round(this.steps * walkingUser.strideLength / 5280).toFixed(1);
+    return Number(Math.round(this.numSteps * walkingUser.strideLength / 5280).toFixed(1));
   }
 
   compareStepGoal(userRepository) {
