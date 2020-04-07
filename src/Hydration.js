@@ -3,7 +3,6 @@ class Hydration {
     this.userID = data.userID;
     this.date = data.date;
     this.numOunces = data.numOunces;
-    // this.drink(userRepository);
   }
   // drink(userRepo) {
   //     var hydrate = this;

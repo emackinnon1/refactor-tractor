@@ -12,7 +12,7 @@ import Activity from '../src/Activity';
 
 describe('UserRepository', function() {
   // let activity1, activity2, activity3;
-  let user1, user2, user3, user4;
+  // let user1, user2, user3, user4;
   // let sleep1, sleep2, sleep3, sleep4;
   let userRepository;
 
@@ -79,6 +79,7 @@ describe('UserRepository', function() {
 
   it('should have a method that finds the longest sleepers', function() {
     expect(userRepository.getLongestSleepers("2019/06/15")[0].id).to.equal(3);
+    expect(userRepository.getLongestSleepers("2019/06/15")[1].id).to.equal(4);
   });
 
   it.skip('should have a method that finds the best sleepers', function() {

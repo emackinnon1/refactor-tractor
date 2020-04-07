@@ -10,28 +10,34 @@ import User from '../src/User';
 import Sleep from '../src/Sleep';
 import Activity from '../src/Activity';
 import Hydration from '../src/Hydration';
+import UserRepository from '../src/UserRepository';
 
 
 describe('User', function() {
-  let user, sleep1, sleep2, sleep3, hydration1, hydration2, hydration3;
+  // let user, sleep1, sleep2, sleep3, hydration1, hydration2, hydration3;
+  let user;
+  let userRepository;
   beforeEach(() => {
-    user = new User(userTestData[0]);
-
-    sleep1 = new Sleep(sleepTestData[0]);
-    sleep2 = new Sleep(sleepTestData[1]);
-    sleep3 = new Sleep(sleepTestData[2]);
-
-    hydration1 = new Hydration(hydrationTestData[0]);
-    hydration2 = new Hydration(hydrationTestData[1]);
-    hydration3 = new Hydration(hydrationTestData[2]);
-
-    user.sleepRecord = [sleep1, sleep2, sleep3];
-    user.hydrationRecord = [hydration1, hydration2, hydration3];
+    // user = new User(userTestData[0]);
+    //
+    // sleep1 = new Sleep(sleepTestData[0]);
+    // sleep2 = new Sleep(sleepTestData[1]);
+    // sleep3 = new Sleep(sleepTestData[2]);
+    //
+    // hydration1 = new Hydration(hydrationTestData[0]);
+    // hydration2 = new Hydration(hydrationTestData[1]);
+    // hydration3 = new Hydration(hydrationTestData[2]);
+    //
+    // user.sleepRecord = [sleep1, sleep2, sleep3];
+    // user.hydrationRecord = [hydration1, hydration2, hydration3];
+    user = new User(userTestData[0], hydrationTestData, activityTestData, sleepTestData)
+    userRepository = new UserRepository(userTestData, hydrationTestData, activityTestData, sleepTestData);
   });
 
 
-  it('should be an instance of user', function() {
-    expect(user).to.be.an.instanceof(User);
+  it.only('should be an instance of user', function() {
+    console.log(user)
+    expect(userRepository.users[0]).to.be.an.instanceof(User);
   });
 
   it('should have an id', function() {

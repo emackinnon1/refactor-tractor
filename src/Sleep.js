@@ -1,5 +1,5 @@
 class Sleep {
-  constructor(data, userRepository) {
+  constructor(data) {
     this.userID = data.userID;
     this.date = data.date;
     this.hoursSlept = data.hoursSlept;
