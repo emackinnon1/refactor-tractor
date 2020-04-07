@@ -15,7 +15,7 @@ import UserRepository from '../src/UserRepository';
 
 describe('User', function() {
   // let user, sleep1, sleep2, sleep3, hydration1, hydration2, hydration3;
-  let user;
+  let user, user2;
   let userRepository;
   beforeEach(() => {
     // user = new User(userTestData[0]);
@@ -31,12 +31,12 @@ describe('User', function() {
     // user.sleepRecord = [sleep1, sleep2, sleep3];
     // user.hydrationRecord = [hydration1, hydration2, hydration3];
     user = new User(userTestData[0], hydrationTestData, activityTestData, sleepTestData)
+    user2 = new User(userTestData[3], hydrationTestData, activityTestData, sleepTestData)
     userRepository = new UserRepository(userTestData, hydrationTestData, activityTestData, sleepTestData);
   });
 
 
-  it.only('should be an instance of user', function() {
-    console.log(user)
+  it('should be an instance of user', function() {
     expect(userRepository.users[0]).to.be.an.instanceof(User);
   });
 
@@ -141,9 +141,22 @@ describe('User', function() {
   //   });
   // });
 
-  it('averageHydration should calculate all time water consumption', function() {
+  it('should be able to calculate all time average water consumption', function() {
+    user.makeHydrationRecord(hydrationTestData);
+    user2.makeHydrationRecord(hydrationTestData);
 
+    expect(user.getAllTimeAverageFluidOunces()).to.equal(42.5)
+    expect(user2.getAllTimeAverageFluidOunces()).to.equal(0)
   })
+
+  it('should be able to calculate daily water consumption', function() {
+    user.makeHydrationRecord(hydrationTestData);
+
+
+    expect(user.getFluidOuncesByDate("2019/06/15")).to.equal(37)
+    expect(user.getFluidOuncesByDate("2019/06/17")).to.equal("N/A")
+  })
+
 
   it('calculateAverageHoursThisWeek should calculate average sleep hours for week before given date', function() {
     user.sleepHoursRecord = [{date: "2019/09/22", hours: 9.6}, {date: "2019/09/21", hours: 8.2}, {date: "2019/09/20", hours: 9.9}, {date: "2019/09/19", hours: 4.2}, {date: "2019/09/18", hours: 9.5}, {date: "2019/09/17", hours: 7.8}, {date: "2019/09/16", hours: 10.2}, {date: "2019/09/15", hours: 5.7}, {date: "2019/09/14", hours: 8.8}, {date: "2019/09/13", hours: 4.6}, {date: "2019/09/12", hours: 5.3}];
