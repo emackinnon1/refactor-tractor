@@ -13,6 +13,7 @@ import Hydration from './Hydration';
 import Sleep from './Sleep';
 
 
+
 let userRepository = new UserRepository(userData.map(person => {
   let user = new User(person);
   return user;
