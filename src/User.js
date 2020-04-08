@@ -70,22 +70,55 @@ getAllTimeAverage(record, property) {
     }
   }
 
-// ACTIVITY ITERATION METHODS
+  //current Activity methods
 
-  findClimbingRecord() {
-    return this.activityRecord.sort((a, b) => {
+  calculateDailyMiles(date) {
+    let dailySteps = this.activityRecord.find(day => day.date === date).numSteps;
+    let totalMiles = (dailySteps * this.strideLength/5280).toFixed(1);
+    return Number(totalMiles);
+  }
+
+  calculateDailyMinutesActive(date) {
+    return this.activityRecord.find(day => day.date === date).minutesActive;
+  }
+
+  determineIfStepGoalWasMet(date) {
+    let dailySteps = this.activityRecord.find(day => day.date === date).numSteps;
+    if (dailySteps >= this.dailyStepGoal) {
+      return true
+    } else {
+      return false
+    }
+    // this.reachedStepGoal = this.steps >= userStepGoal;
+  }
+
+//finds the most flghts a user has climbed of all time
+  findMostFlightsClimbedOfAllTime() {
+    let maxFlights = this.activityRecord.sort((a, b) => {
       return b.flightsOfStairs - a.flightsOfStairs;
     })[0].flightsOfStairs;
+    return maxFlights;
   }
 
-  calculateDailyCalories(date) {
-    let totalMinutes = this.activityRecord.filter(activity => {
-      return activity.date === date
-    }).reduce((sumMinutes, activity) => {
-      return sumMinutes += activity.minutesActive
+  calculateDaysMetStepGoal() {
+    return this.activityRecord.reduce((total, day) => {
+      if (day.numSteps >= this.dailyStepGoal) {
+        total += 1;
+      }
+      return total;
     }, 0);
-    return Math.round(totalMinutes * 7.6);
   }
+// old ACTIVITY ITERATION METHODS
+
+
+  // calculateDailyCalories(date) {
+  //   let totalMinutes = this.activityRecord.filter(activity => {
+  //     return activity.date === date
+  //   }).reduce((sumMinutes, activity) => {
+  //     return sumMinutes += activity.minutesActive
+  //   }, 0);
+  //   return Math.round(totalMinutes * 7.6);
+  // }
 
   calculateAverageMinutesActiveThisWeek(todayDate) {
     return (this.activityRecord.reduce((sum, activity) => {
