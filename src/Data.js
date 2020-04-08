@@ -1,3 +1,4 @@
+
 class Data {
   constructor() {
     this.mainURL = 'https://fe-apps.herokuapp.com/api/v1/fitlit/1908';
