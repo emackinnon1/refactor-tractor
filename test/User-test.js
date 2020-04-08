@@ -75,7 +75,7 @@ it('should return the first name of the user', function () {
     expect(user2.getAllTimeAverage(user2.hydrationRecord, 'numOunces')).to.equal(0);
   });
 
-  it('should be able to calculate daily water consumption', function() {
+  it('should calculate daily water consumption', function() {
     user.makeHydrationRecord(hydrationTestData);
     expect(user.getFluidOuncesByDate("2019/06/15")).to.equal(37);
     expect(user.getFluidOuncesByDate("2019/06/17")).to.equal("N/A");

@@ -20,13 +20,11 @@ describe('UserRepository', function() {
   });
 
   it('should be an instance of user repository', function() {
-
-    console.log(userRepository.users[0])
     expect(userRepository).to.be.an.instanceof(UserRepository);
   });
 
   it('should hold an array of users', function() {
-    expect(userRepository.users[0]).to.deep.equal(user1);
+    expect(userRepository.users[0]).to.deep.equal(user);
     expect(userRepository.users.length).to.equal(4);
   });
 
@@ -39,7 +37,7 @@ describe('UserRepository', function() {
   });
 
   it('should return average sleep quality for all users', function() {
-    expect(userRepository.calculateAverageSleepQuality()).to.equal(4.1);
+    expect(userRepository.calculateAverageSleepQuality()).to.equal(3.2);
   });
 
   it('should calculate average amount of activity for users', function() {
