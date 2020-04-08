@@ -13,7 +13,7 @@ import Sleep from './Sleep';
 let dataRepo = new Data();
 
 // let userRepository = new UserRepository(data.retrieveUserData(), data.retrieveHydrationData(), data.retrieveActivityData(), data.retrieveSleepData());
-let userRepository;
+let userRepository, sleepData, activityData, hydrationData, userData, user;
 // function fetchData() {
 //     let userData = fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
 //       .then(response => response.json())
@@ -35,13 +35,35 @@ let userRepository;
 Promise.all([
 fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData").then(response => response.json()),
 fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData").then(response => response.json()),
-fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData").then(response => response.json()),
+fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData").then(response => response.json()),
 fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData").then(response => response.json())])
-.then(data => setTimeout(makeRepo(data[0], data[1], data[2], data[3]), 4000))
+.then(data => makeRepo(data[0].userData, data[1].sleepData, data[2].hydrationData, data[3].activityData))
+// .then(data => makeRepo(data[0], data[1], data[2], data[3]), 4000)
+
+function parseData(data) {
+  data.forEach(item => console.log(item))
+}
 
 function makeRepo(users, sleep, hydration, activity) {
-  userRepository = new UserRepository(users, sleep, hydration, activity);
+  let allHydrationInfo = hydration.map(day => {
+    return  hydrationData = new Hydration(day)
+  })
 
+  let allActivityInfo = activity.map(day => {
+    return activityData = new Activity(day)
+  })
+
+  let allSleepInfo = sleep.map(day => {
+    return sleepData = new Sleep(day)
+  })
+console.log(allActivityInfo)
+  userData = users.map(person => {
+    console.log(person)
+    return user = new User(person, allHydrationInfo, allActivityInfo, allSleepInfo)
+  })
+
+  console.log(userData[0])
+  userRepository = new UserRepository(userData, hydration, activity, sleep);
   console.log(userRepository)
 }
 
