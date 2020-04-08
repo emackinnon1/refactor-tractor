@@ -182,11 +182,12 @@ class User {
     }
   }
 
-  findFriendsNames(users) {
-    this.friends.forEach(friend => {
-      this.friendsNames.push(users.find(user => user.id === friend).getFirstName());
-    })
-  }
+// iteration 5
+  // findFriendsNames(users) {
+  //   this.friends.forEach(friend => {
+  //     this.friendsNames.push(users.find(user => user.id === friend).getFirstName());
+  //   })
+  // }
 
   calculateTotalStepsThisWeek(todayDate) {
     this.totalStepsThisWeek = (this.activityRecord.reduce((sum, activity) => {
