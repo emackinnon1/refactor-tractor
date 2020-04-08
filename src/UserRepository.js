@@ -79,6 +79,6 @@ class UserRepository {
 //       return user.calculateAverageQualityThisWeek(date) > 3;
 //     })
 //   }
-// }
+}
 
 export default UserRepository;
