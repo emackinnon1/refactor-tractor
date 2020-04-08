@@ -2,7 +2,7 @@ import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
 
- class User {
+class User {
   constructor(userData, hydrationData, activityData, sleepData) {
     this.id = userData.id;
     this.name = userData.name;
@@ -22,8 +22,8 @@ import Sleep from './Sleep';
   }
 
   makeActivityRecord(activityData) {
-      return activityData.reduce((acc, currentActivity) => {
-        if (currentActivity.userID === this.id) {
+    return activityData.reduce((acc, currentActivity) => {
+      if (currentActivity.userID === this.id) {
         let activity = new Activity(currentActivity);
         acc.push(activity);
       }
@@ -32,8 +32,8 @@ import Sleep from './Sleep';
   }
 
   makeHydrationRecord(hydrationData) {
-      return hydrationData.reduce((acc, currentHydration) => {
-        if (currentHydration.userID === this.id) {
+    return hydrationData.reduce((acc, currentHydration) => {
+      if (currentHydration.userID === this.id) {
         let hydration = new Hydration(currentHydration);
         acc.push(hydration);
       }
@@ -42,8 +42,8 @@ import Sleep from './Sleep';
   }
 
   makeSleepRecord(sleepData) {
-      return sleepData.reduce((acc, currentSleep) => {
-        if (currentSleep.userID === this.id) {
+    return sleepData.reduce((acc, currentSleep) => {
+      if (currentSleep.userID === this.id) {
         let sleep = new Sleep(currentSleep);
         acc.push(sleep);
       }
@@ -51,17 +51,25 @@ import Sleep from './Sleep';
     }, [])
   }
 
-getAllTimeAverage(record, property) {
-  let total = record.reduce((total, value) => {
-    total += value[property];
-    return total;
-  }, 0)
-    return Number((total/record.length).toFixed(1));
-}
+  getAllTimeAverage(record, property) {
+    let total = record.reduce((total, value) => {
+      total += value[property];
+      return total;
+    }, 0);
+    return Number((total / record.length).toFixed(1));
+  }
+
+  getEntryDataByDate(record, property, date) {
+    if (!record.find(entry => entry.date === date)) {
+      return 0;
+    } else {
+      return record.find(entry => entry.date === date)[property];
+    }
+  }
 
   getFluidOuncesByDate(date) {
     let dailyWaterIntake =
-    this.hydrationRecord.find(day => day.date.includes(date))
+      this.hydrationRecord.find(day => day.date.includes(date))
 
     if (dailyWaterIntake !== undefined) {
       return dailyWaterIntake.numOunces;
@@ -70,7 +78,7 @@ getAllTimeAverage(record, property) {
     }
   }
 
-// ACTIVITY ITERATION METHODS
+  // ACTIVITY ITERATION METHODS
 
   findClimbingRecord() {
     return this.activityRecord.sort((a, b) => {
@@ -161,12 +169,11 @@ getAllTimeAverage(record, property) {
     this.friends.map(friend => {
       let matchedFriend = users.find(user => user.id === friend);
       matchedFriend.calculateTotalStepsThisWeek(date);
-      this.friendsActivityRecords.push(
-        {
-          'id': matchedFriend.id,
-          'firstName': matchedFriend.name.toUpperCase().split(' ')[0],
-          'totalWeeklySteps': matchedFriend.totalStepsThisWeek
-        })
+      this.friendsActivityRecords.push({
+        'id': matchedFriend.id,
+        'firstName': matchedFriend.name.toUpperCase().split(' ')[0],
+        'totalWeeklySteps': matchedFriend.totalStepsThisWeek
+      })
     })
     this.calculateTotalStepsThisWeek(date);
     this.friendsActivityRecords.push({

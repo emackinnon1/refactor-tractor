@@ -27,6 +27,7 @@ class UserRepository {
     return total / this.users.length;
   }
 
+
   calculateAverageActivity(date, property) {
     let activityCounts = this.users.reduce((acc, user) => {
       user.activityRecord.forEach(item => {
@@ -46,18 +47,17 @@ class UserRepository {
     return Math.round(totalCount / activityCounts.length);
   }
 
+
   calculateAverageSleepQuality() {
+    let divisor = 0;
     let totalSleepQuality = this.users.reduce((acc, user) => {
       user.sleepRecord.forEach(sleep => {
-        acc.push(sleep.sleepQuality)
-      })
+        acc += sleep.sleepQuality;
+        divisor++;
+      });
       return acc;
-    }, []);
-    let averageSleepQuality = totalSleepQuality.reduce((acc, num) => {
-      acc += num;
-      return acc;
-    }, 0)
-    return Number((averageSleepQuality / totalSleepQuality.length).toFixed(1))
+    }, 0);
+    return totalSleepQuality / divisor;
   }
 
   getLongestSleepers(date) {
@@ -72,13 +72,13 @@ class UserRepository {
     })
     return topSleepers;
   }
-
+  
 // Find all users who average a sleep quality greater than 3 for a given week (7 days) - you should be able to calculate this for any week, not just the latest week
 //   findBestSleepers(date) {
 //     return this.users.filter(user => {
 //       return user.calculateAverageQualityThisWeek(date) > 3;
 //     })
 //   }
-// }
+}
 
 export default UserRepository;

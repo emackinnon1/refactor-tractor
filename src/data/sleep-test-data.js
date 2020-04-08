@@ -26,7 +26,7 @@ const sleepTestData = [
   {
     "userID": 1,
     "date": "2019/06/16",
-    "hoursSlept": 6.1,
+    "hoursSlept": 4.1,
     "sleepQuality": 4.4
   }
 ]
