@@ -7,9 +7,11 @@ import userTestData from '../src/data/users-test-data';
 import activityTestData from '../src/data/activity-test-data';
 
 describe('Activity', function() {
+
   let activity1, activity2, activity3;
   let user1, user2, user3;
   let userRepository;
+
   beforeEach(() => {
 
     user1 = new User(userTestData[0]);
@@ -21,21 +23,6 @@ describe('Activity', function() {
     activity3 = new Activity(activityTestData[2]);
 
     userRepository = new UserRepository([user1, user2, user3]);
-    // userRepository.users.push(user1, user2);
-    // activity1 = new Activity({
-    //   "userID": 1,
-    //   "date": "2019/06/15",
-    //   "numSteps": 3684,
-    //   "minutesActive": 140,
-    //   "flightsOfStairs": 16
-    // }, userRepository);
-    // activity2 = new Activity({
-    //   "userID": 2,
-    //   "date": "2019/06/20",
-    //   "numSteps": 2856,
-    //   "minutesActive": 280,
-    //   "flightsOfStairs": 22
-    // }, userRepository);
   });
 
   it('should be a function', function() {
@@ -45,17 +32,6 @@ describe('Activity', function() {
   it('should be an instance of activity', function() {
     expect(activity1).to.be.an.instanceof(Activity);
   });
-
-  // it.only('should be able to add activities to user record', function() {
-  //
-  //   activity1.addActivity(userRepository);
-  //
-  //   expect(user1.activityRecord.length).to.equal(1);
-  // });
-
-  // it.only('should have a method that calculate miles walked', function() {
-  //   expect(activity1.calculateMiles(userRepository)).to.equal(3.0);
-  // });
 
   it('should return false if goal isn\'t met', function() {
     activity1.compareStepGoal(userRepository);

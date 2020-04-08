@@ -24,7 +24,6 @@ describe('Sleep', function() {
     user3 = new User(userTestData[2]);
 
     userRepository = new UserRepository([user1, user2, user3]);
-
   });
 
   it('should be an instance of Sleep', function() {
@@ -46,23 +45,5 @@ describe('Sleep', function() {
   it('should hold sleep quality', function() {
     expect(sleep1.sleepQuality).to.equal(2.2);
   });
-
-  // describe('sleep', function() {
-  //   it('should update user\'s slept hours record', function() {
-  //     expect(user1.sleepHoursRecord.length).to.equal(2);
-  //   });
-
-  //   it('should update user\'s slept hours record', function() {
-  //     expect(user2.sleepQualityRecord.length).to.equal(1);
-  //   });
-
-  //   it('should update user\'s slept hours average', function() {
-  //     expect(user1.hoursSleptAverage).to.equal('7.7');
-  //   });
-
-  //   it('should update user\'s sleep quality average', function() {
-  //     expect(user1.sleepQualityAverage).to.equal('1.8');
-  //   });
-  // });
 
 });
