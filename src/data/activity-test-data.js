@@ -7,6 +7,13 @@ const activityTestData = [
     "flightsOfStairs": 16
   },
   {
+    "userID": 1,
+    "date": "2019/06/16",
+    "numSteps": 12000,
+    "minutesActive": 200,
+    "flightsOfStairs": 22
+  },
+  {
     "userID": 2,
     "date": "2019/06/15",
     "numSteps": 4294,

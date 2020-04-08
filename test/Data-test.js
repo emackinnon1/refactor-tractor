@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 
 import userTestData from '../src/data/users-test-data';
 import activityTestData from '../src/data/activity-test-data';
@@ -24,6 +25,7 @@ describe('Data', function() {
   });
 
   it('should retrieve user information', function() {
+
     expect(data.retrieveUserData()).to.equal();
   });
 
