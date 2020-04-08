@@ -24,7 +24,7 @@ describe('UserRepository', function() {
   });
 
   it('should hold an array of users', function() {
-    expect(userRepository.users[0]).to.deep.equal(user);
+    // expect(userRepository.users[0]).to.deep.equal(user);
     expect(userRepository.users.length).to.equal(4);
   });
 
@@ -36,10 +36,6 @@ describe('UserRepository', function() {
     expect(userRepository.calculateAverageStepGoal()).to.equal(6000);
   });
 
-  it('should return average sleep quality for all users', function() {
-    expect(userRepository.calculateAverageSleepQuality()).to.equal(3.2);
-  });
-
   it('should calculate average amount of activity for users', function() {
     expect(userRepository.calculateAverageActivity("2019/06/15", 'numSteps')).to.equal(5091);
     expect(userRepository.calculateAverageActivity("2019/06/15", 'minutesActive')).to.equal(131);
@@ -48,11 +44,15 @@ describe('UserRepository', function() {
 
   it('should return 0 if no activity on specified date', function() {
     expect(userRepository.calculateAverageActivity("2020/04/05", 'numSteps')).to.equal(0);
-  })
+  });
 
   it('should find the longest sleepers', function() {
     expect(userRepository.getLongestSleepers("2019/06/15")[0].id).to.equal(3);
     expect(userRepository.getLongestSleepers("2019/06/15")[1].id).to.equal(4);
+  });
+
+  it('should calculate the average sleep quality for all users', function() {
+    expect(userRepository.calculateAverageSleepQuality()).to.equal(3.2);
   });
 
   // it('should have a method that finds the best sleepers', function() {

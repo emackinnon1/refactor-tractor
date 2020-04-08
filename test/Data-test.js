@@ -25,7 +25,7 @@ describe('Data', function() {
   });
 
   it('should retrieve user information', function() {
-
+    // console.log(data.retrieveUserData())
     expect(data.retrieveUserData()).to.equal();
   });
 

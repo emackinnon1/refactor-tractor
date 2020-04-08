@@ -18,12 +18,6 @@ describe('Sleep', function() {
     sleep1 = new Sleep(sleepTestData[0]);
     sleep2 = new Sleep(sleepTestData[1]);
     sleep3 = new Sleep(sleepTestData[2]);
-
-    user1 = new User(userTestData[0]);
-    user2 = new User(userTestData[1]);
-    user3 = new User(userTestData[2]);
-
-    userRepository = new UserRepository([user1, user2, user3]);
   });
 
   it('should be an instance of Sleep', function() {
