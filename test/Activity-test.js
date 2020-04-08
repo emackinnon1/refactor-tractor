@@ -19,9 +19,7 @@ describe('Activity', function() {
 
     user = new User(userTestData[0], hydrationTestData, activityTestData, sleepTestData);
 
-        activity1 = new Activity(activityTestData[0]);
-
-    // userRepository = new UserRepository([user1, user2, user3]);
+    activity1 = new Activity(activityTestData);
   });
 
   it('should be a function', function() {

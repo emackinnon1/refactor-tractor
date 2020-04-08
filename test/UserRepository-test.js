@@ -50,7 +50,7 @@ describe('UserRepository', function() {
     expect(userRepository.getLongestSleepers("2019/06/15")[1].id).to.equal(4);
   });
 
-  it.only('should calculate the average sleep quality for all users', function() {
+  it('should calculate the average sleep quality for all users', function() {
     expect(userRepository.calculateAverageSleepQuality()).to.equal(3.2);
   });
 
