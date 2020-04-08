@@ -60,7 +60,6 @@ class UserRepository {
     return Number((averageSleepQuality / totalSleepQuality.length).toFixed(1))
   }
 
-  //For a given day (identified by the date), find the users who slept the most number of hours (one or more if they tied)
   getLongestSleepers(date) {
     let usersSleepByDate = this.users.filter(user => {
       return user.sleepRecord.filter(sleep => sleep.date === date)
@@ -74,12 +73,12 @@ class UserRepository {
     return topSleepers;
   }
 
-  // Find all users who average a sleep quality greater than 3 for a given week (7 days) - you should be able to calculate this for any week, not just the latest week
-  findBestSleepers(date) {
-    return this.users.filter(user => {
-      return user.calculateAverageQualityThisWeek(date) > 3;
-    })
-  }
-}
+// Find all users who average a sleep quality greater than 3 for a given week (7 days) - you should be able to calculate this for any week, not just the latest week
+//   findBestSleepers(date) {
+//     return this.users.filter(user => {
+//       return user.calculateAverageQualityThisWeek(date) > 3;
+//     })
+//   }
+// }
 
 export default UserRepository;

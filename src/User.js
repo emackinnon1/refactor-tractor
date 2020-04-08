@@ -14,22 +14,6 @@ import Sleep from './Sleep';
     this.activityRecord = this.makeActivityRecord(activityData);
     this.sleepRecord = this.makeSleepRecord(sleepData);
     this.hydrationRecord = this.makeHydrationRecord(hydrationData);
-
-    // this.totalStepsThisWeek = 0;
-    // this.ouncesAverage = 0;
-    // this.ouncesRecord = [];
-    // this.hoursSleptAverage = 0;
-    // this.sleepQualityAverage = 0;
-    //sleep array?
-    //hydration array?
-    // this.sleepHoursRecord = [];
-    // this.sleepQualityRecord = [];
-    // this.sleepRecord = [];
-    // this.accomplishedDays = [];
-    // this.trendingStepDays = [];
-    // this.trendingStairsDays = [];
-    // this.friendsNames = [];
-    // this.friendsActivityRecords = [];
   }
 
   getFirstName() {
@@ -67,15 +51,13 @@ import Sleep from './Sleep';
     }, [])
   }
 
-
-  getAllTimeAverageFluidOunces() {
-    //all time average so average each day then create average of all of the averages
-    let totalWaterConsumed = this.hydrationRecord.reduce((total, value) => {
-      total += value['numOunces'];
-      return total;
-    }, 0)
-      return Number((totalWaterConsumed/this.hydrationRecord.length).toFixed(1));
-  }
+getAllTimeAverage(record, property) {
+  let total = record.reduce((total, value) => {
+    total += value[property];
+    return total;
+  }, 0)
+    return Number((total/record.length).toFixed(1));
+}
 
   getFluidOuncesByDate(date) {
     let dailyWaterIntake =
@@ -88,73 +70,7 @@ import Sleep from './Sleep';
     }
   }
 
-
-  // updateHydration(date, amount) {
-  //   this.ouncesRecord.unshift({[date]: amount});
-  //   if (this.ouncesRecord.length) {
-  //     this.ouncesAverage = Math.round((amount + (this.ouncesAverage * (this.ouncesRecord.length - 1))) / this.ouncesRecord.length);
-  //   } else {
-  //     this.ouncesAverage = amount;
-  //   }
-  // }
-
-  // addDailyOunces(date) {
-  //   return this.ouncesRecord.reduce((sum, record) => {
-  //     let amount = record[date];
-  //     if (amount) {
-  //       sum += amount
-  //     }
-  //     return sum
-  //   }, 0)
-  // }
-
-  // updateSleep(date, hours, quality) {
-  //   this.sleepHoursRecord.unshift({
-  //     'date': date,
-  //     'hours': hours
-  //   });
-  //   this.sleepQualityRecord.unshift({
-  //     'date': date,
-  //     'quality': quality
-  //   });
-  //   if(this.sleepHoursRecord.length) {
-  //     this.hoursSleptAverage = ((hours + (this.hoursSleptAverage * (this.sleepHoursRecord.length - 1))) / this.sleepHoursRecord.length).toFixed(1);
-  //   } else {
-  //     this.hoursSleptAverage = hours;
-  //   }
-  //   if (this.sleepQualityRecord.length) {
-  //     this.sleepQualityAverage = ((quality + (this.sleepQualityAverage * (this.sleepQualityRecord.length - 1))) / this.sleepQualityRecord.length).toFixed(1);
-  //   } else {
-  //     this.sleepQualityAverage = quality;
-  //   }
-  // }
-
-  calculateAverageHoursThisWeek(todayDate) {
-    return (this.sleepHoursRecord.reduce((sum, sleepAct) => {
-      let index = this.sleepHoursRecord.indexOf(this.sleepHoursRecord.find(sleep => sleep.date === todayDate));
-      if (index <= this.sleepHoursRecord.indexOf(sleepAct) && this.sleepHoursRecord.indexOf(sleepAct) <= (index + 6)) {
-        sum += sleepAct.hours;
-      }
-      return sum;
-    }, 0) / 7).toFixed(1);
-  }
-
-  calculateAverageQualityThisWeek(todayDate) {
-    return (this.sleepQualityRecord.reduce((sum, sleepAct) => {
-      let index = this.sleepQualityRecord.indexOf(this.sleepQualityRecord.find(sleep => sleep.date === todayDate));
-      if (index <= this.sleepQualityRecord.indexOf(sleepAct) && this.sleepQualityRecord.indexOf(sleepAct) <= (index + 6)) {
-        sum += sleepAct.quality;
-      }
-      return sum;
-    }, 0) / 7).toFixed(1);
-  }
-
-  updateActivities(activity) {
-    this.activityRecord.unshift(activity);
-    if (activity.numSteps >= this.dailyStepGoal) {
-      this.accomplishedDays.unshift(activity.date);
-    }
-  }
+// ACTIVITY ITERATION METHODS
 
   findClimbingRecord() {
     return this.activityRecord.sort((a, b) => {

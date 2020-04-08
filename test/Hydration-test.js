@@ -8,7 +8,7 @@ import User from '../src/User';
 import UserRepository from '../src/UserRepository';
 
 describe('Hydration', function() {
-  // let hydration;
+
   let hydrate1, hydrate2, hydrate3;
   let user1, user2, user3;
   let userRepository;
@@ -24,7 +24,6 @@ describe('Hydration', function() {
     user3 = new User(userTestData[2]);
 
     userRepository = new UserRepository([user1, user2, user3]);
-
   });
 
   it('should be an instance of Hydration', function() {
@@ -43,14 +42,4 @@ describe('Hydration', function() {
     expect(hydrate1.numOunces).to.equal(37);
   });
 
-  // describe('drink', function () {
-    //   it('should update the average number of ounces over all time', function() {
-      //     expect(user2.ouncesAverage).to.equal(83);
-      //   })
-      //   it('should add the date and amount to the object record', function() {
-        //     expect(user1.ouncesRecord).to.deep.equal([{"2019/06/15": 37}])
-        //     expect(user2.ouncesRecord.length).to.equal(2)
-        //   })
-        // });
-        
 });

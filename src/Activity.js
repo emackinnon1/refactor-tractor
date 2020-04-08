@@ -9,12 +9,9 @@ class Activity {
     this.reachedStepGoal = false;
   }
 
-  // addActivity(userRepo) {
-  //   let currentUser = userRepo.users.find(user => {
-  //     return user.id === activity.userId;
-  //   });
-  //   currentUser.activityRecord.push()
-  // }
+// user class ?
+// For a specific day (specified by a date), return the miles a user has walked based on their number of steps (use their strideLength to help calculate this)
+// needs to be tested -->
 
   calculateMiles(userRepository) {
     let walkingUser = userRepository.users.find(user => {
