@@ -1,7 +1,7 @@
+
+import $ from 'jquery'
 import './css/base.scss';
 import './css/styles.scss';
-
-// import users from './user'
 
 import Data from './Data';
 import UserRepository from './UserRepository';
@@ -12,25 +12,12 @@ import Sleep from './Sleep';
 
 let dataRepo = new Data();
 
-// let userRepository = new UserRepository(data.retrieveUserData(), data.retrieveHydrationData(), data.retrieveActivityData(), data.retrieveSleepData());
-let userRepository, sleepData, activityData, hydrationData, userData, user;
-// function fetchData() {
-//     let userData = fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
-//       .then(response => response.json())
-//
-//     let sleepData = fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData")
-//       .then(response => response.json())
-//
-//     let hydrationData = fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData")
-//       .then(response => response.json())
-//
-//     let activityData = fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData")
-//       .then(response => response.json())
-//
-//     return Promise.all([userData, sleepData, hydrationData, activityData])
-// }
+let userRepository;
+let apple;
 
-
+function makeRepo(users, sleep, hydration, activity) {
+  userRepository = new UserRepository(users, hydration, activity, sleep);
+}
 
 Promise.all([
 fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData").then(response => response.json()),
@@ -38,73 +25,40 @@ fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData").then(r
 fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData").then(response => response.json()),
 fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData").then(response => response.json())])
 .then(data => makeRepo(data[0].userData, data[1].sleepData, data[2].hydrationData, data[3].activityData))
-// .then(data => makeRepo(data[0], data[1], data[2], data[3]), 4000)
+.then(data => getUserName(data))
+.catch(error => console.log(error))
 
-function parseData(data) {
-  data.forEach(item => console.log(item))
+function getUserName(data) {
+  $('#header-name').text(`${userRepository.users[0].getFirstName()}'S FITLIT`);
 }
-
-function makeRepo(users, sleep, hydration, activity) {
-  // let allHydrationInfo = hydration.map(day => {
-  //   return  hydrationData = new Hydration(day)
-  // })
-  //
-  // let allActivityInfo = activity.map(day => {
-  //   return activityData = new Activity(day)
-  // })
-  //
-  // let allSleepInfo = sleep.map(day => {
-  //   return sleepData = new Sleep(day)
-  // })
-
-  userRepository = new UserRepository(users, hydration, activity, sleep);
-//
-  // userData = users.map(person => {
-  //   return user = new User(person, allHydrationInfo, allActivityInfo, allSleepInfo)
-  // })
-
-
-  console.log(userRepository);
-}
-
-// let userDataList =  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
-//   .then(data => data.json());
-//
-//   console.log(userDataList)
-
-//
-// function makeRepo(users, sleep, hydration, activity) {
-//   userRepository = new UserRepository(activity);
-// }
 
 // let todayDate = "2019/09/22";
 // user.findFriendsNames(userRepository.users);
 
 //EM: too many variables
 // let dailyOz = document.querySelectorAll('.daily-oz');
-// let dropdownEmail = document.querySelector('#dropdown-email');
+// jQueried let dropdownEmail = document.querySelector('#dropdown-email');
 // let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
-// let dropdownGoal = document.querySelector('#dropdown-goal');
-// let dropdownName = document.querySelector('#dropdown-name');
-// let headerName = document.querySelector('#header-name');
+// jQueried let dropdownGoal = document.querySelector('#dropdown-goal');
+// jQueried let dropdownName = document.querySelector('#dropdown-name');
 // let hydrationCalendarCard = document.querySelector('#hydration-calendar-card');
-// let hydrationFriendOuncesToday = document.querySelector('#hydration-friend-ounces-today');
+// jQueried let hydrationFriendOuncesToday = document.querySelector('#hydration-friend-ounces-today');
 // let hydrationFriendsCard = document.querySelector('#hydration-friends-card');
 // let hydrationInfoCard = document.querySelector('#hydration-info-card');
-// let hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
+// jQueried let hydrationInfoGlassesToday = document.querySelector('#hydration-info-glasses-today');
 // let hydrationMainCard = document.querySelector('#hydration-main-card');
-// let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
+// jQueried let hydrationUserOuncesToday = document.querySelector('#hydration-user-ounces-today');
 // let mainPage = document.querySelector('main');
 // let profileButton = document.querySelector('#profile-button');
 // let sleepCalendarCard = document.querySelector('#sleep-calendar-card');
 // let sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
-// let sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
-// let sleepFriendLongestSleeper = document.querySelector('#sleep-friend-longest-sleeper');
+// jQueried let sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
+// jQueried let sleepFriendLongestSleeper = document.querySelector('#sleep-friend-longest-sleeper');
 // let sleepFriendsCard = document.querySelector('#sleep-friends-card');
-// let sleepFriendWorstSleeper = document.querySelector('#sleep-friend-worst-sleeper');
+// jQueried let sleepFriendWorstSleeper = document.querySelector('#sleep-friend-worst-sleeper');
 // let sleepInfoCard = document.querySelector('#sleep-info-card');
 // let sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
-// let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
+// jQueried let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
 // let sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
 // let sleepMainCard = document.querySelector('#sleep-main-card');
 // let sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
@@ -236,35 +190,33 @@ function makeRepo(users, sleep, hydration, activity) {
 // }
 //
 // //EM: should be inside function
-// dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
+// $('#dropdown-goal').text(`DAILY STEP GOAL | ${user.dailyStepGoal}`);
 //
-// dropdownEmail.innerText = `EMAIL | ${user.email}`;
+// $('#dropdown-email').text(`EMAIL | ${user.email}`);
 //
-// dropdownName.innerText = user.name.toUpperCase();
+// $('#dropdown-name').text(user.name.toUpperCase());
 //
-// headerName.innerText = `${user.getFirstName()}'S `;
-//
-// hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
+// $('#hydration-user-ounces-today').text(hydrationData.find(hydration => {
 //   return hydration.userID === user.id && hydration.date === todayDate;
-// }).numOunces;
+// }).numOunces);
 //
-// hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
+// $('#hydration-friend-ounces-today').text(userRepository.calculateAverageDailyWater(todayDate));
 //
-// hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
+//$('#hydration-info-glasses-today').text(hydrationData.find(hydration => {
 //   return hydration.userID === user.id && hydration.date === todayDate;
-// }).numOunces / 8;
-//
-// sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
+// }).numOunces / 8);
+
+//$('#sleep-calendar-hours-average-weekly').text(user.calculateAverageHoursThisWeek(todayDate));
 //
 // sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
 //
-// sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
+// $('#sleep-friend-longest-sleeper').text(userRepository.users.find(user => {
 //   return user.id === userRepository.getLongestSleepers(todayDate)
-// }).getFirstName();
+// }).getFirstName());
 //
-// sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
+// $('#sleep-friend-worst-sleeper').text(userRepository.users.find(user => {
 //   return user.id === userRepository.getWorstSleepers(todayDate)
-// }).getFirstName();
+// }).getFirstName());
 //
 // sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
 //
@@ -272,11 +224,11 @@ function makeRepo(users, sleep, hydration, activity) {
 //   return (activity.date === todayDate && activity.userId === user.id)
 // }).calculateMiles(userRepository);
 //
-// sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
+//$('#sleep-info-quality-average-alltime').text(user.sleepQualityAverage);
 //
-// sleepInfoQualityToday.innerText = sleepData.find(sleep => {
+// $('#sleep-info-quality-today').text(sleepData.find(sleep => {
 //   return sleep.userID === user.id && sleep.date === todayDate;
-// }).sleepQuality;
+// }).sleepQuality);
 //
 // sleepUserHoursToday.innerText = sleepData.find(sleep => {
 //   return sleep.userID === user.id && sleep.date === todayDate;

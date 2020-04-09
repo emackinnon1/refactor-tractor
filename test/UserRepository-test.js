@@ -24,7 +24,6 @@ describe('UserRepository', function() {
   });
 
   it('should hold an array of users', function() {
-    // expect(userRepository.users[0]).to.deep.equal(user);
     expect(userRepository.users.length).to.equal(4);
   });
 
