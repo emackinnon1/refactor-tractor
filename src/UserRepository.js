@@ -1,14 +1,14 @@
 import User from './User';
 
 class UserRepository {
-  constructor(userList, sleepData, hydrationData, activityData) {
+  constructor(userList, hydrationData, activityData, sleepData) {
     this.users = this.makeUsers(userList, sleepData, hydrationData, activityData);
     this.longestSleepers = [];
   }
 
-  makeUsers(userList, sleepData, hydrationData, activityData) {
+  makeUsers(userList, hydrationData, activityData, sleepData) {
     return userList.map(currentUser => {
-      let user = new User(currentUser, sleepData, hydrationData, activityData);
+      let user = new User(currentUser, hydrationData, activityData, sleepData);
       return user;
     })
   }
