@@ -11,9 +11,10 @@ class User {
     this.strideLength = userData.strideLength;
     this.dailyStepGoal = userData.dailyStepGoal;
     this.friends = userData.friends;
+    this.hydrationRecord = this.makeHydrationRecord(hydrationData);
     this.activityRecord = this.makeActivityRecord(activityData);
     this.sleepRecord = this.makeSleepRecord(sleepData);
-    this.hydrationRecord = this.makeHydrationRecord(hydrationData);
+
   }
 
   getFirstName() {
@@ -22,33 +23,27 @@ class User {
   }
 
   makeActivityRecord(activityData) {
-    return activityData.reduce((acc, currentActivity) => {
-      if (currentActivity.userID === this.id) {
-        let activity = new Activity(currentActivity);
-        acc.push(activity);
-      }
-      return acc;
-    }, [])
+    return activityData.filter(currentActivity => currentActivity.userID === this.id)
+      .map(currentAct => {
+        let activity = new Activity(currentAct);
+        return activity;
+      })
   }
 
   makeHydrationRecord(hydrationData) {
-    return hydrationData.reduce((acc, currentHydration) => {
-      if (currentHydration.userID === this.id) {
-        let hydration = new Hydration(currentHydration);
-        acc.push(hydration);
-      }
-      return acc;
-    }, [])
+    return hydrationData.filter(currentHydration => currentHydration.userID === this.id)
+      .map(currentHyd => {
+        let hydration = new Hydration(currentHyd);
+        return hydration;
+      })
   }
 
   makeSleepRecord(sleepData) {
-    return sleepData.reduce((acc, currentSleep) => {
-      if (currentSleep.userID === this.id) {
-        let sleep = new Sleep(currentSleep);
-        acc.push(sleep);
-      }
-      return acc;
-    }, [])
+    return sleepData.filter(currentSleep => currentSleep.userID === this.id)
+    .map(currSleep => {
+      let sleep = new Sleep(currSleep);
+      return sleep;
+    })
   }
 
   getAllTimeAverage(record, property) {
@@ -82,7 +77,7 @@ class User {
 
   calculateDailyMiles(date) {
     let dailySteps = this.activityRecord.find(day => day.date === date).numSteps;
-    let totalMiles = (dailySteps * this.strideLength/5280).toFixed(1);
+    let totalMiles = (dailySteps * this.strideLength / 5280).toFixed(1);
     return Number(totalMiles);
   }
 
@@ -100,7 +95,7 @@ class User {
     // this.reachedStepGoal = this.steps >= userStepGoal;
   }
 
-//finds the most flghts a user has climbed of all time
+  //finds the most flghts a user has climbed of all time
   findMostFlightsClimbedOfAllTime() {
     let maxFlights = this.activityRecord.sort((a, b) => {
       return b.flightsOfStairs - a.flightsOfStairs;
@@ -116,7 +111,7 @@ class User {
       return total;
     }, 0);
   }
-// old ACTIVITY ITERATION METHODS
+  // old ACTIVITY ITERATION METHODS
 
 
   // calculateDailyCalories(date) {
@@ -182,7 +177,7 @@ class User {
     }
   }
 
-// iteration 5
+  // iteration 5
   // findFriendsNames(users) {
   //   this.friends.forEach(friend => {
   //     this.friendsNames.push(users.find(user => user.id === friend).getFirstName());

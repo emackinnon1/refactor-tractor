@@ -45,26 +45,26 @@ function parseData(data) {
 }
 
 function makeRepo(users, sleep, hydration, activity) {
-  let allHydrationInfo = hydration.map(day => {
-    return  hydrationData = new Hydration(day)
-  })
+  // let allHydrationInfo = hydration.map(day => {
+  //   return  hydrationData = new Hydration(day)
+  // })
+  //
+  // let allActivityInfo = activity.map(day => {
+  //   return activityData = new Activity(day)
+  // })
+  //
+  // let allSleepInfo = sleep.map(day => {
+  //   return sleepData = new Sleep(day)
+  // })
 
-  let allActivityInfo = activity.map(day => {
-    return activityData = new Activity(day)
-  })
+  userRepository = new UserRepository(users, hydration, activity, sleep);
+//
+  // userData = users.map(person => {
+  //   return user = new User(person, allHydrationInfo, allActivityInfo, allSleepInfo)
+  // })
 
-  let allSleepInfo = sleep.map(day => {
-    return sleepData = new Sleep(day)
-  })
-console.log(allActivityInfo)
-  userData = users.map(person => {
-    console.log(person)
-    return user = new User(person, allHydrationInfo, allActivityInfo, allSleepInfo)
-  })
 
-  console.log(userData[0])
-  userRepository = new UserRepository(userData, hydration, activity, sleep);
-  console.log(userRepository)
+  console.log(userRepository);
 }
 
 // let userDataList =  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")

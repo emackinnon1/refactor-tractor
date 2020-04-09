@@ -2,7 +2,7 @@ import User from './User';
 
 class UserRepository {
   constructor(userList, hydrationData, activityData, sleepData) {
-    this.users = this.makeUsers(userList, sleepData, hydrationData, activityData);
+    this.users = this.makeUsers(userList, hydrationData, activityData, sleepData);
     this.longestSleepers = [];
   }
 
