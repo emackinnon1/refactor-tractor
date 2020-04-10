@@ -8,8 +8,6 @@ class Activity {
     this.milesWalked = 0;
     this.reachedStepGoal = false;
   }
-
-
 }
 
 export default Activity;

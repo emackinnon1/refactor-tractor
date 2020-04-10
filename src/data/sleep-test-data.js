@@ -1,34 +1,34 @@
 const sleepTestData = [
   {
-    "userID": 1,
-    "date": "2019/06/15",
-    "hoursSlept": 6.1,
-    "sleepQuality": 2.2
+    userID: 1,
+    date: "2019/06/15",
+    hoursSlept: 6.1,
+    sleepQuality: 2.2
   },
   {
-    "userID": 2,
-    "date": "2019/06/15",
-    "hoursSlept": 7,
-    "sleepQuality": 4.7
+    userID: 2,
+    date: "2019/06/15",
+    hoursSlept: 7,
+    sleepQuality: 4.7
   },
   {
-    "userID": 3,
-    "date": "2019/06/15",
-    "hoursSlept": 10.8,
-    "sleepQuality": 4.7
+    userID: 3,
+    date: "2019/06/15",
+    hoursSlept: 10.8,
+    sleepQuality: 4.7
   },
   {
-    "userID": 4,
-    "date": "2019/06/15",
-    "hoursSlept": 10.8,
-    "sleepQuality": 0
+    userID: 4,
+    date: "2019/06/15",
+    hoursSlept: 10.8,
+    sleepQuality: 0
   },
   {
-    "userID": 1,
-    "date": "2019/06/16",
-    "hoursSlept": 4.1,
-    "sleepQuality": 4.4
+    userID: 1,
+    date: "2019/06/16",
+    hoursSlept: 4.1,
+    sleepQuality: 4.4
   }
-]
+];
 
-export default sleepTestData
+export default sleepTestData;

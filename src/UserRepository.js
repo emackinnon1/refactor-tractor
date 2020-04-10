@@ -1,8 +1,13 @@
-import User from './User';
+import User from "./User";
 
 class UserRepository {
   constructor(userList, hydrationData, activityData, sleepData) {
-    this.users = this.makeUsers(userList, hydrationData, activityData, sleepData);
+    this.users = this.makeUsers(
+      userList,
+      hydrationData,
+      activityData,
+      sleepData
+    );
     this.longestSleepers = [];
   }
 
@@ -10,13 +15,13 @@ class UserRepository {
     return userList.map(currentUser => {
       let user = new User(currentUser, hydrationData, activityData, sleepData);
       return user;
-    })
+    });
   }
 
   getUser(id) {
     return this.users.find(user => {
       return user.id === id;
-    })
+    });
   }
 
   calculateAverageStepGoal() {
@@ -26,7 +31,6 @@ class UserRepository {
     }, 0);
     return total / this.users.length;
   }
-
 
   calculateAverageActivity(date, property) {
     let activityCounts = this.users.reduce((acc, user) => {
@@ -47,7 +51,6 @@ class UserRepository {
     return Math.round(totalCount / activityCounts.length);
   }
 
-
   calculateAverageSleepQuality() {
     let divisor = 0;
     let totalSleepQuality = this.users.reduce((acc, user) => {
@@ -61,24 +64,29 @@ class UserRepository {
   }
 
   getLongestSleepers(date) {
-    let usersSleepByDate = this.users.filter(user => {
-      return user.sleepRecord.filter(sleep => sleep.date === date)
-    }).sort((a, b) => {
-      return b.sleepRecord[0].hoursSlept - a.sleepRecord[0].hoursSlept;
-    })
+    let usersSleepByDate = this.users
+      .filter(user => {
+        return user.sleepRecord.filter(sleep => sleep.date === date);
+      })
+      .sort((a, b) => {
+        return b.sleepRecord[0].hoursSlept - a.sleepRecord[0].hoursSlept;
+      });
 
     let topSleepers = usersSleepByDate.filter(user => {
-      return user.sleepRecord[0].hoursSlept === usersSleepByDate[0].sleepRecord[0].hoursSlept
-    })
+      return (
+        user.sleepRecord[0].hoursSlept ===
+        usersSleepByDate[0].sleepRecord[0].hoursSlept
+      );
+    });
     return topSleepers;
   }
 
-// Find all users who average a sleep quality greater than 3 for a given week (7 days) - you should be able to calculate this for any week, not just the latest week
-//   findBestSleepers(date) {
-//     return this.users.filter(user => {
-//       return user.calculateAverageQualityThisWeek(date) > 3;
-//     })
-//   }
+  // Find all users who average a sleep quality greater than 3 for a given week (7 days) - you should be able to calculate this for any week, not just the latest week
+  //   findBestSleepers(date) {
+  //     return this.users.filter(user => {
+  //       return user.calculateAverageQualityThisWeek(date) > 3;
+  //     })
+  //   }
 }
 
 export default UserRepository;
