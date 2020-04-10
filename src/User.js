@@ -15,6 +15,7 @@ class User {
     this.activityRecord = this.makeActivityRecord(activityData);
     this.sleepRecord = this.makeSleepRecord(sleepData);
     this.friendsWeeklySteps = [];
+    this.trendingStepDays = [];
   }
 
   getFirstName() {
@@ -169,7 +170,7 @@ class User {
     for (var i = 0; i < this.activityRecord.length; i++) {
       if (
         this.activityRecord[i + 1] &&
-        this.activityRecord[i].steps > this.activityRecord[i + 1].steps
+        this.activityRecord[i].numSteps > this.activityRecord[i + 1].numSteps
       ) {
         positiveDays.unshift(this.activityRecord[i].date);
       } else if (positiveDays.length > 2) {
