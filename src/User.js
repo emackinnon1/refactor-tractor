@@ -18,8 +18,7 @@ class User {
   }
 
   getFirstName() {
-    var names = this.name.split(' ');
-    return names[0].toUpperCase();
+    return this.name.split(' ')[0].toUpperCase();
   }
 
   makeActivityRecord(activityData) {
