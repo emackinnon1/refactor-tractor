@@ -81,10 +81,24 @@ function displayDailySleep() {
   $("#sleep-user-hours-today").text(sleep);
 }
 
+function showDropdown() {
+  $('#dropdown-name').text(user.name.toUpperCase());
+  $('#user-info-dropdown').toggleClass('hide');
+  $('#dropdown-email').text(`EMAIL | ${user.email}`);
+  $('#dropdown-goal').text(`DAILY STEP GOAL | ${user.dailyStepGoal}`);
+  user.findFriendsTotalStepsForWeek(userRepository, todayDate);
+  if ($('#dropdown-friends-steps-container').children().length === 0) {
+  user.friendsWeeklySteps.forEach(friend => {
+      $('#dropdown-friends-steps-container').append(`
+        <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
+        `);
+    });
+  }
+}
+
+$('#profile-button').on('click', showDropdown);
+
 // inner text
-// $('#dropdown-email').text(`EMAIL | ${user.email}`);
-// $('#dropdown-goal').text(`DAILY STEP GOAL | ${user.dailyStepGoal}`);
-// $('#dropdown-name').text(user.name.toUpperCase());
 // $('#hydration-friend-ounces-today').text(userRepository.calculateAverageDailyWater(todayDate));
 // $('#hydration-info-glasses-today').text(hydrationData.find(hydration => {return hydration.userID === user.id && hydration.date === todayDate}).numOunces / 8);
 // $('#sleep-calendar-hours-average-weekly').text(user.calculateAverageHoursThisWeek(todayDate));
@@ -112,7 +126,6 @@ function displayDailySleep() {
 
 //EM: too many variables
 // let dailyOz = document.querySelectorAll('.daily-oz');
-// let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
 // let hydrationCalendarCard = document.querySelector('#hydration-calendar-card');
 // let hydrationFriendsCard = document.querySelector('#hydration-friends-card');
 // let hydrationInfoCard = document.querySelector('#hydration-info-card');
@@ -151,11 +164,10 @@ function displayDailySleep() {
 // let stepsTrendingButton = document.querySelector('.steps-trending-button');
 // let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
 // let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
-// let userInfoDropdown = document.querySelector('#user-info-dropdown');
+
 
 // event listeners
 // // mainPage.addEventListener('click', showInfo);
-// // profileButton.addEventListener('click', showDropdown);
 // // stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 // // stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
@@ -164,9 +176,6 @@ function displayDailySleep() {
 //   cardToShow.classList.remove('hide');
 // }
 
-// function showDropdown() {
-//   userInfoDropdown.classList.toggle('hide');
-// }
 
 // //EM: needs refactoring
 // function showInfo() {
@@ -255,11 +264,6 @@ function displayDailySleep() {
 
 // user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
 
-// user.friendsActivityRecords.forEach(friend => {
-//   dropdownFriendsStepsContainer.innerHTML += `
-//   <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
-//   `;
-// });
 
 // let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
 

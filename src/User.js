@@ -14,6 +14,7 @@ class User {
     this.hydrationRecord = this.makeHydrationRecord(hydrationData);
     this.activityRecord = this.makeActivityRecord(activityData);
     this.sleepRecord = this.makeSleepRecord(sleepData);
+    this.friendsWeeklySteps = [];
   }
 
   getFirstName() {
@@ -202,41 +203,44 @@ class User {
     }
   }
 
-  calculateTotalStepsThisWeek(todayDate) {
-    this.totalStepsThisWeek = this.activityRecord.reduce((sum, activity) => {
-      let index = this.activityRecord.indexOf(
-        this.activityRecord.find(activity => activity.date === todayDate)
-      );
-      if (
-        index <= this.activityRecord.indexOf(activity) &&
-        this.activityRecord.indexOf(activity) <= index + 6
-      ) {
-        sum += activity.steps;
-      }
-      return sum;
-    }, 0);
-  }
 
-  findFriendsTotalStepsForWeek(users, date) {
+  findFriendsTotalStepsForWeek(allUsers, date) {
     this.friends.map(friend => {
-      let matchedFriend = users.find(user => user.id === friend);
-      matchedFriend.calculateTotalStepsThisWeek(date);
-      this.friendsActivityRecords.push({
+      let matchedFriend = allUsers.users.find(user => user.id === friend);
+      matchedFriend.totalStepsThisWeek = this.calculateTotalStepsThisWeek(matchedFriend, date);
+      this.friendsWeeklySteps.push({
         id: matchedFriend.id,
         firstName: matchedFriend.name.toUpperCase().split(" ")[0],
         totalWeeklySteps: matchedFriend.totalStepsThisWeek
       });
     });
-    this.calculateTotalStepsThisWeek(date);
-    this.friendsActivityRecords.push({
-      id: this.id,
-      firstName: "YOU",
-      totalWeeklySteps: this.totalStepsThisWeek
-    });
-    this.friendsActivityRecords = this.friendsActivityRecords.sort(
+    // this.calculateTotalStepsThisWeek(date);
+    // this.friendsActivityRecords.push({
+    //   id: this.id,
+    //   firstName: "YOU",
+    //   totalWeeklySteps: this.totalStepsThisWeek
+    // });
+    this.friendsWeeklySteps = this.friendsWeeklySteps.sort(
       (a, b) => b.totalWeeklySteps - a.totalWeeklySteps
     );
   }
+
+
+calculateTotalStepsThisWeek(person, todayDate) {
+  person.totalStepsThisWeek = person.activityRecord.reduce((sum, activity) => {
+    let index = person.activityRecord.indexOf(
+      person.activityRecord.find(activity => activity.date === todayDate)
+    );
+    if (
+      index <= person.activityRecord.indexOf(activity) &&
+      person.activityRecord.indexOf(activity) <= index + 6
+    ) {
+      sum += activity.numSteps;
+    }
+    return sum;
+  }, 0);
+  return person.totalStepsThisWeek;
+}
 }
 
 export default User;
