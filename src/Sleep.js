@@ -5,7 +5,6 @@ class Sleep {
     this.hoursSlept = data.hoursSlept;
     this.sleepQuality = data.sleepQuality;
   }
-
 }
 
 export default Sleep;

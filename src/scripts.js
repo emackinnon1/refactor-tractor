@@ -1,12 +1,12 @@
-import $ from 'jquery'
-import './css/base.scss';
-import './css/styles.scss';
+import $ from "jquery";
+import "./css/base.scss";
+import "./css/styles.scss";
 
-import UserRepository from './UserRepository';
-import User from './User';
-import Activity from './Activity';
-import Hydration from './Hydration';
-import Sleep from './Sleep';
+import UserRepository from "./UserRepository";
+import User from "./User";
+import Activity from "./Activity";
+import Hydration from "./Hydration";
+import Sleep from "./Sleep";
 
 let todayDate = "2019/09/22";
 let userRepository;
@@ -14,18 +14,30 @@ let user;
 let userID = Math.floor(Math.random() * 50);
 
 Promise.all([
-fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData").then(response => response.json()),
-fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData").then(response => response.json()),
-fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData").then(response => response.json()),
-fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData").then(response => response.json())])
-.then(data => makeRepo(data[0].userData, data[1].sleepData, data[2].hydrationData, data[3].activityData))
-.then(data => userRepository.getUser(userID))
-.then(data => getUserName(data))
-.then(data => displayDailySteps())
-.then(data => displayDailyWater())
-.then(data => displayDailyStairs())
-.then(data => displayDailySleep())
-.catch(error => console.log(error))
+  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
+  .then(response => response.json()),
+  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData")
+  .then(response => response.json()),
+  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData")
+  .then(response => response.json()),
+  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData")
+  .then(response => response.json())
+])
+  .then(data =>
+    makeRepo(
+      data[0].userData,
+      data[1].sleepData,
+      data[2].hydrationData,
+      data[3].activityData
+    )
+  )
+  .then(data => userRepository.getUser(userID))
+  .then(data => getUserName(data))
+  .then(data => displayDailySteps())
+  .then(data => displayDailyWater())
+  .then(data => displayDailyStairs())
+  .then(data => displayDailySleep())
+  .catch(error => console.log(error));
 
 function makeRepo(users, sleep, hydration, activity) {
   userRepository = new UserRepository(users, hydration, activity, sleep);
@@ -33,63 +45,68 @@ function makeRepo(users, sleep, hydration, activity) {
 }
 
 function getRandomUser(hydration, activity, sleep) {
-  user = new User(userRepository.users[userID - 1], hydration, activity, sleep)
+  user = new User(userRepository.users[userID - 1], hydration, activity, sleep);
 }
 
 function getUserName(data) {
-  $('#header-name').text(`${user.getFirstName()}'S FITLIT`);
+  $("#header-name").text(`${user.getFirstName()}'S FITLIT`);
 }
 
 function displayDailySteps() {
   let steps = user.activityRecord.find(activity => {
     return activity.userID === user.id && activity.date === todayDate;
-  }).numSteps
-$('#steps-user-steps-today').text(steps);
+  }).numSteps;
+  $("#steps-user-steps-today").text(steps);
 }
 
 function displayDailyWater() {
   let water = user.hydrationRecord.find(hydration => {
     return hydration.userID === user.id && hydration.date === todayDate;
   }).numOunces;
-  $('#hydration-user-ounces-today').text(water);
+  $("#hydration-user-ounces-today").text(water);
 }
 
 function displayDailyStairs() {
-  let stairs = user.activityRecord.find(activity => {
-    return activity.userID === user.id && activity.date === todayDate;
-  }).flightsOfStairs * 12;
-  $('#stairs-user-stairs-today').text(stairs)
+  let stairs =
+    user.activityRecord.find(activity => {
+      return activity.userID === user.id && activity.date === todayDate;
+    }).flightsOfStairs * 12;
+  $("#stairs-user-stairs-today").text(stairs);
 }
 
 function displayDailySleep() {
   let sleep = user.sleepRecord.find(sleep => {
     return sleep.userID === user.id && sleep.date === todayDate;
   }).hoursSlept;
-  $('#sleep-user-hours-today').text(sleep);
+  $("#sleep-user-hours-today").text(sleep);
 }
 
-// $('#dropdown-goal').text(`DAILY STEP GOAL | ${user.dailyStepGoal}`);
-//
+// inner text
 // $('#dropdown-email').text(`EMAIL | ${user.email}`);
-//
+// $('#dropdown-goal').text(`DAILY STEP GOAL | ${user.dailyStepGoal}`);
 // $('#dropdown-name').text(user.name.toUpperCase());
-//
-//
 // $('#hydration-friend-ounces-today').text(userRepository.calculateAverageDailyWater(todayDate));
-//
-// $('#hydration-info-glasses-today').text(hydrationData.find(hydration => {
-//   return hydration.userID === user.id && hydration.date === todayDate;
-// }).numOunces / 8);
-//
+// $('#hydration-info-glasses-today').text(hydrationData.find(hydration => {return hydration.userID === user.id && hydration.date === todayDate}).numOunces / 8);
 // $('#sleep-calendar-hours-average-weekly').text(user.calculateAverageHoursThisWeek(todayDate));
-//
-// $('#sleep-friend-longest-sleeper').text(userRepository.users.find(user => {
-//   return user.id === userRepository.getLongestSleepers(todayDate)
-// }).getFirstName());
-//
-// $('#sleep-friend-worst-sleeper').text(userRepository.users.find(user => {
-//   return user.id === userRepository.getWorstSleepers(todayDate)
-// }).getFirstName());
+// $('#sleep-friend-longest-sleeper').text(userRepository.users.find(user => {return user.id === userRepository.getLongestSleepers(todayDate)}).getFirstName());
+// $('#sleep-friend-worst-sleeper').text(userRepository.users.find(user => {return user.id === userRepository.getWorstSleepers(todayDate)}).getFirstName());
+// $('#sleep-info-hours-average-alltime').text(user.hoursSleptAverage);
+// $('#sleep-info-hours-average-alltime').text(user.hoursSleptAverage);
+// $('#sleep-info-quality-today').text(sleepData.find(sleep => {return sleep.userID === user.id && sleep.date === todayDate;}).sleepQuality);
+// $('#stairs-calendar-flights-average-weekly').text(user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0));
+// $('#stairs-calendar-flights-average-weekly').text(user.calculateAverageFlightsThisWeek(todayDate));
+// $('#stairs-friend-flights-average-today').text((userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1));
+// $('#stairs-info-flights-today').text(activityData.find(activity => {return activity.userID === user.id && activity.date === todayDate}).flightsOfStairs);
+// $('#steps-calendar-total-active-minutes-weekly').text(user.calculateAverageMinutesActiveThisWeek(todayDate));
+// $('#steps-calendar-total-steps-weekly').text(user.calculateAverageStepsThisWeek(todayDate));
+// $('#steps-friend-active-minutes-average-today').text(userRepository.calculateAverageMinutesActive(todayDate));
+// $('#steps-friend-average-step-goal').text(`${userRepository.calculateAverageStepGoal()}`);
+// $('#steps-friend-steps-average-today').text(userRepository.calculateAverageSteps(todayDate));
+// $('#steps-info-active-minutes-today').text(activityData.find(activity => {return activity.userID === user.id && activity.date === todayDate}).minutesActive);
+// $(stepsInfoMilesWalkedToday).text(user.activityRecord.find(activity => {return (activity.date === todayDate && activity.userId === user.id)}).calculateMiles(userRepository));
+//$('#sleep-info-quality-average-alltime').text(user.sleepQualityAverage);
+
+// original code below
 
 // user.findFriendsNames(userRepository.users);
 
@@ -106,10 +123,8 @@ function displayDailySleep() {
 // let sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
 // let sleepFriendsCard = document.querySelector('#sleep-friends-card');
 // let sleepInfoCard = document.querySelector('#sleep-info-card');
-// let sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
-// jQueried let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
-// let sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
 // let sleepMainCard = document.querySelector('#sleep-main-card');
+
 // //EM: sortedHydrationDataByDate should be in a function?
 // // let sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
 // //   if (Object.keys(a)[0] > Object.keys(b)[0]) {
@@ -120,47 +135,39 @@ function displayDailySleep() {
 // //   }
 // //   return 0;
 // // });
+
 // let stairsCalendarCard = document.querySelector('#stairs-calendar-card');
-// let stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
-// let stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
 // let stepsMainCard = document.querySelector('#steps-main-card');
 // let stepsInfoCard = document.querySelector('#steps-info-card');
 // let stepsFriendsCard = document.querySelector('#steps-friends-card');
 // let stepsTrendingCard = document.querySelector('#steps-trending-card');
 // let stepsCalendarCard = document.querySelector('#steps-calendar-card');
-// let stairsFriendFlightsAverageToday = document.querySelector('#stairs-friend-flights-average-today');
 // let stairsFriendsCard = document.querySelector('#stairs-friends-card');
 // let stairsInfoCard = document.querySelector('#stairs-info-card');
-// let stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
 // let stairsMainCard = document.querySelector('#stairs-main-card');
 // let stairsTrendingButton = document.querySelector('.stairs-trending-button');
 // let stairsTrendingCard = document.querySelector('#stairs-trending-card');
-// let stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');
-// let stepsCalendarTotalStepsWeekly = document.querySelector('#steps-calendar-total-steps-weekly');
-// let stepsFriendAverageStepGoal = document.querySelector('#steps-friend-average-step-goal');
-// let stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-minutes-today');
 // let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
-// let stepsFriendActiveMinutesAverageToday = document.querySelector('#steps-friend-active-minutes-average-today');
-// let stepsFriendStepsAverageToday = document.querySelector('#steps-friend-steps-average-today');
 // let stepsTrendingButton = document.querySelector('.steps-trending-button');
 // let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
 // let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
 // let userInfoDropdown = document.querySelector('#user-info-dropdown');
-//
+
+// event listeners
 // // mainPage.addEventListener('click', showInfo);
 // // profileButton.addEventListener('click', showDropdown);
 // // stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 // // stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
-//
+
 // function flipCard(cardToHide, cardToShow) {
 //   cardToHide.classList.add('hide');
 //   cardToShow.classList.remove('hide');
 // }
-//
+
 // function showDropdown() {
 //   userInfoDropdown.classList.toggle('hide');
 // }
-//
+
 // //EM: needs refactoring
 // function showInfo() {
 //   if (event.target.classList.contains('steps-info-button')) {
@@ -218,87 +225,44 @@ function displayDailySleep() {
 //     flipCard(event.target.parentNode, sleepMainCard);
 //   }
 // }
-//
+
 // // function updateTrendingStairsDays() {
 // //   user.findTrendingStairsDays();
 // //   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
 // // }
-//
+
 // //EM: duplicate function?
 // // function updateTrendingStepDays() {
 // //   user.findTrendingStepDays();
 // //   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 // // }
-//
+
 // //EM: for loop outside of function?
 // for (var i = 0; i < dailyOz.length; i++) {
 //   dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
 // }
-//
-// //EM: should be inside function
 
-//
-// sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
-//
-// stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
-//   return (activity.date === todayDate && activity.userId === user.id)
-// }).calculateMiles(userRepository);
-//
-//$('#sleep-info-quality-average-alltime').text(user.sleepQualityAverage);
-//
-// $('#sleep-info-quality-today').text(sleepData.find(sleep => {
-//   return sleep.userID === user.id && sleep.date === todayDate;
-// }).sleepQuality);
-//
-// stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
-//
-// stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
-//
-// stairsFriendFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
-//
-// stairsInfoFlightsToday.innerText = activityData.find(activity => {
-//   return activity.userID === user.id && activity.date === todayDate;
-// }).flightsOfStairs;
-//
-// stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
-//
-// stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
-//
+// //EM: should be inside function
 // stairsTrendingButton.addEventListener('click', function() {
 //   user.findTrendingStairsDays();
 //   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
 // });
-//
-// stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);
-//
-// stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate);
-//
+
 // stepsTrendingButton.addEventListener('click', function() {
 //   user.findTrendingStepDays();
 //   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 // });
-//
-// stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
-//
-// stepsFriendAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoal()}`;
-//
-// stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
-//
-// stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
-//   return activity.userID === user.id && activity.date === todayDate;
-// }).minutesActive;
-//
-//
+
 // user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
-//
+
 // user.friendsActivityRecords.forEach(friend => {
 //   dropdownFriendsStepsContainer.innerHTML += `
 //   <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
 //   `;
 // });
-//
+
 // let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
-//
+
 // //EM: refactor
 // friendsStepsParagraphs.forEach(paragraph => {
 //   if (friendsStepsParagraphs[0] === paragraph) {
