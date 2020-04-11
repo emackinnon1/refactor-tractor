@@ -99,103 +99,59 @@ function showDropdown() {
 $('#profile-button').on('click', showDropdown);
 $('main').on('click', showInfo);
 
-// let stepsFriendsCard = document.querySelector('#steps-friends-card');
-// let stepsTrendingCard = document.querySelector('#steps-trending-card');
-// let stepsCalendarCard = document.querySelector('#steps-calendar-card');
 // let stairsFriendsCard = document.querySelector('#stairs-friends-card');
 
 // allStepCards =
-let something = $('#steps-card-container').children().toArray()
-console.log(something)
+let stepCard = $('#steps-card-container').children().toArray()
+let waterCard = $('#hydration-card-container').children().toArray()
+let sleepCard = $('#sleep-card-container').children().toArray()
+let stairsCard = $('#stairs-card-container').children().toArray()
+
+
 function showInfo(event) {
-  if($(event.target).hasClass('steps-info-button') && $('#steps-info-card').hasClass('hide')) {
-    something.forEach(element => $(element).addClass('hide'))
-    $('#steps-info-card').removeClass('hide');
+  // let category = event.target.parentsUntil('main').toArray()[1] variable
+  // category.children().toArray();
+  //
+  let categoryCard = $(event.target).parentsUntil('main').toArray()[1];
+  let type = $(event.target).attr('class').split(' ');
+  let cat = type[0]
+  let allCategoryCards = $(`#${type[0]}-card-container`).children().toArray();
+  // cardName = 'steps'
+  // let cardArray = $('#${cardName}-card-container').children().toArray()
+  // console.log(categoryCard.parents('main').toArray());
+  //trying to get array using categoryCard to cycle through in order to do the for forEach
+  if($(event.target).hasClass(`${type[0]}-info-button`) && $(`#${type[0]}-info-card`).hasClass('hide')) {
+    allCategoryCards.forEach(element => $(element).addClass('hide'))
+    $(`#${type[0]}-info-card`).removeClass('hide');
+    // flipCard(event)
+  } else if ($(event.target).hasClass(`${type[0]}-friends-button`) && $(`#${type[0]}-friends-card`).hasClass('hide')) {
+    allCategoryCards.forEach(element => $(element).addClass('hide'))
+    $(`#${type[0]}-friends-card`).removeClass('hide');
 
-  } else if ($(event.target).hasClass('steps-friends-button') && $('#steps-friends-card').hasClass('hide')) {
-    something.forEach(element => $(element).addClass('hide'))
-    $('#steps-friends-card').removeClass('hide');
+  } else if($(event.target).hasClass(`${type[0]}-calendar-button`) && $(`#${type[0]}-calendar-card`).hasClass('hide')) {
+    allCategoryCards.forEach(element => $(element).addClass('hide'))
+    $(`#${type[0]}-calendar-card`).removeClass('hide');
 
-  } else if($(event.target).hasClass('steps-calendar-button') && $('#steps-calendar-card').hasClass('hide')) {
-    something.forEach(element => $(element).addClass('hide'))
-    $('#steps-calendar-card').removeClass('hide');
-
-  } else if ($(event.target).hasClass('steps-trending-button') && $('#steps-trending-card').hasClass('hide')) {
-    something.forEach(element => $(element).addClass('hide'))
-    $('#steps-trending-card').removeClass('hide');
+  } else if ($(event.target).hasClass(`${type[0]}-trending-button`) && $(`#${type[0]}-trending-card`).hasClass('hide')) {
+    allCategoryCards.forEach(element => $(element).addClass('hide'))
+    $(`#${type[0]}-trending-card`).removeClass('hide');
     updateTrendingStepDays();
-  } else if ($(event.target).hasClass('steps-go-back-button'))
-    clear();
+  } else if ($(event.target).hasClass(`${cat}-go-back-button`))
+    clear(type[0], allCategoryCards);
 }
 
-function clear() {
-  something.forEach(element => $(element).addClass('hide'))
-  $('#steps-main-card').removeClass('hide');
+function clear(category, allCategoryCards) {  allCategoryCards.forEach(element => $(element).addClass('hide'))
+  $(`#${category}-main-card`).removeClass('hide');
 }
 
-// function showInfo() {
-//   if (event.target.classList.contains('steps-info-button')) {
-//     flipCard(stepsMainCard, stepsInfoCard);
-//   }
-//   if (event.target.classList.contains('steps-friends-button')) {
-//     flipCard(stepsMainCard, stepsFriendsCard);
-//   }
-//   if (event.target.classList.contains('steps-trending-button')) {
-//     flipCard(stepsMainCard, stepsTrendingCard);
-//   }
-//   if (event.target.classList.contains('steps-calendar-button')) {
-//     flipCard(stepsMainCard, stepsCalendarCard);
-//   }
-//   if (event.target.classList.contains('hydration-info-button')) {
-//     flipCard(hydrationMainCard, hydrationInfoCard);
-//   }
-//   if (event.target.classList.contains('hydration-friends-button')) {
-//     flipCard(hydrationMainCard, hydrationFriendsCard);
-//   }
-//   if (event.target.classList.contains('hydration-calendar-button')) {
-//     flipCard(hydrationMainCard, hydrationCalendarCard);
-//   }
-//   if (event.target.classList.contains('stairs-info-button')) {
-//     flipCard(stairsMainCard, stairsInfoCard);
-//   }
-//   if (event.target.classList.contains('stairs-friends-button')) {
-//     flipCard(stairsMainCard, stairsFriendsCard);
-//   }
-//   if (event.target.classList.contains('stairs-trending-button')) {
-//     flipCard(stairsMainCard, stairsTrendingCard);
-//   }
-//   if (event.target.classList.contains('stairs-calendar-button')) {
-//     flipCard(stairsMainCard, stairsCalendarCard);
-//   }
-//   if (event.target.classList.contains('sleep-info-button')) {
-//     flipCard(sleepMainCard, sleepInfoCard);
-//   }
-//   if (event.target.classList.contains('sleep-friends-button')) {
-//     flipCard(sleepMainCard, sleepFriendsCard);
-//   }
-//   if (event.target.classList.contains('sleep-calendar-button')) {
-//     flipCard(sleepMainCard, sleepCalendarCard);
-//   }
-//   if (event.target.classList.contains('steps-go-back-button')) {
-//     flipCard(event.target.parentNode, stepsMainCard);
-//   }
-//   if (event.target.classList.contains('hydration-go-back-button')) {
-//     flipCard(event.target.parentNode, hydrationMainCard);
-//   }
-//   if (event.target.classList.contains('stairs-go-back-button')) {
-//     flipCard(event.target.parentNode, stairsMainCard);
-//   }
-//   if (event.target.classList.contains('sleep-go-back-button')) {
-//     flipCard(event.target.parentNode, sleepMainCard);
-//   }
-// }
-
-
-
-function flipCard(cardToHide, cardToShow) {
-  cardToHide.classList.add('hide');
-  cardToShow.classList.remove('hide');
+function flipCard(event) {
+  event.target.classList.addClass('hide');
+  cardToShow.classList.removeClass('hide');
 }
+
+
+
+
 
 function updateTrendingStepDays() {
   user.findTrendingStepDays();
