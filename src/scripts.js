@@ -99,48 +99,54 @@ function showDropdown() {
 $('#profile-button').on('click', showDropdown);
 $('main').on('click', showInfo);
 
-// let stairsFriendsCard = document.querySelector('#stairs-friends-card');
-
-// allStepCards =
-let stepCard = $('#steps-card-container').children().toArray()
-let waterCard = $('#hydration-card-container').children().toArray()
-let sleepCard = $('#sleep-card-container').children().toArray()
-let stairsCard = $('#stairs-card-container').children().toArray()
-
-
-function showInfo(event) {
-  // let category = event.target.parentsUntil('main').toArray()[1] variable
-  // category.children().toArray();
-  //
-  let categoryCard = $(event.target).parentsUntil('main').toArray()[1];
-  let type = $(event.target).attr('class').split(' ');
-  let cat = type[0]
-  let allCategoryCards = $(`#${type[0]}-card-container`).children().toArray();
-  // cardName = 'steps'
-  // let cardArray = $('#${cardName}-card-container').children().toArray()
-  // console.log(categoryCard.parents('main').toArray());
-  //trying to get array using categoryCard to cycle through in order to do the for forEach
-  if($(event.target).hasClass(`${type[0]}-info-button`) && $(`#${type[0]}-info-card`).hasClass('hide')) {
-    allCategoryCards.forEach(element => $(element).addClass('hide'))
-    $(`#${type[0]}-info-card`).removeClass('hide');
-    // flipCard(event)
-  } else if ($(event.target).hasClass(`${type[0]}-friends-button`) && $(`#${type[0]}-friends-card`).hasClass('hide')) {
-    allCategoryCards.forEach(element => $(element).addClass('hide'))
-    $(`#${type[0]}-friends-card`).removeClass('hide');
-
-  } else if($(event.target).hasClass(`${type[0]}-calendar-button`) && $(`#${type[0]}-calendar-card`).hasClass('hide')) {
-    allCategoryCards.forEach(element => $(element).addClass('hide'))
-    $(`#${type[0]}-calendar-card`).removeClass('hide');
-
-  } else if ($(event.target).hasClass(`${type[0]}-trending-button`) && $(`#${type[0]}-trending-card`).hasClass('hide')) {
-    allCategoryCards.forEach(element => $(element).addClass('hide'))
-    $(`#${type[0]}-trending-card`).removeClass('hide');
-    updateTrendingStepDays();
-  } else if ($(event.target).hasClass(`${cat}-go-back-button`))
-    clear(type[0], allCategoryCards);
+function clicky(e) {
+  let c = $(e.target).parents('.card-container')[0];
+  let classes = $(e.target).attr('class')
+  // console.log(c)
+  // console.log(classes)
 }
 
-function clear(category, allCategoryCards) {  allCategoryCards.forEach(element => $(element).addClass('hide'))
+function showInfo(event) {
+  let type = $(event.target).attr('class').split(' ')[0];
+  let buttonType = $(event.target).attr('class').split(' ')[1];
+  console.log('type', type);
+  console.log('buttontype', type);
+  console.log('target', event.target);
+
+  if ($(event.target).is('button')) {
+    clear(type)
+    $(`#${type}-main-card`).addClass('hide');
+    $(`#${type}-${buttonType}-card`).removeClass('hide');
+  }
+  
+  if ($(event.target).hasClass(`${type}-go-back-button`)) {
+    clear(type);
+  }
+  // if($(event.target).hasClass(`${type}-info-button`) && $(`#${type}-info-card`).hasClass('hide')) {
+    // allCategoryCards.forEach(element => $(element).addClass('hide'))
+    
+  // } else if ($(event.target).hasClass(`${type}-friends-button`) && $(`#${type}-friends-card`).hasClass('hide')) {
+  //   clear(type)
+  //   // allCategoryCards.forEach(element => $(element).addClass('hide'))
+  //   $(`#${type}-friends-card`).removeClass('hide');
+    
+  // } else if($(event.target).hasClass(`${type}-calendar-button`) && $(`#${type}-calendar-card`).hasClass('hide')) {
+  //   clear(type)
+  //   // allCategoryCards.forEach(element => $(element).addClass('hide'))
+  //   $(`#${type}-calendar-card`).removeClass('hide');
+    
+  // } else if ($(event.target).hasClass(`${type}-trending-button`) && $(`#${type}-trending-card`).hasClass('hide')) {
+  //   clear(type)
+  //   // allCategoryCards.forEach(element => $(element).addClass('hide'))
+  //   $(`#${type}-trending-card`).removeClass('hide');
+  //   updateTrendingStepDays();
+  // } else 
+}
+
+function clear(category) {  
+  let allCategoryCards = $(`#${category}-card-container`).children().toArray()
+  
+  allCategoryCards.forEach(element => $(element).addClass('hide'))
   $(`#${category}-main-card`).removeClass('hide');
 }
 
@@ -149,20 +155,12 @@ function flipCard(event) {
   cardToShow.classList.removeClass('hide');
 }
 
-
-
-
-
 function updateTrendingStepDays() {
   user.findTrendingStepDays();
   $('.trending-steps-phrase-container').html(`<p class='trend-line'>${user.trendingStepDays[0]}</p>`);
 }
-//for each that excludes event.target
-//for each for all elements in an array of cards
-//then you would toggle show for the event.target
-//can you interpolate that?
 
-// inner text
+
 // $('#hydration-friend-ounces-today').text(userRepository.calculateAverageDailyWater(todayDate));
 // $('#hydration-info-glasses-today').text(hydrationData.find(hydration => {return hydration.userID === user.id && hydration.date === todayDate}).numOunces / 8);
 // $('#sleep-calendar-hours-average-weekly').text(user.calculateAverageHoursThisWeek(todayDate));
