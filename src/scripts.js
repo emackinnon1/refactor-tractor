@@ -17,6 +17,8 @@ let userID = Math.floor(Math.random() * 50);
 $('#profile-button').on('click', showDropdown);
 $('main').on('click', showInfo);
 $('.hydration-friends-button').on('click', displayAverageDailyHydration);
+$('.hydration-info-button').on('click', displayNumOunces);
+// $('.hydration-calendar-button').on('click', displayDailyOuncesPerWeek);
 
 function retrieveAllData() {
   Promise.all([
@@ -233,13 +235,33 @@ function updateTrendingStepDays() {
 // move to domUpdates?
 function displayAverageDailyHydration() {
   $('#hydration-friend-ounces-today').text(user.getAllTimeAverage(user.hydrationRecord, 'numOunces'));
-  console.log('hi')
 }
 
-$( window ).on( "load", retrieveAllData);
+function displayNumOunces() {
+$('#hydration-info-glasses-today').text((user.getEntryDataByDate(user.hydrationRecord, 'numOunces', todayDate))/8)
+}
+
+function displayDailyOuncesPerWeek() {
+  let allDailyOz = $('.daily-oz').toArray();
+  console.log($(allDailyOz))
+  // allDailyOz.forEach()
+  $(allDailyOz).each(day => {
+
+     $(day).text('hello')
+    console.log($(day)[0])
+    console.log('just day', $(day))
+  });
+  let dailyOz = document.querySelectorAll('.daily-oz');
+  for (var i = 0; i < dailyOz.length; i++) {
+    dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
+  }
+}
+
+
+$(window).on( "load", retrieveAllData);
 
 // move to domUpdates? (and everything below)
-// $('#hydration-info-glasses-today').text(hydrationData.find(hydration => {return hydration.userID === user.id && hydration.date === todayDate}).numOunces / 8);
+
 
 // $('#sleep-calendar-hours-average-weekly').text(user.calculateAverageHoursThisWeek(todayDate));
 
@@ -281,7 +303,6 @@ $( window ).on( "load", retrieveAllData);
 // original code below
 // user.findFriendsNames(userRepository.users);
 
-// let dailyOz = document.querySelectorAll('.daily-oz');
 // let hydrationCalendarCard = document.querySelector('#hydration-calendar-card');
 // let hydrationFriendsCard = document.querySelector('#hydration-friends-card');
 // let hydrationInfoCard = document.querySelector('#hydration-info-card');
@@ -335,9 +356,7 @@ $( window ).on( "load", retrieveAllData);
 // }
 
 // //EM: for loop outside of function?
-// for (var i = 0; i < dailyOz.length; i++) {
-//   dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
-// }
+
 
 // //EM: should be inside function
 // stairsTrendingButton.addEventListener('click', function() {
