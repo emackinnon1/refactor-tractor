@@ -18,31 +18,33 @@ $('#profile-button').on('click', showDropdown);
 $('main').on('click', showInfo);
 $('.hydration-friends-button').on('click', displayAverageDailyHydration);
 
-Promise.all([
-  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
-  .then(response => response.json()),
-  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData")
-  .then(response => response.json()),
-  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData")
-  .then(response => response.json()),
-  fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData")
-  .then(response => response.json())
-])
-.then(data =>
-  makeRepo(
-    data[0].userData,
-    data[1].sleepData,
-    data[2].hydrationData,
-    data[3].activityData
+function retrieveAllData() {
+  Promise.all([
+    fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
+    .then(response => response.json()),
+    fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData")
+    .then(response => response.json()),
+    fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData")
+    .then(response => response.json()),
+    fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData")
+    .then(response => response.json())
+  ])
+  .then(data =>
+    makeRepo(
+      data[0].userData,
+      data[1].sleepData,
+      data[2].hydrationData,
+      data[3].activityData
     )
-    )
-    .then(data => userRepository.getUser(userID))
-    .then(data => getUserName(data))
-    .then(data => displayDailySteps())
-    .then(data => displayDailyWater())
-    .then(data => displayDailyStairs())
-    .then(data => displayDailySleep())
-    .catch(error => console.log(error));
+  )
+  .then(data => userRepository.getUser(userID))
+  .then(data => getUserName(data))
+  .then(data => displayDailySteps())
+  .then(data => displayDailyWater())
+  .then(data => displayDailyStairs())
+  .then(data => displayDailySleep())
+  .catch(error => console.log(error));
+}
 
     function makeRepo(users, sleep, hydration, activity) {
       userRepository = new UserRepository(users, hydration, activity, sleep);
@@ -116,8 +118,6 @@ function displayForm(event) {
   //need to retrieve the first word of the entry button itself
  let currentCategory = $(event.target).attr('id').split('-')[0];
  let allPages = $('.allPageInfo').children().toArray().splice(0, 5);
- console.log(allPages);
- console.log(`.${currentCategory}-data-form`)
  allPages.forEach(page => $(page).addClass('hide'))
  $(`.${currentCategory}-data-form`).removeClass('hide');
  if (currentCategory === "sleep") {
@@ -159,7 +159,7 @@ function displayForm(event) {
 
 function postFormData(event) {
   let currentSection = $(event.target).attr('id').split('-')[0];
-  console.log(currentSection)
+
   let url = `https://fe-apps.herokuapp.com/api/v1/fitlit/1908/${currentSection}/${currentSection}Data`
   console.log(url);
   // console.log(currentCategory)
@@ -188,7 +188,12 @@ function postFormData(event) {
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(err => console.error(err))
-  
+  .then(data => retrieveAllData())
+
+  let allPages = $('.allPageInfo').children().toArray().splice(0, 5);
+  console.log(allPages)
+  allPages.forEach(page => $(page).addClass('hide'))
+  $('main').removeClass('hide');
   }
 
 
@@ -230,6 +235,8 @@ function displayAverageDailyHydration() {
   $('#hydration-friend-ounces-today').text(user.getAllTimeAverage(user.hydrationRecord, 'numOunces'));
   console.log('hi')
 }
+
+$( window ).on( "load", retrieveAllData);
 
 // move to domUpdates? (and everything below)
 // $('#hydration-info-glasses-today').text(hydrationData.find(hydration => {return hydration.userID === user.id && hydration.date === todayDate}).numOunces / 8);
