@@ -1,0 +1,21 @@
+@mixin flex-display {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@mixin button-size {
+    background-position: center;
+    background-size: 3.4vw;
+    border: none;
+    height: 3.4vw;
+    margin: 1vw;
+    width: 3.4vw;
+}
+
+@mixin card-container-color($color) {
+    background-color: $color;
+    margin: 0.5vw;
+    height: 350px;
+    width: 98%;
+}

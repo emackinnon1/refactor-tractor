@@ -1,3 +1,7 @@
+@import 'variables';
+@import 'mixins';
+@import 'buttons';
+
 *,
 *:after,
 *:before {
@@ -7,7 +11,7 @@
 }
 
 body {
-  background-color: #1f1f1f;
+  background-color: $main-dark;
   font-family: "Oswald", sans-serif;
 }
 
@@ -15,11 +19,32 @@ body {
 header {
   height: 9vw;
   text-align: center;
+
+  button:active {
+    border: none;
+  }
+
+  #user-info-dropdown {
+    background-color: $main-dark;
+    color: white;
+    margin-left: 60%;
+    margin-top: -1.2%;
+    position: relative;
+    text-align: center;
+    z-index: 100;
+  }
+
+  .dropdown-p {
+    font-size: 1.2vw;
+    font-weight: 300;
+    padding-bottom: 1vw;
+    padding-top: 0;
+    text-align: center;
+    width: 100%;
+  }
+
 }
 
-button:active {
-  border: none;
-}
 
 #profile-button {
   background-image: url(../images/profile.png);
@@ -34,24 +59,6 @@ button:active {
   width: 5.6vw;
 }
 
-#user-info-dropdown {
-  background-color: #1f1f1f;
-  color: white;
-  margin-left: 60%;
-  margin-top: -1.2%;
-  position: relative;
-  text-align: center;
-  z-index: 100;
-}
-
-.dropdown-p {
-  font-size: 1.2vw;
-  font-weight: 300;
-  padding-bottom: 1vw;
-  padding-top: 0;
-  text-align: center;
-  width: 100%;
-}
 
 /* TEXT ELEMENTS */
 h1 {
@@ -91,9 +98,9 @@ p {
   letter-spacing: 0.2vw;
   margin-right: 1vw;
   padding-top: 2vw;
-  text-align: right;
-  width: 9vw;
-  word-break: keep-all;
+  text-align: center;
+  // width: 9vw;
+  // word-break: keep-all;
 }
 
 /* MAIN */
@@ -105,48 +112,62 @@ main {
   height: 100%;
 }
 
+.card-container {
+  height: 350px;
+  width: 98%;
+}
+
 .main-card {
+  @include flex-display;
   align-items: center;
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: column;
   height: 20vw;
-  justify-content: center;
+  // justify-content: center;
+
+  .main-card-top-row {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .main-card-bottom-row {
+    text-align: center;
+    width: 100%;
+  }
 }
 
-.main-card-top-row {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.main-card-bottom-row {
-  text-align: center;
-  width: 100%;
-}
 
 #steps-card-container {
-  background-color: #f5634b;
-  grid-area: steps;
-  margin: 0.5vw;
+  @include card-container-color($steps-color);
 }
 
 #hydration-card-container {
-  background-color: #54c6be;
-  grid-area: hydration;
-  margin: 0.5vw;
+  @include card-container-color($hydration-color);
+
+  .hydration-weekly-label {
+    font-size: 1vw;
+    padding-top: 1vw;
+  }
+
+  .hydration-weekly-amount {
+    font-size: 2vw;
+  }
+
+  .hydration-data-line {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.2vw;
+  }
 }
 
 #stairs-card-container {
-  background-color: #8975b2;
-  grid-area: stairs;
-  margin: 0.5vw;
+  @include card-container-color($stairs-color);
 }
 
 #sleep-card-container {
-  background-color: #fbd089;
-  grid-area: sleep;
-  margin: 0.5vw;
+  @include card-container-color($sleep-color);
 }
 
 .card-data-line {
@@ -155,147 +176,11 @@ main {
   margin-bottom: 2vw;
 }
 
-.hydration-weekly-label {
-  font-size: 1vw;
-  padding-top: 1vw;
-}
-
-.hydration-weekly-amount {
-  font-size: 2vw;
-}
-
-.hydration-data-line {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 0.2vw;
-}
 
 .trend-line {
   font-size: 2vw;
   text-align: center;
   width: 20vw;
-}
-
-/* BUTTONS */
-.info-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
-  display: inline;
-  height: 3.4vw;
-  margin-left: 1vw;
-  width: 3.4vw;
-}
-
-.friends-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
-  display: inline;
-  height: 3.4vw;
-  margin-right: 1vw;
-  width: 3.4vw;
-}
-
-.calendar-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
-  display: inline;
-  float: right;
-  height: 3.4vw;
-  margin-right: 1vw;
-  width: 3.4vw;
-}
-
-.trending-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
-  height: 3.4vw;
-  margin-left: 1vw;
-  width: 3.4vw;
-}
-
-.go-back-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
-  height: 3.4vw;
-  margin-left: 1vw;
-  width: 3.4vw;
-}
-
-.steps-go-back-button {
-  background-image: url(../images/steps-goback.png);
-}
-
-.steps-info-button {
-  background-image: url(../images/steps-info.png);
-}
-
-.steps-friends-button {
-  background-image: url(../images/steps-friends.png);
-}
-
-.steps-calendar-button {
-  background-image: url(../images/steps-calendar.png);
-}
-
-.hydration-go-back-button {
-  background-image: url(../images/hydration-goback.png);
-}
-
-.hydration-info-button {
-  background-image: url(../images/hydration-info.png);
-}
-
-.hydration-friends-button {
-  background-image: url(../images/hydration-friends.png);
-}
-
-.hydration-calendar-button {
-  background-image: url(../images/hydration-calendar.png);
-}
-
-.stairs-go-back-button {
-  background-image: url(../images/stairs-goback.png);
-}
-
-.stairs-info-button {
-  background-image: url(../images/stairs-info.png);
-}
-
-.stairs-friends-button {
-  background-image: url(../images/stairs-friends.png);
-}
-
-.stairs-calendar-button {
-  background-image: url(../images/stairs-calendar.png);
-}
-
-.sleep-go-back-button {
-  background-image: url(../images/sleep-goback.png);
-}
-
-.sleep-info-button {
-  background-image: url(../images/sleep-info.png);
-}
-
-.sleep-friends-button {
-  background-image: url(../images/sleep-friends.png);
-}
-
-.sleep-calendar-button {
-  background-image: url(../images/sleep-calendar.png);
-}
-
-.steps-trending-button {
-  background-image: url(../images/steps-trending.png);
-}
-
-.stairs-trending-button {
-  background-image: url(../images/stairs-trending.png);
 }
 
 /* CHANGING CLASSES */
