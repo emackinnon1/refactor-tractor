@@ -159,13 +159,22 @@ $('#activity-entry-form').on('submit', (event)=> {
   //  // console.log(typeof completedForm[1])
   // console.log(...completedForm)
   let mainBody = {
+    "userID": user.id,
+    "date": todayDate,
+    "numSteps": +$('#numSteps').val(),
+    "minutesActive": +$('#minutesActive').val(),
+    "flightsOfStairs": +$('#flightsOfStairs').val()
   }
-
-  mainBody.userID = user.id;
-  mainBody.date = $('#activity-date').val().split('-').join('/');
-  mainBody.numSteps = +$('#numSteps').val();
-  mainBody.minutesActive = +$('#minutesActive').val();
-  mainBody.flightsOfStairs = +$('#flightsOfStairs').val()
+// console.log(typeof mainBody.date)
+// console.log(mainBody.userID)
+// console.log(mainBody.numSteps)
+// console.log(mainBody.minutesActive)
+console.log(mainBody)
+  // mainBody.userID = user.id;
+  // mainBody.date = $('#activity-date').val().split('-').join('/');
+  // mainBody.numSteps = +$('#numSteps').val();
+  // mainBody.minutesActive = +$('#minutesActive').val();
+  // mainBody.flightsOfStairs = +$('#flightsOfStairs').val()
   // console.log(mainBody)
 
   fetch(url, {
@@ -191,7 +200,6 @@ function postFormData() {
    let completedForm = new FormData();
    completedForm.append('userID', +user.id);
    completedForm.append('date', $('#sleep-date').val().split('-').join('/'));
-   console.log($('#sleep-date').val())
    completedForm.append('hoursSlept', +$('#hoursSlept').val());
    completedForm.append('sleepQuality', +$('#sleepQuality').val());
    // console.log(typeof completedForm[1])
