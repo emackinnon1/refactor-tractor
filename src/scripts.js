@@ -118,25 +118,6 @@ function showInfo(event) {
   if ($(event.target).hasClass(`${type}-go-back-button`)) {
     clear(type);
   }
-  // if($(event.target).hasClass(`${type}-info-button`) && $(`#${type}-info-card`).hasClass('hide')) {
-    // allCategoryCards.forEach(element => $(element).addClass('hide'))
-    
-  // } else if ($(event.target).hasClass(`${type}-friends-button`) && $(`#${type}-friends-card`).hasClass('hide')) {
-  //   clear(type)
-  //   // allCategoryCards.forEach(element => $(element).addClass('hide'))
-  //   $(`#${type}-friends-card`).removeClass('hide');
-    
-  // } else if($(event.target).hasClass(`${type}-calendar-button`) && $(`#${type}-calendar-card`).hasClass('hide')) {
-  //   clear(type)
-  //   // allCategoryCards.forEach(element => $(element).addClass('hide'))
-  //   $(`#${type}-calendar-card`).removeClass('hide');
-    
-  // } else if ($(event.target).hasClass(`${type}-trending-button`) && $(`#${type}-trending-card`).hasClass('hide')) {
-  //   clear(type)
-  //   // allCategoryCards.forEach(element => $(element).addClass('hide'))
-  //   $(`#${type}-trending-card`).removeClass('hide');
-  //   updateTrendingStepDays();
-  // } else 
 }
 
 function clear(category) {  
