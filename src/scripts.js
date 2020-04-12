@@ -43,12 +43,12 @@ Promise.all([
     .then(data => displayDailyStairs())
     .then(data => displayDailySleep())
     .catch(error => console.log(error));
-    
+
     function makeRepo(users, sleep, hydration, activity) {
       userRepository = new UserRepository(users, hydration, activity, sleep);
       getRandomUser();
     }
-    
+
 function getRandomUser() {
   user = userRepository.getUser(userID -1)
 }
@@ -105,6 +105,135 @@ function showDropdown() {
   }
 }
 
+$('#profile-button').on('click', showDropdown);
+$('main').on('click', showInfo);
+$('#sleep-entry-button').on('click', displayForm)
+$('#activity-entry-button').on('click', displayForm)
+$('#hydration-entry-button').on('click', displayForm)
+
+function displayForm(event) {
+  //need to display the appropriate form
+  //need to retrieve the first word of the entry button itself
+ let currentCategory = $(event.target).attr('id').split('-')[0];
+ let allPages = $('.allPageInfo').children().toArray().splice(0, 5);
+ console.log(`.${currentCategory}-data-form`)
+ allPages.forEach(page => $(page).addClass('hide'))
+ $(`.${currentCategory}-data-form`).removeClass('hide');
+ if (currentCategory === "sleep") {
+   console.log('I\'m in here')
+   $(`.${currentCategory}-data-form`).html(`<form id="formInfo" action="https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData"  method="POST">
+      <label for="date">Date(YYYY/MM/DD)</label>
+      <input type="text" id="sleep-date" name="date" class="dateInfo">
+      <label for="hoursSlept">Hours of Sleep</label>
+      <input type="text" id="hoursSlept" name="hoursSlept">
+      <label for="sleepQuality">Estimated Sleep Quality</label>
+      <input type="text" id="sleepQuality" name="sleepQuality">
+
+      <button type="submit">Submit</button>
+      </form>`)
+      $('#formInfo').on('submit', postFormData)
+ } else if (currentCategory === "activity") {
+   // $(`.${currentCategory}-data-form`).html(`<form id="formInfo" action="https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData" method="POST">
+   //    <label for="date">Date(YYYY/MM/DD)</label>
+   //    <input type="date" id="activity-date" name="date" class="dateInfo">
+   //    <label for="numSteps">Number of Steps</label>
+   //    <input type="text" id="numSteps" name="numSteps">
+   //    <label for="minutesActive">Active Minutes</label>
+   //    <input type="text" id="minutesActive" name="minutesActive">
+   //    <label for="flightsOfStairs">Active Minutes</label>
+   //    <input type="text" id="flightsOfStairs" name="flightsOfStairs">
+   //    <button type="submit">Submit</button>
+   //    </form>`)
+
+ } else if (currentCategory === "hydration") {
+
+ }
+}
+
+$('#activity-entry-form').on('submit', (event)=> {
+  event.preventDefault();
+  let url = "https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData"
+  // let activityDate = $('#activity-date')
+
+  // console.log(date.value.split('-').join('/'))
+  console.log(+$('#minutesActive').val())
+
+  //  let completedForm = new FormData();
+  //  completedForm.append('userID', +user.id);
+  //  console.log($('#activity-date').val().split('-').join('/'))
+  //  completedForm.append('date', $('#activity-date').val().split('-').join('/'));
+  //  completedForm.append('numSteps', +$('#numSteps').val());
+  //  completedForm.append('minutesActive', +$('#minutesActive').val());
+  //  completedForm.append('flightsOfStairs', +$('#flightsOfStairs').val());
+  //  // console.log(typeof completedForm[1])
+  // console.log(...completedForm)
+  let mainBody = {
+    "userID": user.id,
+    "date": todayDate,
+    "numSteps": +$('#numSteps').val(),
+    "minutesActive": +$('#minutesActive').val(),
+    "flightsOfStairs": +$('#flightsOfStairs').val()
+  }
+// console.log(typeof mainBody.date)
+// console.log(mainBody.userID)
+// console.log(mainBody.numSteps)
+// console.log(mainBody.minutesActive)
+console.log(mainBody)
+  // mainBody.userID = user.id;
+  // mainBody.date = $('#activity-date').val().split('-').join('/');
+  // mainBody.numSteps = +$('#numSteps').val();
+  // mainBody.minutesActive = +$('#minutesActive').val();
+  // mainBody.flightsOfStairs = +$('#flightsOfStairs').val()
+  // console.log(mainBody)
+
+  fetch(url, {
+  method: "POST",
+  // headers: {
+  //   'Content-Type': 'application/x-www-form-urlencoded'
+  // },
+  body: JSON.stringify(mainBody)
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(err => console.error(err))
+});
+
+
+function postFormData() {
+  let url = "https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData"
+
+  event.preventDefault();
+
+  // console.log(date.value.split('-').join('/'))
+
+   let completedForm = new FormData();
+   completedForm.append('userID', +user.id);
+   completedForm.append('date', $('#sleep-date').val().split('-').join('/'));
+   completedForm.append('hoursSlept', +$('#hoursSlept').val());
+   completedForm.append('sleepQuality', +$('#sleepQuality').val());
+   // console.log(typeof completedForm[1])
+  // console.log(...completedForm)
+  fetch(url, {
+  method: "POST",
+  // headers: {
+  //   'Content-Type': 'application/x-www-form-urlencoded'
+  // },
+  body: JSON.stringify(completedForm),
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(err => console.error(err))
+  }
+
+// let stairsFriendsCard = document.querySelector('#stairs-friends-card');
+
+// allStepCards =
+let stepCard = $('#steps-card-container').children().toArray()
+let waterCard = $('#hydration-card-container').children().toArray()
+let sleepCard = $('#sleep-card-container').children().toArray()
+let stairsCard = $('#stairs-card-container').children().toArray()
+
+
 function showInfo(event) {
   let type = $(event.target).attr('class').split(' ')[0];
   let buttonType = $(event.target).attr('class').split(' ')[1];
@@ -114,15 +243,15 @@ function showInfo(event) {
     $(`#${type}-main-card`).addClass('hide');
     $(`#${type}-${buttonType}-card`).removeClass('hide');
   }
-  
+
   if ($(event.target).hasClass(`${type}-go-back-button`)) {
     clear(type);
   }
 }
 
-function clear(category) {  
+function clear(category) {
   let allCategoryCards = $(`#${category}-card-container`).children().toArray()
-  
+
   allCategoryCards.forEach(element => $(element).addClass('hide'))
   $(`#${category}-main-card`).removeClass('hide');
 }

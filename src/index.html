@@ -15,6 +15,9 @@
   <body>
     <header>
       <h1 id="header-name"></h1>
+      <button type="button" name="sleep-entry-button" id="sleep-entry-button">New Sleep Entry</button>
+      <button type="button" name="activity-entry-button" id="activity-entry-button">New Activity Entry</button>
+      <button type="button" name="hydration-entry-button" id="hydration-entry-button">New Hydration Entry</button>
       <button type="button" name="button" id="profile-button"></button>
       <section class="hide" id="user-info-dropdown">
         <h5 id="dropdown-name"></h5>
@@ -26,6 +29,7 @@
         <div id="dropdown-friends-steps-container"></div>
       </section>
     </header>
+    <section class="allPageInfo">
     <main>
       <section class="step card-container" id="steps-card-container">
         <section class="main-card" id="steps-main-card">
@@ -364,5 +368,23 @@
         </section>
       </section>
     </main>
+    <section class="sleep-data-form hide">
+    </section>
+    <section class="activity-data-form hide">
+      <form id="activity-entry-form" action="https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData" method="POST">
+         <!-- <label for="date">Date(YYYY/MM/DD)</label>
+         <input type="date" id="activity-date" name="date" class="dateInfo"> -->
+         <label for="numSteps">Number of Steps</label>
+         <input type="text" id="numSteps" name="numSteps">
+         <label for="minutesActive">Active Minutes</label>
+         <input type="text" id="minutesActive" name="minutesActive">
+         <label for="flightsOfStairs">Flights of Stairs Climbed</label>
+         <input type="text" id="flightsOfStairs" name="flightsOfStairs">
+         <button type="submit">Submit</button>
+         </form>
+    </section>
+    <section class="hydration-data-form hide">
+    </section>
+  </section>
   </body>
 </html>
