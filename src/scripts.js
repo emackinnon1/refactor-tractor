@@ -123,7 +123,7 @@ function displayForm(event) {
    console.log('I\'m in here')
    $(`.${currentCategory}-data-form`).html(`<form id="formInfo" action="https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData"  method="POST">
       <label for="date">Date(YYYY/MM/DD)</label>
-      <input type="text" id="sleep-date" name="date" class="dateInfo">
+      <input type="date" id="sleep-date" name="date" class="dateInfo">
       <label for="hoursSlept">Hours of Sleep</label>
       <input type="text" id="hoursSlept" name="hoursSlept">
       <label for="sleepQuality">Estimated Sleep Quality</label>
@@ -167,9 +167,10 @@ $('#activity-entry-form').on('submit', (event)=> {
   //  completedForm.append('flightsOfStairs', +$('#flightsOfStairs').val());
   //  // console.log(typeof completedForm[1])
   // console.log(...completedForm)
+  console.log(todayDate);
   let mainBody = {
-    "userID": user.id,
-    "date": todayDate,
+    "userID": Number(user.id),
+    "date": $('#sleep-date').val().split('-').join('/'),
     "numSteps": +$('#numSteps').val(),
     "minutesActive": +$('#minutesActive').val(),
     "flightsOfStairs": +$('#flightsOfStairs').val()
@@ -188,9 +189,9 @@ console.log(mainBody)
 
   fetch(url, {
   method: "POST",
-  // headers: {
-  //   'Content-Type': 'application/x-www-form-urlencoded'
-  // },
+  headers: {
+    'Content-Type': 'application/json'
+  },
   body: JSON.stringify(mainBody)
   })
   .then(response => response.json())
@@ -206,19 +207,22 @@ function postFormData() {
 
   // console.log(date.value.split('-').join('/'))
 
-   let completedForm = new FormData();
-   completedForm.append('userID', +user.id);
-   completedForm.append('date', $('#sleep-date').val().split('-').join('/'));
-   completedForm.append('hoursSlept', +$('#hoursSlept').val());
-   completedForm.append('sleepQuality', +$('#sleepQuality').val());
    // console.log(typeof completedForm[1])
-  // console.log(...completedForm)
+
+   let sleepBody = {
+     "userID": Number(user.id),
+     "date": $('#sleep-date').val().split('-').join('/'),
+     "hoursSlept": +$('#hoursSlept').val(),
+     "sleepQuality": +$('#sleepQuality').val(),
+     // "flightsOfStairs": +$('#flightsOfStairs').val()
+   }
+  // console.log(s)
   fetch(url, {
   method: "POST",
-  // headers: {
-  //   'Content-Type': 'application/x-www-form-urlencoded'
-  // },
-  body: JSON.stringify(completedForm),
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(sleepBody),
   })
   .then(response => response.json())
   .then(data => console.log(data))
