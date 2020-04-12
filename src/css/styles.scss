@@ -98,9 +98,9 @@ p {
   letter-spacing: 0.2vw;
   margin-right: 1vw;
   padding-top: 2vw;
-  text-align: right;
-  width: 9vw;
-  word-break: keep-all;
+  text-align: center;
+  // width: 9vw;
+  // word-break: keep-all;
 }
 
 /* MAIN */
@@ -110,6 +110,11 @@ main {
     "steps hydration"
     "stairs sleep";
   height: 100%;
+}
+
+.card-container {
+  height: 350px;
+  width: 98%;
 }
 
 .main-card {
@@ -140,6 +145,21 @@ main {
 
 #hydration-card-container {
   @include card-container-color($hydration-color);
+
+  .hydration-weekly-label {
+    font-size: 1vw;
+    padding-top: 1vw;
+  }
+
+  .hydration-weekly-amount {
+    font-size: 2vw;
+  }
+
+  .hydration-data-line {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.2vw;
+  }
 }
 
 #stairs-card-container {
@@ -156,20 +176,6 @@ main {
   margin-bottom: 2vw;
 }
 
-.hydration-weekly-label {
-  font-size: 1vw;
-  padding-top: 1vw;
-}
-
-.hydration-weekly-amount {
-  font-size: 2vw;
-}
-
-.hydration-data-line {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 0.2vw;
-}
 
 .trend-line {
   font-size: 2vw;
