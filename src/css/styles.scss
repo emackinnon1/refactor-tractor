@@ -140,6 +140,21 @@ main {
 
 #hydration-card-container {
   @include card-container-color($hydration-color);
+
+  .hydration-weekly-label {
+    font-size: 1vw;
+    padding-top: 1vw;
+  }
+
+  .hydration-weekly-amount {
+    font-size: 2vw;
+  }
+
+  .hydration-data-line {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.2vw;
+  }
 }
 
 #stairs-card-container {
@@ -156,20 +171,6 @@ main {
   margin-bottom: 2vw;
 }
 
-.hydration-weekly-label {
-  font-size: 1vw;
-  padding-top: 1vw;
-}
-
-.hydration-weekly-amount {
-  font-size: 2vw;
-}
-
-.hydration-data-line {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 0.2vw;
-}
 
 .trend-line {
   font-size: 2vw;
