@@ -69,7 +69,6 @@ class User {
     let dailyWaterIntake = this.hydrationRecord.find(day =>
       day.date.includes(date)
     );
-
     if (dailyWaterIntake !== undefined) {
       return dailyWaterIntake.numOunces;
     } else {

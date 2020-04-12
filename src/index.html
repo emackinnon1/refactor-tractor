@@ -453,26 +453,44 @@
             </div>
           </section>
         </section>
-      </main>
-      <section class="sleep-data-form hide"></section>
-      <section class="activity-data-form hide">
-        <form
-          id="activity-entry-form"
-          action="https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData"
-          method="POST"
-        >
-          <!-- <label for="date">Date(YYYY/MM/DD)</label> -->
-         <input type="date" id="activity-date" name="date" class="dateInfo"> -->
-          <label for="numSteps">Number of Steps</label>
-          <input type="text" id="numSteps" name="numSteps" />
-          <label for="minutesActive">Active Minutes</label>
-          <input type="text" id="minutesActive" name="minutesActive" />
-          <label for="flightsOfStairs">Flights of Stairs Climbed</label>
-          <input type="text" id="flightsOfStairs" name="flightsOfStairs" />
-          <button type="submit">Submit</button>
-        </form>
+        <section class="friends-card hide" id="sleep-friends-card">
+          <button
+            type="button"
+            name="button"
+            class="sleep go-back go-back-button sleep-go-back-button"
+          ></button>
+          <div class="card-data-line">
+            <p>LAST NIGHT'S SUPERIOR SLEEPER</p>
+            <h4 id="sleep-friend-longest-sleeper"></h4>
+          </div>
+          <div class="card-data-line">
+            <p>LAST NIGHT'S INFERIOR SLEEPER</p>
+            <h4 id="sleep-friend-worst-sleeper"></h4>
+          </div>
+        </section>
+        <section class="calendar-card hide" id="sleep-calendar-card">
+          <button
+            type="button"
+            name="button"
+            class="sleep go-back go-back-button sleep-go-back-button"
+          ></button>
+          <div class="card-data-line">
+            <p>LAST WEEK'S HOURLY AVERAGE</p>
+            <h4 id="sleep-calendar-hours-average-weekly"></h4>
+          </div>
+          <div class="card-data-line">
+            <p>LAST WEEK'S QUALITY AVERAGE</p>
+            <h4 id="sleep-calendar-quality-average-weekly"></h4>
+          </div>
+        </section>
       </section>
-      <section class="hydration-data-form hide"></section>
+    </main>
+    <section class="sleep-data-form hide">
+
+    </section>
+    <section class="activity-data-form hide">
+    </section>
+    <section class="hydration-data-form hide">
     </section>
   </body>
 </html>
