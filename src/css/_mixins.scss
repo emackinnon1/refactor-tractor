@@ -16,4 +16,6 @@
 @mixin card-container-color($color) {
     background-color: $color;
     margin: 0.5vw;
+    height: 350px;
+    width: 98%;
 }
