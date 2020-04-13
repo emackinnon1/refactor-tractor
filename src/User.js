@@ -194,29 +194,11 @@ class User {
     }
   }
   findTrendingStairsDays() {
-
     let positiveDays = [];
-<<<<<<< HEAD
-    for (var i = 0; i < this.activityRecord.length; i++) {
-      if (
-        this.activityRecord[i + 1] &&
-        this.activityRecord[i].flightsOfStairs >
-        this.activityRecord[i + 1].flightsOfStairs
-      ) {
-        positiveDays.unshift(this.activityRecord[i].date);
-      } else if (positiveDays.length > 2) {
-        this.trendingStairsDays.push(
-          `Your most recent positive climbing streak was ${positiveDays[0]} - ${
-            positiveDays[positiveDays.length - 1]
-          }!`
-        );
-        positiveDays = [];
-=======
     this.activityRecord.sort((a, b) => {
       if (a.flightsOfStairs > b.flightsOfStairs) {
         positiveDays.push(a.date)
         console.log(positiveDays)
->>>>>>> master
       }
     })
     let message = `Your most recent positive climbing streak was ${positiveDays[0]} - ${
@@ -250,8 +232,6 @@ class User {
     );
   }
 
-<<<<<<< HEAD
-
   calculateTotalStepsThisWeek(date) {
     let totalStepsThisWeek = this.activityRecord.reduce((sum, activity) => {
       let index = this.activityRecord.indexOf(this.activityRecord.find(activity => activity.date === date));
@@ -261,25 +241,6 @@ class User {
       return sum;
     }, 0);
     return totalStepsThisWeek;
-=======
-  calculateTotalStepsThisWeek(person, todayDate) {
-    person.totalStepsThisWeek = person.activityRecord.reduce(
-      (sum, activity) => {
-        let index = person.activityRecord.indexOf(
-          person.activityRecord.find(activity => activity.date === todayDate)
-        );
-        if (
-          index <= person.activityRecord.indexOf(activity) &&
-          person.activityRecord.indexOf(activity) <= index + 6
-        ) {
-          sum += activity.numSteps;
-        }
-        return sum;
-      },
-      0
-    );
-    return person.totalStepsThisWeek;
->>>>>>> master
   }
 }
 
