@@ -1,4 +1,7 @@
 import User from "./User";
+import domUpates from "./domUpdates";
+import domUpdates from './domUpdates';
+
 
 class UserRepository {
   constructor(userList, hydrationData, activityData, sleepData) {
@@ -22,6 +25,7 @@ class UserRepository {
     return this.users.find(user => {
       return user.id === id;
     });
+    domUpdates.getUserName();
   }
 
   calculateAverageStepGoal() {

@@ -1,6 +1,7 @@
 import Activity from "./Activity";
 import Hydration from "./Hydration";
 import Sleep from "./Sleep";
+import domUpdates from './domUpdates';
 
 class User {
   constructor(userData, hydrationData, activityData, sleepData) {
@@ -19,7 +20,9 @@ class User {
   }
 
   getFirstName() {
-    return this.name.split(" ")[0].toUpperCase();
+    let firstName = this.name.split(" ")[0].toUpperCase();
+    domUpdates.getUserName(firstName);
+    return firstName;
   }
 
   makeActivityRecord(activityData) {
@@ -221,12 +224,6 @@ class User {
         totalWeeklySteps: matchedFriend.totalStepsThisWeek
       });
     });
-    // this.calculateTotalStepsThisWeek(date);
-    // this.friendsActivityRecords.push({
-    //   id: this.id,
-    //   firstName: "YOU",
-    //   totalWeeklySteps: this.totalStepsThisWeek
-    // });
     this.friendsWeeklySteps = this.friendsWeeklySteps.sort(
       (a, b) => b.totalWeeklySteps - a.totalWeeklySteps
     );
