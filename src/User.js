@@ -65,17 +65,16 @@ class User {
     }
   }
 
-  // Above method accomplishes this
-  // getFluidOuncesByDate(date) {
-  //   let dailyWaterIntake = this.hydrationRecord.find(day =>
-  //     day.date.includes(date)
-  //   );
-  //   if (dailyWaterIntake !== undefined) {
-  //     return dailyWaterIntake.numOunces;
-  //   } else {
-  //     return "N/A";
-  //   }
-  // }
+  getFluidOuncesByDate(date) {
+    let dailyWaterIntake = this.hydrationRecord.find(day =>
+      day.date.includes(date)
+    );
+    if (dailyWaterIntake !== undefined) {
+      return dailyWaterIntake.numOunces;
+    } else {
+      return "N/A";
+    }
+  }
 
   calculateSleepAverageThisWeek(date, property) {
     return (
