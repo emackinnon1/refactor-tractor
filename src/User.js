@@ -65,16 +65,17 @@ class User {
     }
   }
 
-  getFluidOuncesByDate(date) {
-    let dailyWaterIntake = this.hydrationRecord.find(day =>
-      day.date.includes(date)
-    );
-    if (dailyWaterIntake !== undefined) {
-      return dailyWaterIntake.numOunces;
-    } else {
-      return "N/A";
-    }
-  }
+// Above method accomplishes this
+  // getFluidOuncesByDate(date) {
+  //   let dailyWaterIntake = this.hydrationRecord.find(day =>
+  //     day.date.includes(date)
+  //   );
+  //   if (dailyWaterIntake !== undefined) {
+  //     return dailyWaterIntake.numOunces;
+  //   } else {
+  //     return "N/A";
+  //   }
+  // }
 
   calculateDailyMiles(date) {
     let dailySteps = this.activityRecord.find(day => day.date === date)
