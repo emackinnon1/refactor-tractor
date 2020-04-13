@@ -182,26 +182,56 @@ class User {
       }
     }
   }
-
+//needs to be refactored
   findTrendingStairsDays() {
+    // let positiveDays = [];
+    // return this.activityRecord.forEach((record, index) => {
+    //   if (record.flightsOfStairs > record[index + 1].flightsOfStairs) {
+    //     positiveDays.push(record.date)
+    //     console.log(positiveDays)
+    //   }
+    //   let message = `Your most recent positive climbing streak was ${positiveDays[0]} - ${
+    //       positiveDays[positiveDays.length - 1]
+    //     }!`
+    //   return message;
+    // }
+
     let positiveDays = [];
-    for (var i = 0; i < this.activityRecord.length; i++) {
-      if (
-        this.activityRecord[i + 1] &&
-        this.activityRecord[i].flightsOfStairs >
-          this.activityRecord[i + 1].flightsOfStairs
-      ) {
-        positiveDays.unshift(this.activityRecord[i].date);
-      } else if (positiveDays.length > 2) {
-        this.trendingStairsDays.push(
-          `Your most recent positive climbing streak was ${positiveDays[0]} - ${
-            positiveDays[positiveDays.length - 1]
-          }!`
-        );
-        positiveDays = [];
+    this.activityRecord.sort((a, b) => {
+      // console.log(record.flightsOfStairs)
+      //trying to compare this record to the record after it
+      //this won't work because record isn't an array
+      // console.log(this.activityRecord)
+      if (a.flightsOfStairs > b.flightsOfStairs) {
+        positiveDays.push(a.date)
+        console.log(positiveDays)
       }
-    }
+      // if (record.flightsOfStairs > record[index + 1].flightsOfStairs) {
+      //
+      // }
+    })
+    let message = `Your most recent positive climbing streak was ${positiveDays[0]} - ${
+      positiveDays[positiveDays.length - 1]
+    }!`
+    return message;
+
   }
+
+
+    // for (var i = 0; i < this.activityRecord.length; i++) {
+    //   if (
+    //     this.activityRecord[i + 1] &&
+    //     this.activityRecord[i].flightsOfStairs >
+    //       this.activityRecord[i + 1].flightsOfStairs
+    //   ) {
+    //     positiveDays.unshift(this.activityRecord[i].date);
+    //   } else if (positiveDays.length > 2) {
+    //     this.trendingStairsDays.push(
+    //       `Your most recent positive climbing streak was ${positiveDays[0]} - ${
+    //         positiveDays[positiveDays.length - 1]
+    //       }!`
+    //     );
+    //     positiveDays = [];
 
 
   findFriendsTotalStepsForWeek(allUsers, date) {
