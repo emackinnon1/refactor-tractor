@@ -21,7 +21,7 @@ $(".hydration-info-button").on("click", displayNumOunces);
 // $('.hydration-calendar-button').on('click', displayDailyOuncesPerWeek);
 
 $(".sleep-info-button").on("click", displaySleepInfo);
-// $(".sleep-friends-button").on("click", displayFriendsSleepInfo
+$(".sleep-friends-button").on("click", displayFriendsSleepInfo);
 $(".sleep-calendar-button").on("click", displayWeeklySleepInfo);
 
 function retrieveAllData() {
@@ -292,7 +292,7 @@ function displaySleepInfo() {
 
 function displayFriendsSleepInfo() {
   $("#sleep-friend-longest-sleeper").text(userRepository.getLongestSleepers(todayDate));
-  console.log(userRepository.getLongestSleepers(todayDate));
+  $("#sleep-friend-worst-sleeper").text(userRepository.getWorstSleepers(todayDate));
 }
 
 function displayWeeklySleepInfo() {
