@@ -23,41 +23,54 @@ $('.stairs-info-button').on('click', displayDailyFlightsClimbed);
 $('.stairs-friends-button').on('click', displayAllUsersAverageFlights);
 $('.stairs-trending-button').on('click', displayTrendingStairsInfo);
 $('.stairs-calendar-button').on('click', displayWeeklyFlightsAndStairs);
+$("#profile-button").on("click", showDropdown);
+$("main").on("click", showInfo);
+$(".hydration-friends-button").on("click", displayAverageDailyHydration);
+$(".hydration-info-button").on("click", displayNumOunces);
+$('.hydration-calendar-button').on('click', displayDailyOuncesPerWeek);
 
-// $('.hydration-calendar-button').on('click', displayDailyOuncesPerWeek);
+$(".sleep-info-button").on("click", displaySleepInfo);
+$(".sleep-friends-button").on("click", displayFriendsSleepInfo);
+$(".sleep-calendar-button").on("click", displayWeeklySleepInfo);
+>>>>>>> master
+
 
 function retrieveAllData() {
   Promise.all([
-    fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
-    .then(response => response.json()),
-    fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData")
-    .then(response => response.json()),
-    fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData")
-    .then(response => response.json()),
-    fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData")
-    .then(response => response.json())
+    fetch(
+      "https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData"
+    ).then(response => response.json()),
+    fetch(
+      "https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData"
+    ).then(response => response.json()),
+    fetch(
+      "https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData"
+    ).then(response => response.json()),
+    fetch(
+      "https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData"
+    ).then(response => response.json())
   ])
-  .then(data =>
-    makeRepo(
-      data[0].userData,
-      data[1].sleepData,
-      data[2].hydrationData,
-      data[3].activityData
+    .then(data =>
+      makeRepo(
+        data[0].userData,
+        data[1].sleepData,
+        data[2].hydrationData,
+        data[3].activityData
+      )
     )
-  )
-  // .then(data => userRepository.getUser(userID))
-  .then(data => getUserName(data))
-  .then(data => displayDailySteps())
-  .then(data => displayDailyWater())
-  .then(data => displayDailyStairs())
-  .then(data => displayDailySleep())
-  .catch(error => console.log(error));
+    .then(data => userRepository.getUser(userID))
+    .then(data => getUserName(data))
+    .then(data => displayDailySteps())
+    .then(data => displayDailyWater())
+    .then(data => displayDailyStairs())
+    .then(data => displayDailySleep())
+    .catch(error => console.log(error));
 }
 
-    function makeRepo(users, sleep, hydration, activity) {
-      userRepository = new UserRepository(users, hydration, activity, sleep);
-      getRandomUser();
-    }
+function makeRepo(users, sleep, hydration, activity) {
+  userRepository = new UserRepository(users, hydration, activity, sleep);
+  getRandomUser();
+}
 
 function getRandomUser() {
   user = userRepository.getUser(userID)
@@ -128,36 +141,38 @@ function displayTrendingStairsInfo() {
 }
 
 function showDropdown() {
-  $('#dropdown-name').text(user.name.toUpperCase());
-  $('#user-info-dropdown').toggleClass('hide');
-  $('#dropdown-email').text(`EMAIL | ${user.email}`);
-  $('#dropdown-goal').text(`DAILY STEP GOAL | ${user.dailyStepGoal}`);
+  $("#dropdown-name").text(user.name.toUpperCase());
+  $("#user-info-dropdown").toggleClass("hide");
+  $("#dropdown-email").text(`EMAIL | ${user.email}`);
+  $("#dropdown-goal").text(`DAILY STEP GOAL | ${user.dailyStepGoal}`);
   user.findFriendsTotalStepsForWeek(userRepository, todayDate);
-  if ($('#dropdown-friends-steps-container').children().length === 0) {
-  user.friendsWeeklySteps.forEach(friend => {
-      $('#dropdown-friends-steps-container').append(`
+  if ($("#dropdown-friends-steps-container").children().length === 0) {
+    user.friendsWeeklySteps.forEach(friend => {
+      $("#dropdown-friends-steps-container").append(`
         <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
         `);
     });
   }
 }
 
-$('#profile-button').on('click', showDropdown);
-$('main').on('click', showInfo);
-$('#sleep-entry-button').on('click', displayForm)
-$('#activity-entry-button').on('click', displayForm)
-$('#hydration-entry-button').on('click', displayForm)
+$("#profile-button").on("click", showDropdown);
+$("main").on("click", showInfo);
+$("#sleep-entry-button").on("click", displayForm);
+$("#activity-entry-button").on("click", displayForm);
+$("#hydration-entry-button").on("click", displayForm);
 
 function displayForm(event) {
-  //need to display the appropriate form
-  //need to retrieve the first word of the entry button itself
- let currentCategory = $(event.target).attr('id').split('-')[0];
- let allPages = $('.allPageInfo').children().toArray().splice(0, 5);
- allPages.forEach(page => $(page).addClass('hide'))
- $(`.${currentCategory}-data-form`).removeClass('hide');
- if (currentCategory === "sleep") {
-   console.log('I\'m in here')
-   $(`.${currentCategory}-data-form`).html(`<form id="sleep-info">
+  let currentCategory = $(event.target)
+    .attr("id")
+    .split("-")[0];
+  let allPages = $(".allPageInfo")
+    .children()
+    .toArray()
+    .splice(0, 5);
+  allPages.forEach(page => $(page).addClass("hide"));
+  $(`.${currentCategory}-data-form`).removeClass("hide");
+  if (currentCategory === "sleep") {
+    $(`.${currentCategory}-data-form`).html(`<form id="sleep-info">
       <label for="date">Date</label>
       <input type="date" id="sleep-date" name="date" class="dateInfo">
       <label for="hoursSlept">Hours of Sleep</label>
@@ -165,10 +180,10 @@ function displayForm(event) {
       <label for="sleepQuality">Estimated Sleep Quality</label>
       <input type="text" id="sleepQuality" name="sleepQuality">
       <button type="submit" class="sleep-submit-button">Submit</button>
-      </form>`)
-      $('#sleep-info').on('submit', postFormData)
- } else if (currentCategory === "activity") {
-       $(`.${currentCategory}-data-form`).html(`<form id="activity-info">
+      </form>`);
+    $("#sleep-info").on("submit", postFormData);
+  } else if (currentCategory === "activity") {
+    $(`.${currentCategory}-data-form`).html(`<form id="activity-info">
       <label for="date">Date</label>
       <input type="date" id="activity-date" name="date" class="dateInfo">
       <label for="numSteps">Number of Steps</label>
@@ -178,68 +193,76 @@ function displayForm(event) {
       <label for="flightsOfStairs">Flights of Stairs Climbed</label>
       <input type="text" id="flightsOfStairs" name="flightsOfStairs">
       <button type="submit">Submit</button>
-      </form>`)
-      $('#activity-info').on('submit', postFormData)
- } else if (currentCategory === "hydration") {
-     $(`.${currentCategory}-data-form`).html(`<form id="hydration-info">
+      </form>`);
+    $("#activity-info").on("submit", postFormData);
+  } else if (currentCategory === "hydration") {
+    $(`.${currentCategory}-data-form`).html(`<form id="hydration-info">
     <label for="date">Date</label>
     <input type="date" id="hydration-date" name="date" class="dateInfo">
     <label for="numSteps">Number of Ounces of Water Consumed</label>
     <input type="text" id="numOunces" name="numOunces">
     <button type="submit">Submit</button>
-    </form>`)
-    $('#hydration-info').on('submit', postFormData)
- }
+    </form>`);
+    $("#hydration-info").on("submit", postFormData);
+  }
 }
 
 function postFormData(event) {
-  let currentSection = $(event.target).attr('id').split('-')[0];
-
-  let url = `https://fe-apps.herokuapp.com/api/v1/fitlit/1908/${currentSection}/${currentSection}Data`
-  console.log(url);
-  // console.log(currentCategory)
+  let currentSection = $(event.target)
+    .attr("id")
+    .split("-")[0];
+  let url = `https://fe-apps.herokuapp.com/api/v1/fitlit/1908/${currentSection}/${currentSection}Data`;
   event.preventDefault();
-   let mainBody = {
-     "userID": Number(user.id),
-     "date": $(`#${currentSection}-date`).val().split('-').join('/'),
-   }
-   if (currentSection === 'sleep') {
-     mainBody.hoursSlept = +$('#hoursSlept').val();
-     mainBody.sleepQuality = +$('#sleepQuality').val();
-   } else if (currentSection === 'hydration') {
-     mainBody.numOunces = +$('#numOunces').val();
-   } else if (currentSection === 'activity') {
-     mainBody.numSteps = +$('#numSteps').val(),
-     mainBody.minutesActive = +$('#minutesActive').val(),
-     mainBody.flightsOfStairs = +$('#flightsOfStairs').val()
-   }
-  fetch(url, {
-  method: "POST",
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify(mainBody),
-  })
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(err => console.error(err))
-  .then(data => retrieveAllData())
-
-  let allPages = $('.allPageInfo').children().toArray().splice(0, 5);
-  console.log(allPages)
-  allPages.forEach(page => $(page).addClass('hide'))
-  $('main').removeClass('hide');
+  let mainBody = {
+    userID: Number(user.id),
+    date: $(`#${currentSection}-date`)
+      .val()
+      .split("-")
+      .join("/")
+  };
+  if (currentSection === "sleep") {
+    mainBody.hoursSlept = +$("#hoursSlept").val();
+    mainBody.sleepQuality = +$("#sleepQuality").val();
+  } else if (currentSection === "hydration") {
+    mainBody.numOunces = +$("#numOunces").val();
+  } else if (currentSection === "activity") {
+    (mainBody.numSteps = +$("#numSteps").val()),
+      (mainBody.minutesActive = +$("#minutesActive").val()),
+      (mainBody.flightsOfStairs = +$("#flightsOfStairs").val());
   }
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(mainBody)
+  })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(err => console.error(err))
+    .then(data => retrieveAllData());
 
+  let allPages = $(".allPageInfo")
+    .children()
+    .toArray()
+    .splice(0, 5);
+  console.log(allPages);
+  allPages.forEach(page => $(page).addClass("hide"));
+  $("main").removeClass("hide");
+}
 
 function showInfo(event) {
-  let type = $(event.target).attr('class').split(' ')[0];
-  let buttonType = $(event.target).attr('class').split(' ')[1];
+  let type = $(event.target)
+    .attr("class")
+    .split(" ")[0];
+  let buttonType = $(event.target)
+    .attr("class")
+    .split(" ")[1];
 
-  if ($(event.target).is('button')) {
-    clear(type)
-    $(`#${type}-main-card`).addClass('hide');
-    $(`#${type}-${buttonType}-card`).removeClass('hide');
+  if ($(event.target).is("button")) {
+    clear(type);
+    $(`#${type}-main-card`).addClass("hide");
+    $(`#${type}-${buttonType}-card`).removeClass("hide");
   }
 
   if ($(event.target).hasClass(`${type}-go-back-button`)) {
@@ -248,53 +271,100 @@ function showInfo(event) {
 }
 
 function clear(category) {
-  let allCategoryCards = $(`#${category}-card-container`).children().toArray()
+  let allCategoryCards = $(`#${category}-card-container`)
+    .children()
+    .toArray();
 
-  allCategoryCards.forEach(element => $(element).addClass('hide'))
-  $(`#${category}-main-card`).removeClass('hide');
+  allCategoryCards.forEach(element => $(element).addClass("hide"));
+  $(`#${category}-main-card`).removeClass("hide");
 }
 
 function flipCard(event) {
-  event.target.classList.addClass('hide');
-  cardToShow.classList.removeClass('hide');
+  event.target.classList.addClass("hide");
+  cardToShow.classList.removeClass("hide");
 }
 
 // move to domUpdates?
 function updateTrendingStepDays() {
   user.findTrendingStepDays();
-  $('.trending-steps-phrase-container').html(`<p class='trend-line'>${user.trendingStepDays[0]}</p>`);
+  $(".trending-steps-phrase-container").html(
+    `<p class='trend-line'>${user.trendingStepDays[0]}</p>`
+  );
 }
 
 // move to domUpdates?
 function displayAverageDailyHydration() {
-  $('#hydration-friend-ounces-today').text(user.getAllTimeAverage(user.hydrationRecord, 'numOunces'));
+  $("#hydration-friend-ounces-today").text(
+    user.getAllTimeAverage(user.hydrationRecord, "numOunces")
+  );
 }
 
 function displayNumOunces() {
-$('#hydration-info-glasses-today').text((user.getEntryDataByDate(user.hydrationRecord, 'numOunces', todayDate))/8)
+  $("#hydration-info-glasses-today").text(
+    user.getEntryDataByDate(user.hydrationRecord, "numOunces", todayDate) / 8
+  );
 }
 
 function displayDailyOuncesPerWeek() {
-  let allDailyOz = $('.daily-oz').toArray();
-  console.log($(allDailyOz))
-  // allDailyOz.forEach()
-  $(allDailyOz).each(day => {
+  // let allDailyOz = $('.daily-oz').toArray();
+  // $(allDailyOz).each(day => {
+  //
+  //    $(day).text('hello')
+  //   console.log($(day)[0])
+  //   console.log('just day', $(day))
+  // });
 
-     $(day).text('hello')
-    console.log($(day)[0])
-    console.log('just day', $(day))
+  let sortedHydrationDataByDate = user.hydrationRecord.sort((a, b) => {
+    if (Object.keys(a)[0] > Object.keys(b)[0]) {
+      return -1;
+    }
+    if (Object.keys(a)[0] < Object.keys(b)[0]) {
+      return 1;
+    }
+    return 0;
   });
+
   let dailyOz = document.querySelectorAll('.daily-oz');
   for (var i = 0; i < dailyOz.length; i++) {
-    dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
+    dailyOz[i].innerText = user.getFluidOuncesByDate(Object.keys(sortedHydrationDataByDate[i])[0])
   }
 }
 
+// For a user, their sleep data over the course of the latest week (hours slept and quality of sleep)
 
-$(window).on( "load", retrieveAllData);
+function displaySleepInfo() {
+  $("#sleep-info-quality-today").text(
+    user.getEntryDataByDate(user.sleepRecord, "hoursSlept", todayDate)
+  );
+  $("#sleep-info-hours-average-alltime").text(
+    user.getAllTimeAverage(user.sleepRecord, "hoursSlept")
+  );
+  $("#sleep-info-quality-average-alltime").text(
+    user.getAllTimeAverage(user.sleepRecord, "sleepQuality")
+  );
+}
+
+function displayFriendsSleepInfo() {
+  $("#sleep-friend-longest-sleeper").text(
+    userRepository.getLongestSleepers(todayDate)
+  );
+  $("#sleep-friend-worst-sleeper").text(
+    userRepository.getWorstSleepers(todayDate)
+  );
+}
+
+function displayWeeklySleepInfo() {
+  $("#sleep-calendar-hours-average-weekly").text(
+    user.calculateSleepAverageThisWeek(todayDate, "hoursSlept")
+  );
+  $("#sleep-calendar-quality-average-weekly").text(
+    user.calculateSleepAverageThisWeek(todayDate, "sleepQuality")
+  );
+}
+
+$(window).on("load", retrieveAllData);
 
 // move to domUpdates? (and everything below)
-
 
 // $('#sleep-calendar-hours-average-weekly').text(user.calculateAverageHoursThisWeek(todayDate));
 
@@ -365,16 +435,11 @@ $(window).on( "load", retrieveAllData);
 // let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
 // let stepsTrendingButton = document.querySelector('.steps-trending-button');
 
-
 // event listeners
 // // stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 // // stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
-
-
-
 // //EM: needs refactoring
-
 
 // // function updateTrendingStairsDays() {
 // //   user.findTrendingStairsDays();
@@ -388,7 +453,6 @@ $(window).on( "load", retrieveAllData);
 
 // //EM: for loop outside of function?
 
-
 // //EM: should be inside function
 
 
@@ -398,7 +462,6 @@ $(window).on( "load", retrieveAllData);
 // });
 
 // user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
-
 
 // let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
 

@@ -76,6 +76,23 @@ class User {
     }
   }
 
+  calculateSleepAverageThisWeek(date, property) {
+    return (
+      this.sleepRecord.reduce((acc, sleep) => {
+        let index = this.sleepRecord.indexOf(
+          this.sleepRecord.find(sleep => sleep.date === date)
+        );
+        if (
+          index <= this.sleepRecord.indexOf(sleep) &&
+          this.sleepRecord.indexOf(sleep) <= index + 6
+        ) {
+          acc += sleep[property];
+        }
+        return acc;
+      }, 0) / 7
+    ).toFixed(1);
+  }
+
   calculateDailyMiles(date) {
     let dailySteps = this.activityRecord.find(day => day.date === date)
       .numSteps;
@@ -147,6 +164,7 @@ class User {
     ).toFixed(0);
   }
 
+
   calculateAverageFlightsThisWeek(todayDate) {
     return (
       this.activityRecord.reduce((sum, activity) => {
@@ -182,33 +200,14 @@ class User {
       }
     }
   }
-//needs to be refactored
   findTrendingStairsDays() {
-    // let positiveDays = [];
-    // return this.activityRecord.forEach((record, index) => {
-    //   if (record.flightsOfStairs > record[index + 1].flightsOfStairs) {
-    //     positiveDays.push(record.date)
-    //     console.log(positiveDays)
-    //   }
-    //   let message = `Your most recent positive climbing streak was ${positiveDays[0]} - ${
-    //       positiveDays[positiveDays.length - 1]
-    //     }!`
-    //   return message;
-    // }
 
     let positiveDays = [];
     this.activityRecord.sort((a, b) => {
-      // console.log(record.flightsOfStairs)
-      //trying to compare this record to the record after it
-      //this won't work because record isn't an array
-      // console.log(this.activityRecord)
       if (a.flightsOfStairs > b.flightsOfStairs) {
         positiveDays.push(a.date)
         console.log(positiveDays)
       }
-      // if (record.flightsOfStairs > record[index + 1].flightsOfStairs) {
-      //
-      // }
     })
     let message = `Your most recent positive climbing streak was ${positiveDays[0]} - ${
       positiveDays[positiveDays.length - 1]
@@ -217,27 +216,13 @@ class User {
 
   }
 
-
-    // for (var i = 0; i < this.activityRecord.length; i++) {
-    //   if (
-    //     this.activityRecord[i + 1] &&
-    //     this.activityRecord[i].flightsOfStairs >
-    //       this.activityRecord[i + 1].flightsOfStairs
-    //   ) {
-    //     positiveDays.unshift(this.activityRecord[i].date);
-    //   } else if (positiveDays.length > 2) {
-    //     this.trendingStairsDays.push(
-    //       `Your most recent positive climbing streak was ${positiveDays[0]} - ${
-    //         positiveDays[positiveDays.length - 1]
-    //       }!`
-    //     );
-    //     positiveDays = [];
-
-
   findFriendsTotalStepsForWeek(allUsers, date) {
     this.friends.map(friend => {
       let matchedFriend = allUsers.users.find(user => user.id === friend);
-      matchedFriend.totalStepsThisWeek = this.calculateTotalStepsThisWeek(matchedFriend, date);
+      matchedFriend.totalStepsThisWeek = this.calculateTotalStepsThisWeek(
+        matchedFriend,
+        date
+      );
       this.friendsWeeklySteps.push({
         id: matchedFriend.id,
         firstName: matchedFriend.name.toUpperCase().split(" ")[0],
@@ -255,22 +240,24 @@ class User {
     );
   }
 
-
-calculateTotalStepsThisWeek(person, todayDate) {
-  person.totalStepsThisWeek = person.activityRecord.reduce((sum, activity) => {
-    let index = person.activityRecord.indexOf(
-      person.activityRecord.find(activity => activity.date === todayDate)
+  calculateTotalStepsThisWeek(person, todayDate) {
+    person.totalStepsThisWeek = person.activityRecord.reduce(
+      (sum, activity) => {
+        let index = person.activityRecord.indexOf(
+          person.activityRecord.find(activity => activity.date === todayDate)
+        );
+        if (
+          index <= person.activityRecord.indexOf(activity) &&
+          person.activityRecord.indexOf(activity) <= index + 6
+        ) {
+          sum += activity.numSteps;
+        }
+        return sum;
+      },
+      0
     );
-    if (
-      index <= person.activityRecord.indexOf(activity) &&
-      person.activityRecord.indexOf(activity) <= index + 6
-    ) {
-      sum += activity.numSteps;
-    }
-    return sum;
-  }, 0);
-  return person.totalStepsThisWeek;
-}
+    return person.totalStepsThisWeek;
+  }
 }
 
 export default User;
