@@ -196,6 +196,7 @@ class User {
       }
     }
   }
+  
   findTrendingStairsDays() {
     let positiveDays = [];
     this.activityRecord.sort((a, b) => {

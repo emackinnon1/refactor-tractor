@@ -2,6 +2,7 @@ import $ from "jquery";
 import "./css/base.scss";
 import "./css/styles.scss";
 
+import domUpdates from "./domUpdates";
 import UserRepository from "./UserRepository";
 import User from "./User";
 import Activity from "./Activity";
@@ -21,6 +22,17 @@ $('main').on('click', showInfo);
 $("#sleep-entry-button").on("click", displayForm);
 $("#activity-entry-button").on("click", displayForm);
 $("#hydration-entry-button").on("click", displayForm);
+$('.stairs-info-button').on('click', displayDailyFlightsClimbed);
+$('.stairs-friends-button').on('click', displayAllUsersAverageFlights);
+$('.stairs-trending-button').on('click', displayTrendingStairsInfo);
+$('.stairs-calendar-button').on('click', displayWeeklyFlightsAndStairs);
+$('.hydration-info-button').on('click', displayNumOunces);
+$(".hydration-friends-button").on("click", displayAverageDailyHydration);
+$('.hydration-calendar-button').on('click', displayDailyOuncesPerWeek);
+
+$(".sleep-info-button").on("click", domUpdates.displaySleepInfo);
+$(".sleep-friends-button").on("click", domUpdates.displayFriendsSleepInfo);
+$(".sleep-calendar-button").on("click", domUpdates.displayWeeklySleepInfo);
 
 function retrieveAllData() {
   Promise.all([
@@ -62,85 +74,6 @@ function makeRepo(users, sleep, hydration, activity) {
 function getRandomUser() {
   user = userRepository.getUser(userID)
   console.log(user)
-}
-
-// function getUserName() {
-//   $("#header-name").text(`${user.getFirstName()}'S FITLIT`);
-// }
-
-// move to domUpdates?
-function displayDailySteps() {
-  let steps = user.activityRecord.find(activity => {
-    return activity.userID === user.id && activity.date === todayDate;
-  }).numSteps;
-  $("#steps-user-steps-today").text(steps);
-}
-
-// move to domUpdates?
-function displayDailyWater() {
-  let water = user.hydrationRecord.find(hydration => {
-    return hydration.userID === user.id && hydration.date === todayDate;
-  }).numOunces;
-  $("#hydration-user-ounces-today").text(water);
-}
-
-function displayAllUsersAverageFlights() {
-  console.log(userRepository.calculateAverageActivity(todayDate, 'flightsOfStairs'))
-  let allAverageFlights = userRepository.calculateAverageActivity(todayDate, 'flightsOfStairs')
-  $('#stairs-friend-flights-average-today').text(`${allAverageFlights}`)
-}
-// move to domUpdates?
-function displayDailyStairs() {
-  let stairs =
-    user.activityRecord.find(activity => {
-      return activity.userID === user.id && activity.date === todayDate;
-    }).flightsOfStairs * 12;
-  $("#stairs-user-stairs-today").text(stairs);
-}
-
-function displayWeeklyFlightsAndStairs() {
-  let stepsThisWeek = Number(Math.floor(Math.round(user.calculateTotalStepsThisWeek(user, todayDate))))
-  let flightsThisWeek = Number(Math.floor(Math.round(user.calculateTotalStepsThisWeek(user, todayDate) / 12)))
-  $('#stairs-calendar-stairs-average-weekly').text(stepsThisWeek)
-  $('#stairs-calendar-flights-average-weekly').text(flightsThisWeek)
-}
-
-function displayDailyFlightsClimbed() {
-  let stairs =
-    user.activityRecord.find(activity => {
-      return activity.userID === user.id && activity.date === todayDate;
-    }).flightsOfStairs;
-  $('#stairs-info-flights-today').text(stairs)
-}
-
-// move to domUpdates?
-function displayDailySleep() {
-  let sleep = user.sleepRecord.find(sleep => {
-    return sleep.userID === user.id && sleep.date === todayDate;
-  }).hoursSlept;
-  $("#sleep-user-hours-today").text(sleep);
-}
-
-function displayTrendingStairsInfo() {
-  let trendingDays = user.findTrendingStairsDays();
-  console.log(trendingDays)
-  $('.trending-stairs-phrase-container').html(`<p class='trend-line'>${trendingDays}</p>`);
-}
-
-function showDropdown() {
-  $("#dropdown-name").text(user.name.toUpperCase());
-  $("#user-info-dropdown").toggleClass("hide");
-  $("#dropdown-email").text(`EMAIL | ${user.email}`);
-  $("#dropdown-goal").text(`DAILY STEP GOAL | ${user.dailyStepGoal}`);
-  user.findFriendsTotalStepsForWeek(userRepository, todayDate);
-
-  if ($("#dropdown-friends-steps-container").children().length === 0) {
-    user.friendsWeeklySteps.forEach(friend => {
-      $("#dropdown-friends-steps-container").append(`
-        <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
-        `);
-    });
-  }
 }
 
 function displayForm(event) {
@@ -233,6 +166,111 @@ function postFormData(event) {
   $("main").removeClass("hide");
 }
 
+// move to domUpdates?
+function displayDailySteps() {
+  let steps = user.activityRecord.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).numSteps;
+  $("#steps-user-steps-today").text(steps);
+}
+
+// function displaySleepInfo() {
+//   $("#sleep-info-quality-today").text(
+//      user.getEntryDataByDate(user.sleepRecord, "hoursSlept", todayDate)
+//   );
+//   $("#sleep-info-hours-average-alltime").text(
+//     user.getAllTimeAverage(user.sleepRecord, "hoursSlept")
+//   );
+//   $("#sleep-info-quality-average-alltime").text(
+//     user.getAllTimeAverage(user.sleepRecord, "sleepQuality")
+//   );
+// }
+
+// function displayWeeklySleepInfo() {
+//   $("#sleep-calendar-hours-average-weekly").text(
+//     user.calculateSleepAverageThisWeek(todayDate, "hoursSlept")
+//   );
+//   $("#sleep-calendar-quality-average-weekly").text(
+//     user.calculateSleepAverageThisWeek(todayDate, "sleepQuality")
+//   );
+// }
+
+// function displayFriendsSleepInfo() {
+//   $("#sleep-friend-longest-sleeper").text(
+//     userRepository.getLongestSleepers(todayDate)
+//   );
+//   $("#sleep-friend-worst-sleeper").text(
+//     userRepository.getWorstSleepers(todayDate)
+//   );
+// }
+
+// move to domUpdates?
+function displayDailyWater() {
+  let water = user.hydrationRecord.find(hydration => {
+    return hydration.userID === user.id && hydration.date === todayDate;
+  }).numOunces;
+  $("#hydration-user-ounces-today").text(water);
+}
+
+function displayAllUsersAverageFlights() {
+  let allAverageFlights = userRepository.calculateAverageActivity(todayDate, 'flightsOfStairs')
+  $('#stairs-friend-flights-average-today').text(`${allAverageFlights}`)
+}
+
+// move to domUpdates?
+function displayDailyStairs() {
+  let stairs =
+    user.activityRecord.find(activity => {
+      return activity.userID === user.id && activity.date === todayDate;
+    }).flightsOfStairs * 12;
+  $("#stairs-user-stairs-today").text(stairs);
+}
+
+function displayWeeklyFlightsAndStairs() {
+  let stepsThisWeek = Number(Math.floor(Math.round(user.calculateTotalStepsThisWeek(user, todayDate))))
+  let flightsThisWeek = Number(Math.floor(Math.round(user.calculateTotalStepsThisWeek(user, todayDate) / 12)))
+  $('#stairs-calendar-stairs-average-weekly').text(stepsThisWeek)
+  $('#stairs-calendar-flights-average-weekly').text(flightsThisWeek)
+}
+
+function displayDailyFlightsClimbed() {
+  let stairs =
+    user.activityRecord.find(activity => {
+      return activity.userID === user.id && activity.date === todayDate;
+    }).flightsOfStairs;
+  $('#stairs-info-flights-today').text(stairs)
+}
+
+// move to domUpdates?
+function displayDailySleep() {
+  let sleep = user.sleepRecord.find(sleep => {
+    return sleep.userID === user.id && sleep.date === todayDate;
+  }).hoursSlept;
+  $("#sleep-user-hours-today").text(sleep);
+}
+
+function displayTrendingStairsInfo() {
+  let trendingDays = user.findTrendingStairsDays();
+  console.log(trendingDays)
+  $('.trending-stairs-phrase-container').html(`<p class='trend-line'>${trendingDays}</p>`);
+}
+
+function showDropdown() {
+  $("#dropdown-name").text(user.name.toUpperCase());
+  $("#user-info-dropdown").toggleClass("hide");
+  $("#dropdown-email").text(`EMAIL | ${user.email}`);
+  $("#dropdown-goal").text(`DAILY STEP GOAL | ${user.dailyStepGoal}`);
+  user.findFriendsTotalStepsForWeek(userRepository, todayDate);
+
+  if ($("#dropdown-friends-steps-container").children().length === 0) {
+    user.friendsWeeklySteps.forEach(friend => {
+      $("#dropdown-friends-steps-container").append(`
+        <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
+        `);
+    });
+  }
+}
+
 function showInfo(event) {
   let type = $(event.target)
     .attr("class")
@@ -250,8 +288,9 @@ function showInfo(event) {
   if ($(event.target).hasClass(`${type}-go-back-button`)) {
     clear(type);
   }
+
   displayStepCardInfo();
-  displaySleepCardInfo();
+  // displaySleepCardInfo();
   displayStairsCardInfo();
   displayHydrationCardInfo();
 }
