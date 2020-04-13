@@ -20,7 +20,9 @@ $(".hydration-friends-button").on("click", displayAverageDailyHydration);
 $(".hydration-info-button").on("click", displayNumOunces);
 // $('.hydration-calendar-button').on('click', displayDailyOuncesPerWeek);
 
-$(".sleep-info-button").on("click", displaySleepInfo)
+$(".sleep-info-button").on("click", displaySleepInfo);
+// $(".sleep-friends-button").on("click", displayFriendsSleepInfo
+$(".sleep-calendar-button").on("click", displayWeeklySleepInfo);
 
 function retrieveAllData() {
   Promise.all([
@@ -280,10 +282,22 @@ function displayNumOunces() {
 //   }
 // }
 
+// For a user, their sleep data over the course of the latest week (hours slept and quality of sleep)
+
 function displaySleepInfo() {
   $("#sleep-info-quality-today").text(user.getEntryDataByDate(user.sleepRecord, "hoursSlept", todayDate));
   $("#sleep-info-hours-average-alltime").text(user.getAllTimeAverage(user.sleepRecord, "hoursSlept"));
   $("#sleep-info-quality-average-alltime").text(user.getAllTimeAverage(user.sleepRecord, "sleepQuality"));
+}
+
+function displayFriendsSleepInfo() {
+  $("#sleep-friend-longest-sleeper").text(userRepository.getLongestSleepers(todayDate));
+  console.log(userRepository.getLongestSleepers(todayDate));
+}
+
+function displayWeeklySleepInfo() {
+ $("#sleep-calendar-hours-average-weekly").text(user.calculateSleepAverageThisWeek(todayDate, "hoursSlept"));
+ $("#sleep-calendar-quality-average-weekly").text(user.calculateSleepAverageThisWeek(todayDate, "sleepQuality"));
 }
 
 $(window).on("load", retrieveAllData);
