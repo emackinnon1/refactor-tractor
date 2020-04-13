@@ -8,7 +8,7 @@ class UserRepository {
       activityData,
       sleepData
     );
-    this.longestSleepers = [];
+    // this.longestSleepers = [];
   }
 
   makeUsers(userList, hydrationData, activityData, sleepData) {
@@ -64,29 +64,35 @@ class UserRepository {
   }
 
   getLongestSleepers(date) {
-    let usersSleepByDate = this.users
+    let topSleeper = this.users
       .filter(user => {
         return user.sleepRecord.filter(sleep => sleep.date === date);
       })
       .sort((a, b) => {
         return b.sleepRecord[0].hoursSlept - a.sleepRecord[0].hoursSlept;
-      });
-
-    let topSleepers = usersSleepByDate.filter(user => {
-      return (
-        user.sleepRecord[0].hoursSlept ===
-        usersSleepByDate[0].sleepRecord[0].hoursSlept
-      );
-    });
-    return topSleepers;
+      })
+      .shift()
+    return topSleeper.name;
   }
 
-  // Find all users who average a sleep quality greater than 3 for a given week (7 days) - you should be able to calculate this for any week, not just the latest week
-  //   findBestSleepers(date) {
-  //     return this.users.filter(user => {
-  //       return user.calculateAverageQualityThisWeek(date) > 3;
-  //     })
-  //   }
+  getWorstSleepers(date) {
+    let worstSleeper = this.users
+      .filter(user => {
+        return user.sleepRecord.filter(sleep => sleep.date === date);
+      })
+      .sort((a, b) => {
+        return a.sleepRecord[0].hoursSlept - b.sleepRecord[0].hoursSlept;
+      })
+      .shift()
+    return worstSleeper.name;
+  }
+
+// Find all users who average a sleep quality greater than 3 for a given week (7 days) - you should be able to calculate this for any week, not just the latest week
+//   findBestSleepers(date) {
+//     return this.users.filter(user => {
+//       return user.calculateAverageQualityThisWeek(date) > 3;
+//     })
+//   }
 }
 
 export default UserRepository;
