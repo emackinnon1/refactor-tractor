@@ -11,9 +11,18 @@ import Sleep from "./Sleep";
 let todayDate = "2019/09/22";
 let userRepository;
 let user;
-let userID = Math.floor(Math.random() * 50);
+let userID = Math.floor(Math.random() * 51);
+console.log(userID)
 
 // event listeners
+$('#profile-button').on('click', showDropdown);
+$('main').on('click', showInfo);
+$('.hydration-friends-button').on('click', displayAverageDailyHydration);
+$('.hydration-info-button').on('click', displayNumOunces);
+$('.stairs-info-button').on('click', displayDailyFlightsClimbed);
+$('.stairs-friends-button').on('click', displayAllUsersAverageFlights);
+$('.stairs-trending-button').on('click', displayTrendingStairsInfo);
+$('.stairs-calendar-button').on('click', displayWeeklyFlightsAndStairs);
 $("#profile-button").on("click", showDropdown);
 $("main").on("click", showInfo);
 $(".hydration-friends-button").on("click", displayAverageDailyHydration);
@@ -23,6 +32,8 @@ $('.hydration-calendar-button').on('click', displayDailyOuncesPerWeek);
 $(".sleep-info-button").on("click", displaySleepInfo);
 $(".sleep-friends-button").on("click", displayFriendsSleepInfo);
 $(".sleep-calendar-button").on("click", displayWeeklySleepInfo);
+>>>>>>> master
+
 
 function retrieveAllData() {
   Promise.all([
@@ -62,7 +73,8 @@ function makeRepo(users, sleep, hydration, activity) {
 }
 
 function getRandomUser() {
-  user = userRepository.getUser(userID - 1);
+  user = userRepository.getUser(userID)
+  console.log(user)
 }
 
 function getUserName(data) {
@@ -85,6 +97,11 @@ function displayDailyWater() {
   $("#hydration-user-ounces-today").text(water);
 }
 
+function displayAllUsersAverageFlights() {
+  console.log(userRepository.calculateAverageActivity(todayDate, 'flightsOfStairs'))
+  let allAverageFlights = userRepository.calculateAverageActivity(todayDate, 'flightsOfStairs')
+  $('#stairs-friend-flights-average-today').text(`${allAverageFlights}`)
+}
 // move to domUpdates?
 function displayDailyStairs() {
   let stairs =
@@ -94,12 +111,33 @@ function displayDailyStairs() {
   $("#stairs-user-stairs-today").text(stairs);
 }
 
+function displayWeeklyFlightsAndStairs() {
+  let stepsThisWeek = Number(Math.floor(Math.round(user.calculateTotalStepsThisWeek(user, todayDate))))
+  let flightsThisWeek = Number(Math.floor(Math.round(user.calculateTotalStepsThisWeek(user, todayDate)/12)))
+  $('#stairs-calendar-stairs-average-weekly').text(stepsThisWeek)
+  $('#stairs-calendar-flights-average-weekly').text(flightsThisWeek)
+}
+
+function displayDailyFlightsClimbed() {
+  let stairs =
+    user.activityRecord.find(activity => {
+      return activity.userID === user.id && activity.date === todayDate;
+    }).flightsOfStairs;
+    $('#stairs-info-flights-today').text(stairs)
+}
+
 // move to domUpdates?
 function displayDailySleep() {
   let sleep = user.sleepRecord.find(sleep => {
     return sleep.userID === user.id && sleep.date === todayDate;
   }).hoursSlept;
   $("#sleep-user-hours-today").text(sleep);
+}
+
+function displayTrendingStairsInfo() {
+    let trendingDays = user.findTrendingStairsDays();
+    console.log(trendingDays)
+    $('.trending-stairs-phrase-container').html(`<p class='trend-line'>${trendingDays}</p>`);
 }
 
 function showDropdown() {
@@ -275,7 +313,7 @@ function displayDailyOuncesPerWeek() {
   //   console.log($(day)[0])
   //   console.log('just day', $(day))
   // });
-  
+
   let sortedHydrationDataByDate = user.hydrationRecord.sort((a, b) => {
     if (Object.keys(a)[0] > Object.keys(b)[0]) {
       return -1;
@@ -396,7 +434,6 @@ $(window).on("load", retrieveAllData);
 // let stairsTrendingCard = document.querySelector('#stairs-trending-card');
 // let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
 // let stepsTrendingButton = document.querySelector('.steps-trending-button');
-// let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
 
 // event listeners
 // // stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
@@ -406,8 +443,7 @@ $(window).on("load", retrieveAllData);
 
 // // function updateTrendingStairsDays() {
 // //   user.findTrendingStairsDays();
-// //   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
-// // }
+
 
 // //EM: duplicate function?
 // function updateTrendingStepDays() {
@@ -418,10 +454,7 @@ $(window).on("load", retrieveAllData);
 // //EM: for loop outside of function?
 
 // //EM: should be inside function
-// stairsTrendingButton.addEventListener('click', function() {
-//   user.findTrendingStairsDays();
-//   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
-// });
+
 
 // stepsTrendingButton.addEventListener('click', function() {
 //   user.findTrendingStepDays();

@@ -200,25 +200,20 @@ class User {
       }
     }
   }
-
   findTrendingStairsDays() {
+
     let positiveDays = [];
-    for (var i = 0; i < this.activityRecord.length; i++) {
-      if (
-        this.activityRecord[i + 1] &&
-        this.activityRecord[i].flightsOfStairs >
-          this.activityRecord[i + 1].flightsOfStairs
-      ) {
-        positiveDays.unshift(this.activityRecord[i].date);
-      } else if (positiveDays.length > 2) {
-        this.trendingStairsDays.push(
-          `Your most recent positive climbing streak was ${positiveDays[0]} - ${
-            positiveDays[positiveDays.length - 1]
-          }!`
-        );
-        positiveDays = [];
+    this.activityRecord.sort((a, b) => {
+      if (a.flightsOfStairs > b.flightsOfStairs) {
+        positiveDays.push(a.date)
+        console.log(positiveDays)
       }
-    }
+    })
+    let message = `Your most recent positive climbing streak was ${positiveDays[0]} - ${
+      positiveDays[positiveDays.length - 1]
+    }!`
+    return message;
+
   }
 
   findFriendsTotalStepsForWeek(allUsers, date) {
