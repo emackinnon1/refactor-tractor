@@ -22,39 +22,39 @@ $('.hydration-info-button').on('click', displayNumOunces);
 
 function retrieveAllData() {
   Promise.all([
-    fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
-    .then(response => response.json()),
-    fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData")
-    .then(response => response.json()),
-    fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData")
-    .then(response => response.json()),
-    fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData")
-    .then(response => response.json())
-  ])
-  .then(data =>
-    makeRepo(
-      data[0].userData,
-      data[1].sleepData,
-      data[2].hydrationData,
-      data[3].activityData
+      fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
+      .then(response => response.json()),
+      fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData")
+      .then(response => response.json()),
+      fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/hydration/hydrationData")
+      .then(response => response.json()),
+      fetch("https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData")
+      .then(response => response.json())
+    ])
+    .then(data =>
+      makeRepo(
+        data[0].userData,
+        data[1].sleepData,
+        data[2].hydrationData,
+        data[3].activityData
+      )
     )
-  )
-  .then(data => userRepository.getUser(userID))
-  .then(data => getUserName(data))
-  .then(data => displayDailySteps())
-  .then(data => displayDailyWater())
-  .then(data => displayDailyStairs())
-  .then(data => displayDailySleep())
-  .catch(error => console.log(error));
+    .then(data => userRepository.getUser(userID))
+    .then(data => getUserName(data))
+    .then(data => displayDailySteps())
+    .then(data => displayDailyWater())
+    .then(data => displayDailyStairs())
+    .then(data => displayDailySleep())
+    .catch(error => console.log(error));
 }
 
-    function makeRepo(users, sleep, hydration, activity) {
-      userRepository = new UserRepository(users, hydration, activity, sleep);
-      getRandomUser();
-    }
+function makeRepo(users, sleep, hydration, activity) {
+  userRepository = new UserRepository(users, hydration, activity, sleep);
+  getRandomUser();
+}
 
 function getRandomUser() {
-  user = userRepository.getUser(userID -1)
+  user = userRepository.getUser(userID - 1)
 }
 
 function getUserName(data) {
@@ -101,7 +101,7 @@ function showDropdown() {
   $('#dropdown-goal').text(`DAILY STEP GOAL | ${user.dailyStepGoal}`);
   user.findFriendsTotalStepsForWeek(userRepository, todayDate);
   if ($('#dropdown-friends-steps-container').children().length === 0) {
-  user.friendsWeeklySteps.forEach(friend => {
+    user.friendsWeeklySteps.forEach(friend => {
       $('#dropdown-friends-steps-container').append(`
         <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
         `);
@@ -116,15 +116,13 @@ $('#activity-entry-button').on('click', displayForm)
 $('#hydration-entry-button').on('click', displayForm)
 
 function displayForm(event) {
-  //need to display the appropriate form
-  //need to retrieve the first word of the entry button itself
- let currentCategory = $(event.target).attr('id').split('-')[0];
- let allPages = $('.allPageInfo').children().toArray().splice(0, 5);
- allPages.forEach(page => $(page).addClass('hide'))
- $(`.${currentCategory}-data-form`).removeClass('hide');
- if (currentCategory === "sleep") {
-   console.log('I\'m in here')
-   $(`.${currentCategory}-data-form`).html(`<form id="sleep-info">
+  let currentCategory = $(event.target).attr('id').split('-')[0];
+  let allPages = $('.allPageInfo').children().toArray().splice(0, 5);
+  allPages.forEach(page => $(page).addClass('hide'))
+  $(`.${currentCategory}-data-form`).removeClass('hide');
+  if (currentCategory === "sleep") {
+    console.log('I\'m in here')
+    $(`.${currentCategory}-data-form`).html(`<form id="sleep-info">
       <label for="date">Date</label>
       <input type="date" id="sleep-date" name="date" class="dateInfo">
       <label for="hoursSlept">Hours of Sleep</label>
@@ -133,9 +131,9 @@ function displayForm(event) {
       <input type="text" id="sleepQuality" name="sleepQuality">
       <button type="submit" class="sleep-submit-button">Submit</button>
       </form>`)
-      $('#sleep-info').on('submit', postFormData)
- } else if (currentCategory === "activity") {
-       $(`.${currentCategory}-data-form`).html(`<form id="activity-info">
+    $('#sleep-info').on('submit', postFormData)
+  } else if (currentCategory === "activity") {
+    $(`.${currentCategory}-data-form`).html(`<form id="activity-info">
       <label for="date">Date</label>
       <input type="date" id="activity-date" name="date" class="dateInfo">
       <label for="numSteps">Number of Steps</label>
@@ -146,9 +144,9 @@ function displayForm(event) {
       <input type="text" id="flightsOfStairs" name="flightsOfStairs">
       <button type="submit">Submit</button>
       </form>`)
-      $('#activity-info').on('submit', postFormData)
- } else if (currentCategory === "hydration") {
-     $(`.${currentCategory}-data-form`).html(`<form id="hydration-info">
+    $('#activity-info').on('submit', postFormData)
+  } else if (currentCategory === "hydration") {
+    $(`.${currentCategory}-data-form`).html(`<form id="hydration-info">
     <label for="date">Date</label>
     <input type="date" id="hydration-date" name="date" class="dateInfo">
     <label for="numSteps">Number of Ounces of Water Consumed</label>
@@ -156,47 +154,45 @@ function displayForm(event) {
     <button type="submit">Submit</button>
     </form>`)
     $('#hydration-info').on('submit', postFormData)
- }
+  }
 }
 
 function postFormData(event) {
   let currentSection = $(event.target).attr('id').split('-')[0];
 
   let url = `https://fe-apps.herokuapp.com/api/v1/fitlit/1908/${currentSection}/${currentSection}Data`
-  console.log(url);
-  // console.log(currentCategory)
   event.preventDefault();
-   let mainBody = {
-     "userID": Number(user.id),
-     "date": $(`#${currentSection}-date`).val().split('-').join('/'),
-   }
-   if (currentSection === 'sleep') {
-     mainBody.hoursSlept = +$('#hoursSlept').val();
-     mainBody.sleepQuality = +$('#sleepQuality').val();
-   } else if (currentSection === 'hydration') {
-     mainBody.numOunces = +$('#numOunces').val();
-   } else if (currentSection === 'activity') {
-     mainBody.numSteps = +$('#numSteps').val(),
-     mainBody.minutesActive = +$('#minutesActive').val(),
-     mainBody.flightsOfStairs = +$('#flightsOfStairs').val()
-   }
+  let mainBody = {
+    "userID": Number(user.id),
+    "date": $(`#${currentSection}-date`).val().split('-').join('/'),
+  }
+  if (currentSection === 'sleep') {
+    mainBody.hoursSlept = +$('#hoursSlept').val();
+    mainBody.sleepQuality = +$('#sleepQuality').val();
+  } else if (currentSection === 'hydration') {
+    mainBody.numOunces = +$('#numOunces').val();
+  } else if (currentSection === 'activity') {
+    mainBody.numSteps = +$('#numSteps').val(),
+      mainBody.minutesActive = +$('#minutesActive').val(),
+      mainBody.flightsOfStairs = +$('#flightsOfStairs').val()
+  }
   fetch(url, {
-  method: "POST",
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify(mainBody),
-  })
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(err => console.error(err))
-  .then(data => retrieveAllData())
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(mainBody),
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(err => console.error(err))
+    .then(data => retrieveAllData())
 
   let allPages = $('.allPageInfo').children().toArray().splice(0, 5);
   console.log(allPages)
   allPages.forEach(page => $(page).addClass('hide'))
   $('main').removeClass('hide');
-  }
+}
 
 
 function showInfo(event) {
@@ -208,22 +204,35 @@ function showInfo(event) {
     $(`#${type}-main-card`).addClass('hide');
     $(`#${type}-${buttonType}-card`).removeClass('hide');
   }
-
+  
   if ($(event.target).hasClass(`${type}-go-back-button`)) {
     clear(type);
   }
+  displayStepCardInfo()
 }
 
 function clear(category) {
-  let allCategoryCards = $(`#${category}-card-container`).children().toArray()
+  let allCategoryCards = $(`#${category}-card-container`).children().toArray();
 
-  allCategoryCards.forEach(element => $(element).addClass('hide'))
+  allCategoryCards.forEach(element => $(element).addClass('hide'));
   $(`#${category}-main-card`).removeClass('hide');
 }
 
 function flipCard(event) {
   event.target.classList.addClass('hide');
   cardToShow.classList.removeClass('hide');
+}
+
+// step display ------------------------------------
+function displayStepCardInfo() {
+  $('#steps-info-active-minutes-today').text(user.calculateDailyMinutesActive(todayDate));
+  $('#steps-info-miles-walked-today').text(user.calculateDailyMiles(todayDate));
+  $('#steps-friend-active-minutes-average-today').text(userRepository.calculateAverageActivity(todayDate, 'minutesActive'));
+  $('#steps-friend-steps-average-today').text(userRepository.calculateAverageActivity(todayDate, 'numSteps'));
+  $('#steps-friend-average-step-goal').text(`${userRepository.calculateAverageStepGoal()}`);
+  updateTrendingStepDays();
+  $('#steps-calendar-total-active-minutes-weekly').text(`${user.calculateAverageMinutesActiveThisWeek(todayDate)}`);
+  $('#steps-calendar-total-steps-weekly').text(`${user.calculateTotalStepsThisWeek(todayDate)}`);
 }
 
 // move to domUpdates?
@@ -238,7 +247,7 @@ function displayAverageDailyHydration() {
 }
 
 function displayNumOunces() {
-$('#hydration-info-glasses-today').text((user.getEntryDataByDate(user.hydrationRecord, 'numOunces', todayDate))/8)
+  $('#hydration-info-glasses-today').text((user.getEntryDataByDate(user.hydrationRecord, 'numOunces', todayDate)) / 8)
 }
 
 function displayDailyOuncesPerWeek() {
@@ -247,7 +256,7 @@ function displayDailyOuncesPerWeek() {
   // allDailyOz.forEach()
   $(allDailyOz).each(day => {
 
-     $(day).text('hello')
+    $(day).text('hello')
     console.log($(day)[0])
     console.log('just day', $(day))
   });
@@ -258,7 +267,7 @@ function displayDailyOuncesPerWeek() {
 }
 
 
-$(window).on( "load", retrieveAllData);
+$(window).on("load", retrieveAllData);
 
 // move to domUpdates? (and everything below)
 
@@ -285,15 +294,12 @@ $(window).on( "load", retrieveAllData);
 
 // $('#steps-calendar-total-active-minutes-weekly').text(user.calculateAverageMinutesActiveThisWeek(todayDate));
 
-// $('#steps-calendar-total-steps-weekly').text(user.calculateAverageStepsThisWeek(todayDate));
 
 // $('#steps-friend-active-minutes-average-today').text(userRepository.calculateAverageMinutesActive(todayDate));
 
-// $('#steps-friend-average-step-goal').text(`${userRepository.calculateAverageStepGoal()}`);
 
-// $('#steps-friend-steps-average-today').text(userRepository.calculateAverageSteps(todayDate));
 
-// $('#steps-info-active-minutes-today').text(activityData.find(activity => {return activity.userID === user.id && activity.date === todayDate}).minutesActive);
+// $('#steps-info-active-minutes-today').text(user.calculateDailyMiles(todayDate));
 
 // $(stepsInfoMilesWalkedToday).text(user.activityRecord.find(activity => {return (activity.date === todayDate && activity.userId === user.id)}).calculateMiles(userRepository));
 

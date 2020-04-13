@@ -113,21 +113,14 @@ class User {
     }, 0);
   }
 
-  calculateAverageMinutesActiveThisWeek(todayDate) {
-    return (
-      this.activityRecord.reduce((sum, activity) => {
-        let index = this.activityRecord.indexOf(
-          this.activityRecord.find(activity => activity.date === todayDate)
-        );
-        if (
-          index <= this.activityRecord.indexOf(activity) &&
-          this.activityRecord.indexOf(activity) <= index + 6
-        ) {
-          sum += activity.minutesActive;
-        }
-        return sum;
-      }, 0) / 7
-    ).toFixed(0);
+  calculateAverageMinutesActiveThisWeek(date) {
+    return (this.activityRecord.reduce((sum, activity) => {
+      let index = this.activityRecord.indexOf(this.activityRecord.find(activity => activity.date === date));
+      if (index <= this.activityRecord.indexOf(activity) && this.activityRecord.indexOf(activity) <= index + 6) {
+        sum += activity.minutesActive;
+      }
+      return sum;
+    }, 0) / 7).toFixed(0);
   }
 
   calculateAverageStepsThisWeek(todayDate) {
@@ -189,7 +182,7 @@ class User {
       if (
         this.activityRecord[i + 1] &&
         this.activityRecord[i].flightsOfStairs >
-          this.activityRecord[i + 1].flightsOfStairs
+        this.activityRecord[i + 1].flightsOfStairs
       ) {
         positiveDays.unshift(this.activityRecord[i].date);
       } else if (positiveDays.length > 2) {
@@ -226,21 +219,16 @@ class User {
   }
 
 
-calculateTotalStepsThisWeek(person, todayDate) {
-  person.totalStepsThisWeek = person.activityRecord.reduce((sum, activity) => {
-    let index = person.activityRecord.indexOf(
-      person.activityRecord.find(activity => activity.date === todayDate)
-    );
-    if (
-      index <= person.activityRecord.indexOf(activity) &&
-      person.activityRecord.indexOf(activity) <= index + 6
-    ) {
-      sum += activity.numSteps;
-    }
-    return sum;
-  }, 0);
-  return person.totalStepsThisWeek;
-}
+  calculateTotalStepsThisWeek(date) {
+    let totalStepsThisWeek = this.activityRecord.reduce((sum, activity) => {
+      let index = this.activityRecord.indexOf(this.activityRecord.find(activity => activity.date === date));
+      if (index <= this.activityRecord.indexOf(activity) && this.activityRecord.indexOf(activity) <= index + 6) {
+        sum += activity.numSteps;
+      }
+      return sum;
+    }, 0);
+    return totalStepsThisWeek;
+  }
 }
 
 export default User;
