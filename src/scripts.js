@@ -32,8 +32,6 @@ $('.hydration-calendar-button').on('click', displayDailyOuncesPerWeek);
 $(".sleep-info-button").on("click", displaySleepInfo);
 $(".sleep-friends-button").on("click", displayFriendsSleepInfo);
 $(".sleep-calendar-button").on("click", displayWeeklySleepInfo);
->>>>>>> master
-
 
 function retrieveAllData() {
   Promise.all([
@@ -146,6 +144,7 @@ function showDropdown() {
   $("#dropdown-email").text(`EMAIL | ${user.email}`);
   $("#dropdown-goal").text(`DAILY STEP GOAL | ${user.dailyStepGoal}`);
   user.findFriendsTotalStepsForWeek(userRepository, todayDate);
+
   if ($("#dropdown-friends-steps-container").children().length === 0) {
     user.friendsWeeklySteps.forEach(friend => {
       $("#dropdown-friends-steps-container").append(`
@@ -264,10 +263,11 @@ function showInfo(event) {
     $(`#${type}-main-card`).addClass("hide");
     $(`#${type}-${buttonType}-card`).removeClass("hide");
   }
-
+  
   if ($(event.target).hasClass(`${type}-go-back-button`)) {
     clear(type);
   }
+  displayStepCardInfo()
 }
 
 function clear(category) {
@@ -282,6 +282,18 @@ function clear(category) {
 function flipCard(event) {
   event.target.classList.addClass("hide");
   cardToShow.classList.removeClass("hide");
+}
+
+// step display ------------------------------------
+function displayStepCardInfo() {
+  $('#steps-info-active-minutes-today').text(user.calculateDailyMinutesActive(todayDate));
+  $('#steps-info-miles-walked-today').text(user.calculateDailyMiles(todayDate));
+  $('#steps-friend-active-minutes-average-today').text(userRepository.calculateAverageActivity(todayDate, 'minutesActive'));
+  $('#steps-friend-steps-average-today').text(userRepository.calculateAverageActivity(todayDate, 'numSteps'));
+  $('#steps-friend-average-step-goal').text(`${userRepository.calculateAverageStepGoal()}`);
+  updateTrendingStepDays();
+  $('#steps-calendar-total-active-minutes-weekly').text(`${user.calculateAverageMinutesActiveThisWeek(todayDate)}`);
+  $('#steps-calendar-total-steps-weekly').text(`${user.calculateTotalStepsThisWeek(todayDate)}`);
 }
 
 // move to domUpdates?
@@ -388,15 +400,12 @@ $(window).on("load", retrieveAllData);
 
 // $('#steps-calendar-total-active-minutes-weekly').text(user.calculateAverageMinutesActiveThisWeek(todayDate));
 
-// $('#steps-calendar-total-steps-weekly').text(user.calculateAverageStepsThisWeek(todayDate));
 
 // $('#steps-friend-active-minutes-average-today').text(userRepository.calculateAverageMinutesActive(todayDate));
 
-// $('#steps-friend-average-step-goal').text(`${userRepository.calculateAverageStepGoal()}`);
 
-// $('#steps-friend-steps-average-today').text(userRepository.calculateAverageSteps(todayDate));
 
-// $('#steps-info-active-minutes-today').text(activityData.find(activity => {return activity.userID === user.id && activity.date === todayDate}).minutesActive);
+// $('#steps-info-active-minutes-today').text(user.calculateDailyMiles(todayDate));
 
 // $(stepsInfoMilesWalkedToday).text(user.activityRecord.find(activity => {return (activity.date === todayDate && activity.userId === user.id)}).calculateMiles(userRepository));
 
