@@ -57,6 +57,8 @@ class User {
       total += value[property];
       return total;
     }, 0);
+    domUpdates.displaySleepInfo()
+    
     return Number((total / record.length).toFixed(1));
   }
 
@@ -196,7 +198,7 @@ class User {
       }
     }
   }
-  
+
   findTrendingStairsDays() {
     let positiveDays = [];
     this.activityRecord.sort((a, b) => {

@@ -30,9 +30,17 @@ $('.hydration-info-button').on('click', displayNumOunces);
 $(".hydration-friends-button").on("click", displayAverageDailyHydration);
 $('.hydration-calendar-button').on('click', displayDailyOuncesPerWeek);
 
+
+
 $(".sleep-info-button").on("click", domUpdates.displaySleepInfo);
 $(".sleep-friends-button").on("click", domUpdates.displayFriendsSleepInfo);
 $(".sleep-calendar-button").on("click", domUpdates.displayWeeklySleepInfo);
+
+
+
+
+
+
 
 function retrieveAllData() {
   Promise.all([
