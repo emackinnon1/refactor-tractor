@@ -56,9 +56,12 @@ describe("UserRepository", function() {
     ).to.equal(0);
   });
 
-  it("should find the longest sleepers", function() {
-    expect(userRepository.getLongestSleepers("2019/06/15")[0].id).to.equal(3);
-    expect(userRepository.getLongestSleepers("2019/06/15")[1].id).to.equal(4);
+  it("should find the top sleeper", function() {
+    expect(userRepository.getLongestSleepers("2019/09/22")).to.equal('Herminia Witting');
+  });
+
+  it("should find the worst sleeper", function() {
+    expect(userRepository.getWorstSleepers("2019/09/22")).to.equal('Luisa Hane');
   });
 
   it("should calculate the average sleep quality for all users", function() {
