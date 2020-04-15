@@ -1,6 +1,6 @@
-@import 'variables';
-@import 'mixins';
-@import 'buttons';
+@import "variables";
+@import "mixins";
+@import "buttons";
 
 *,
 *:after,
@@ -12,21 +12,19 @@
 
 body {
   background-color: $main-dark;
+  color: $white;
   font-family: "Oswald", sans-serif;
 }
 
 /* HEADER */
+
 header {
   height: 9vw;
   text-align: center;
 
-  button:active {
-    border: none;
-  }
-
   #user-info-dropdown {
     background-color: $main-dark;
-    color: white;
+    color: $white;
     margin-left: 60%;
     margin-top: -1.2%;
     position: relative;
@@ -44,7 +42,6 @@ header {
   }
 }
 
-
 #profile-button {
   background-image: url(../images/profile.png);
   background-position: center;
@@ -58,10 +55,10 @@ header {
   width: 5.6vw;
 }
 
-
 /* TEXT ELEMENTS */
+
 h1 {
-  color: #fff;
+  color: $white;
   display: inline;
   font-size: 5.4vw;
   letter-spacing: 0.2em;
@@ -101,6 +98,7 @@ p {
 }
 
 /* MAIN */
+
 main {
   display: grid;
   grid-template-areas:
@@ -110,6 +108,7 @@ main {
 }
 
 .card-container {
+  color: $main-dark;
   height: 350px;
   width: 98%;
 }
@@ -131,7 +130,6 @@ main {
     width: 100%;
   }
 }
-
 
 #steps-card-container {
   @include card-container-color($steps-color);
@@ -170,7 +168,6 @@ main {
   margin-bottom: 2vw;
 }
 
-
 .trend-line {
   font-size: 2vw;
   text-align: center;
@@ -192,4 +189,8 @@ main {
 
 .yellow-text {
   color: #f8ba00;
+}
+
+button:focus {
+  box-shadow: $button-outline;
 }

@@ -178,7 +178,7 @@ function displayForm(event) {
       <input type="text" id="hoursSlept" name="hoursSlept">
       <label for="sleepQuality">Estimated Sleep Quality</label>
       <input type="text" id="sleepQuality" name="sleepQuality">
-      <button type="submit" class="sleep-submit-button">Submit</button>
+      <button type="submit" class="entry-button">Submit</button>
       </form>`);
     $("#sleep-info").on("submit", postFormData);
   } else if (currentCategory === "activity") {
@@ -191,7 +191,7 @@ function displayForm(event) {
       <input type="text" id="minutesActive" name="minutesActive">
       <label for="flightsOfStairs">Flights of Stairs Climbed</label>
       <input type="text" id="flightsOfStairs" name="flightsOfStairs">
-      <button type="submit">Submit</button>
+      <button type="submit" class="entry-btn">Submit</button>
       </form>`);
     $("#activity-info").on("submit", postFormData);
   } else if (currentCategory === "hydration") {
@@ -200,7 +200,7 @@ function displayForm(event) {
     <input type="date" id="hydration-date" name="date" class="dateInfo">
     <label for="numSteps">Number of Ounces of Water Consumed</label>
     <input type="text" id="numOunces" name="numOunces">
-    <button type="submit">Submit</button>
+    <button type="submit" class="entry-btn">Submit</button>
     </form>`);
     $("#hydration-info").on("submit", postFormData);
   }
@@ -263,7 +263,7 @@ function showInfo(event) {
     $(`#${type}-main-card`).addClass("hide");
     $(`#${type}-${buttonType}-card`).removeClass("hide");
   }
-  
+
   if ($(event.target).hasClass(`${type}-go-back-button`)) {
     clear(type);
   }
