@@ -64,8 +64,4 @@ describe("UserRepository", function() {
   it("should calculate the average sleep quality for all users", function() {
     expect(userRepository.calculateAverageSleepQuality()).to.equal(3.2);
   });
-
-  // it('should have a method that finds the best sleepers', function() {
-  //   expect(userRepository.findBestSleepers("2019/06/16")).to.deep.equal([user1, user2]);
-  // });
 });

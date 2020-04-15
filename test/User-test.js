@@ -1,8 +1,8 @@
 import chai, {
   expect
 } from 'chai';
-// import spies from 'chai-spies';
-// chai.use(spies);
+import spies from 'chai-spies';
+chai.use(spies);
 
 import userTestData from "../src/data/users-test-data";
 import activityTestData from "../src/data/activity-test-data";

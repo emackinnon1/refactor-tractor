@@ -71,9 +71,7 @@ const domUpdates = {
 		$('.daily-oz').each((i, display) => {
 			$(display).text(`${week[i].numOunces}`)
 		});
-		// for (var i = 0; i < dailyOz.length; i++) {
-		// 	dailyOz[i].innerText = user.getFluidOuncesByDate(Object.keys(sortedHydrationDataByDate[i])[0])
-		// }
+
 	},
 
 	displayNumOunces() {
@@ -210,11 +208,6 @@ const domUpdates = {
 	getUserName(name) {
 		$("#header-name").text(`${name}'S FITLIT`);
 	}
-
-	// displayAllUsersAverageFlights(average) {
-	//     // let allAverageFlights = userRepository.calculateAverageActivity(todayDate, 'flightsOfStairs')
-	//     $('#stairs-friend-flights-average-today').text(`${average}`)
-	//   }
 }
 
 export default domUpdates;
