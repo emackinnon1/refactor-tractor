@@ -124,14 +124,73 @@ const domUpdates = {
 
 	updateTrendingStepDays() {
 		user.findTrendingStepDays();
+    console.log(user.findTrendingStepDays())
 		$(".trending-steps-phrase-container").html(
 			`<p class='trend-line'>${user.trendingStepDays[0]}</p>`
 		);
 	},
 
+  displayStepCardInfo() {
+  	$('#steps-info-active-minutes-today').text(user.calculateDailyMinutesActive(todayDate));
+    console.log(user.calculateDailyMinutesActive(todayDate));
+  	$('#steps-info-miles-walked-today').text(user.calculateDailyMiles(todayDate));
+  	$('#steps-friend-active-minutes-average-today').text(userRepository.calculateAverageActivity(todayDate, 'minutesActive'));
+  	$('#steps-friend-steps-average-today').text(userRepository.calculateAverageActivity(todayDate, 'numSteps'));
+  	$('#steps-friend-average-step-goal').text(`${userRepository.calculateAverageStepGoal()}`);
+  	this.updateTrendingStepDays();
+  	$('#steps-calendar-total-active-minutes-weekly').text(`${user.calculateAverageMinutesActiveThisWeek(todayDate)}`);
+  	$('#steps-calendar-total-steps-weekly').text(`${user.calculateTotalStepsThisWeek(todayDate)}`);
+  },
+
+  displayForm(event) {
+    let currentCategory = $(event.target)
+    .attr("id")
+    .split("-")[0];
+    let allPages = $(".allPageInfo")
+    .children()
+    .toArray()
+    .splice(0, 5);
+    allPages.forEach(page => $(page).addClass("hide"));
+    $(`.${currentCategory}-data-form`).removeClass("hide");
+    if (currentCategory === "sleep") {
+      $(`.${currentCategory}-data-form`).html(`<form id="sleep-info">
+      <label for="date">Date</label>
+      <input type="date" id="sleep-date" name="date" class="dateInfo">
+      <label for="hoursSlept">Hours of Sleep</label>
+      <input type="text" id="hoursSlept" name="hoursSlept">
+      <label for="sleepQuality">Estimated Sleep Quality</label>
+      <input type="text" id="sleepQuality" name="sleepQuality">
+      <button type="submit" class="sleep-submit-button">Submit</button>
+      </form>`);
+      $("#sleep-info").on("submit", postFormData);
+    } else if (currentCategory === "activity") {
+      $(`.${currentCategory}-data-form`).html(`<form id="activity-info">
+      <label for="date">Date</label>
+      <input type="date" id="activity-date" name="date" class="dateInfo">
+      <label for="numSteps">Number of Steps</label>
+      <input type="text" id="numSteps" name="numSteps">
+      <label for="minutesActive">Active Minutes</label>
+      <input type="text" id="minutesActive" name="minutesActive">
+      <label for="flightsOfStairs">Flights of Stairs Climbed</label>
+      <input type="text" id="flightsOfStairs" name="flightsOfStairs">
+      <button type="submit">Submit</button>
+      </form>`);
+      $("#activity-info").on("submit", postFormData);
+    } else if (currentCategory === "hydration") {
+      $(`.${currentCategory}-data-form`).html(`<form id="hydration-info">
+<label for="date">Date</label>
+<input type="date" id="hydration-date" name="date" class="dateInfo">
+<label for="numSteps">Number of Ounces of Water Consumed</label>
+<input type="text" id="numOunces" name="numOunces">
+<button type="submit">Submit</button>
+</form>`);
+$("#hydration-info").on("submit", postFormData);
+}
+},
+
 	displayHydrationCardInfo() {
-		displayAverageDailyHydration();
-		displayNumOunces();
+		this.displayAverageDailyHydration();
+		this.displayNumOunces();
 	},
 
 	displaySleepCardInfo() {
@@ -157,6 +216,22 @@ const domUpdates = {
 			user.calculateSleepAverageThisWeek(todayDate, "sleepQuality")
 		);
 	},
+
+  showDropdown() {
+  	$("#dropdown-name").text(user.name.toUpperCase());
+  	$("#user-info-dropdown").toggleClass("hide");
+  	$("#dropdown-email").text(`EMAIL | ${user.email}`);
+  	$("#dropdown-goal").text(`DAILY STEP GOAL | ${user.dailyStepGoal}`);
+  	user.findFriendsTotalStepsForWeek(userRepository, todayDate);
+
+  	if ($("#dropdown-friends-steps-container").children().length === 0) {
+  		user.friendsWeeklySteps.forEach(friend => {
+  			$("#dropdown-friends-steps-container").append(`
+          <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
+          `);
+  		});
+  	}
+  },
 
 
 
