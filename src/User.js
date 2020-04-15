@@ -1,6 +1,9 @@
 import Activity from "./Activity";
 import Hydration from "./Hydration";
 import Sleep from "./Sleep";
+import domUpdates from './domUpdates';
+
+import { todayDate } from './scripts.js'
 
 class User {
   constructor(userData, hydrationData, activityData, sleepData) {
@@ -19,7 +22,9 @@ class User {
   }
 
   getFirstName() {
-    return this.name.split(" ")[0].toUpperCase();
+    let firstName = this.name.split(" ")[0].toUpperCase();
+    domUpdates.getUserName(firstName);
+    return firstName;
   }
 
   makeActivityRecord(activityData) {
@@ -54,6 +59,8 @@ class User {
       total += value[property];
       return total;
     }, 0);
+    // domUpdates.displaySleepInfo()
+    
     return Number((total / record.length).toFixed(1));
   }
 
@@ -66,15 +73,25 @@ class User {
   }
 
   getFluidOuncesByDate(date) {
-    let dailyWaterIntake = this.hydrationRecord.find(day =>
-      day.date.includes(date)
-    );
-    if (dailyWaterIntake !== undefined) {
-      return dailyWaterIntake.numOunces;
+    let dailyWaterIntake = this.hydrationRecord.find(day => day.date === date);
+		let result;
+		if (dailyWaterIntake !== undefined) {
+      result = dailyWaterIntake.numOunces;
     } else {
-      return "N/A";
-    }
-  }
+      result = "N/A";
+		}	
+		return result;
+	}
+
+	getWeeklyFluidOunces(date = todayDate) {
+		let start = this.hydrationRecord.findIndex(day => {
+			return day.date === date;
+		});
+		let weeklyOunces = this.hydrationRecord.filter((entry, i) => {
+			return i <= start && i >= (start - 6);
+		});
+		domUpdates.displayDailyOuncesPerWeek(weeklyOunces);
+	}
 
   calculateSleepAverageThisWeek(date, property) {
     return (
@@ -193,12 +210,12 @@ class User {
       }
     }
   }
+
   findTrendingStairsDays() {
     let positiveDays = [];
     this.activityRecord.sort((a, b) => {
       if (a.flightsOfStairs > b.flightsOfStairs) {
         positiveDays.push(a.date)
-        console.log(positiveDays)
       }
     })
     let message = `Your most recent positive climbing streak was ${positiveDays[0]} - ${
@@ -221,12 +238,6 @@ class User {
         totalWeeklySteps: matchedFriend.totalStepsThisWeek
       });
     });
-    // this.calculateTotalStepsThisWeek(date);
-    // this.friendsActivityRecords.push({
-    //   id: this.id,
-    //   firstName: "YOU",
-    //   totalWeeklySteps: this.totalStepsThisWeek
-    // });
     this.friendsWeeklySteps = this.friendsWeeklySteps.sort(
       (a, b) => b.totalWeeklySteps - a.totalWeeklySteps
     );
