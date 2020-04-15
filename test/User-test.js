@@ -11,14 +11,9 @@ import hydrationTestData from "../src/data/hydration-test-data";
 
 import domUpdates from '../src/domUpdates';
 import User from "../src/User";
-import Sleep from "../src/Sleep";
-import Activity from "../src/Activity";
-import Hydration from "../src/Hydration";
-import UserRepository from "../src/UserRepository";
 
 describe("User", function () {
   let user, user2;
-  let userRepository;
   chai.spy.on(domUpdates, ['getUserName'], () => true)
 
   beforeEach(() => {

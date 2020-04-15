@@ -1,21 +1,14 @@
 import { expect } from "chai";
 
 import sleepTestData from "../src/data/sleep-test-data";
-import userTestData from "../src/data/users-test-data";
 
 import Sleep from "../src/Sleep";
-import User from "../src/User";
-import UserRepository from "../src/UserRepository";
 
 describe("Sleep", function() {
-  let sleep1, sleep2, sleep3;
-  let user1, user2, user3;
-  let userRepository;
+  let sleep1;
 
   beforeEach(() => {
     sleep1 = new Sleep(sleepTestData[0]);
-    sleep2 = new Sleep(sleepTestData[1]);
-    sleep3 = new Sleep(sleepTestData[2]);
   });
 
   it("should be an instance of Sleep", function() {

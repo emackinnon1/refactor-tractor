@@ -6,9 +6,6 @@ import sleepTestData from "../src/data/sleep-test-data";
 import hydrationTestData from "../src/data/hydration-test-data";
 
 import UserRepository from "../src/UserRepository";
-import User from "../src/User";
-import Sleep from "../src/Sleep";
-import Activity from "../src/Activity";
 
 describe("UserRepository", function() {
   let userRepository;

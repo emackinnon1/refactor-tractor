@@ -5,14 +5,37 @@ import {
 	todayDate,
 	userRepository
 } from "./scripts.js";
-import UserRepository from "./UserRepository";
-import User from "./User";
-import Activity from "./Activity";
-import Hydration from "./Hydration";
-import Sleep from "./Sleep";
 
-// console.log(user);
 const domUpdates = {
+
+  showInfo(event) {
+  let type = $(event.target)
+  		.attr("class")
+  		.split(" ")[0];
+  	let buttonType = $(event.target)
+  		.attr("class")
+  		.split(" ")[1];
+
+  	if ($(event.target).is("button")) {
+  		domUpdates.clear(type);
+  		$(`#${type}-main-card`).addClass("hide");
+  		$(`#${type}-${buttonType}-card`).removeClass("hide");
+  	}
+
+  	if ($(event.target).hasClass(`${type}-go-back-button`)) {
+  		domUpdates.clear(type);
+  	}
+  	domUpdates.displayStepCardInfo();
+  },
+
+  clear(category) {
+  	let allCategoryCards = $(`#${category}-card-container`)
+  		.children()
+  		.toArray();
+
+  	allCategoryCards.forEach(element => $(element).addClass("hide"));
+  	$(`#${category}-main-card`).removeClass("hide");
+  },
 
 	displaySleepInfo() {
 		$("#sleep-info-quality-today").text(
@@ -45,9 +68,6 @@ const domUpdates = {
 	},
 
 	displayDailyOuncesPerWeek(week) {
-
-
-
 		$('.daily-oz').each((i, display) => {
 			$(display).text(`${week[i].numOunces}`)
 		});
@@ -124,7 +144,6 @@ const domUpdates = {
 
 	updateTrendingStepDays() {
 		user.findTrendingStepDays();
-    console.log(user.findTrendingStepDays())
 		$(".trending-steps-phrase-container").html(
 			`<p class='trend-line'>${user.trendingStepDays[0]}</p>`
 		);
@@ -132,7 +151,6 @@ const domUpdates = {
 
   displayStepCardInfo() {
   	$('#steps-info-active-minutes-today').text(user.calculateDailyMinutesActive(todayDate));
-    console.log(user.calculateDailyMinutesActive(todayDate));
   	$('#steps-info-miles-walked-today').text(user.calculateDailyMiles(todayDate));
   	$('#steps-friend-active-minutes-average-today').text(userRepository.calculateAverageActivity(todayDate, 'minutesActive'));
   	$('#steps-friend-steps-average-today').text(userRepository.calculateAverageActivity(todayDate, 'numSteps'));
@@ -141,52 +159,6 @@ const domUpdates = {
   	$('#steps-calendar-total-active-minutes-weekly').text(`${user.calculateAverageMinutesActiveThisWeek(todayDate)}`);
   	$('#steps-calendar-total-steps-weekly').text(`${user.calculateTotalStepsThisWeek(todayDate)}`);
   },
-
-  displayForm(event) {
-    let currentCategory = $(event.target)
-    .attr("id")
-    .split("-")[0];
-    let allPages = $(".allPageInfo")
-    .children()
-    .toArray()
-    .splice(0, 5);
-    allPages.forEach(page => $(page).addClass("hide"));
-    $(`.${currentCategory}-data-form`).removeClass("hide");
-    if (currentCategory === "sleep") {
-      $(`.${currentCategory}-data-form`).html(`<form id="sleep-info">
-      <label for="date">Date</label>
-      <input type="date" id="sleep-date" name="date" class="dateInfo">
-      <label for="hoursSlept">Hours of Sleep</label>
-      <input type="text" id="hoursSlept" name="hoursSlept">
-      <label for="sleepQuality">Estimated Sleep Quality</label>
-      <input type="text" id="sleepQuality" name="sleepQuality">
-      <button type="submit" class="sleep-submit-button">Submit</button>
-      </form>`);
-      $("#sleep-info").on("submit", postFormData);
-    } else if (currentCategory === "activity") {
-      $(`.${currentCategory}-data-form`).html(`<form id="activity-info">
-      <label for="date">Date</label>
-      <input type="date" id="activity-date" name="date" class="dateInfo">
-      <label for="numSteps">Number of Steps</label>
-      <input type="text" id="numSteps" name="numSteps">
-      <label for="minutesActive">Active Minutes</label>
-      <input type="text" id="minutesActive" name="minutesActive">
-      <label for="flightsOfStairs">Flights of Stairs Climbed</label>
-      <input type="text" id="flightsOfStairs" name="flightsOfStairs">
-      <button type="submit">Submit</button>
-      </form>`);
-      $("#activity-info").on("submit", postFormData);
-    } else if (currentCategory === "hydration") {
-      $(`.${currentCategory}-data-form`).html(`<form id="hydration-info">
-<label for="date">Date</label>
-<input type="date" id="hydration-date" name="date" class="dateInfo">
-<label for="numSteps">Number of Ounces of Water Consumed</label>
-<input type="text" id="numOunces" name="numOunces">
-<button type="submit">Submit</button>
-</form>`);
-$("#hydration-info").on("submit", postFormData);
-}
-},
 
 	displayHydrationCardInfo() {
 		this.displayAverageDailyHydration();
