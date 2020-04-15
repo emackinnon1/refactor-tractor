@@ -74,7 +74,7 @@ describe("User", function () {
     expect(user.friends).to.deep.equal([16, 4, 8]);
   });
 
-  it.only("should return the first name of the user", function () {
+  it("should return the first name of the user", function () {
     expect(user.getFirstName()).to.equal("LUISA");
     expect(domUpdates.getUserName).to.have.been.called(1);
     expect(domUpdates.getUserName).to.have.been.called.with('LUISA');
