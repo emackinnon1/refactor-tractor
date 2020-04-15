@@ -65,12 +65,12 @@ function retrieveAllData() {
 							.then(data => domUpdates.displayDailySleep())
 							.catch(error => console.error());
 						}
-						
+
 						function makeRepo(users, sleep, hydration, activity) {
 							userRepository = new UserRepository(users, hydration, activity, sleep);
 							getRandomUser();
 						}
-						
+
 						function getRandomUser() {
 							user = userRepository.getUser(userID)
 						}
@@ -78,7 +78,7 @@ function retrieveAllData() {
 							console.log(user);
 					}, 3000);
 
-						
+
 						function displayForm(event) {
 							let currentCategory = $(event.target)
 							.attr("id")
