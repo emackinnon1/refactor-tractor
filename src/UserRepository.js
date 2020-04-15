@@ -1,4 +1,7 @@
 import User from "./User";
+import domUpates from "./domUpdates";
+import domUpdates from './domUpdates';
+
 
 class UserRepository {
   constructor(userList, hydrationData, activityData, sleepData) {
@@ -22,6 +25,7 @@ class UserRepository {
     return this.users.find(user => {
       return user.id === id;
     });
+    domUpdates.getUserName();
   }
 
   calculateAverageStepGoal() {
@@ -33,6 +37,7 @@ class UserRepository {
   }
 
   calculateAverageActivity(date, property) {
+    let result;
     let activityCounts = this.users.reduce((acc, user) => {
       user.activityRecord.forEach(item => {
         if (item.date === date) {
@@ -46,9 +51,13 @@ class UserRepository {
       return acc;
     }, 0);
     if (totalCount === 0 && activityCounts.length === 0) {
-      return 0;
+      result = 0;
+      return result;
+      // domUpdates.displayAllUsersAverageFlights(result);
     }
-    return Math.round(totalCount / activityCounts.length);
+    result = Math.round(totalCount / activityCounts.length);
+    return result;
+    // domUpdates.displayAllUsersAverageFlights(result);
   }
 
   calculateAverageSleepQuality() {

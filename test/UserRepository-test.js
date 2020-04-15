@@ -30,7 +30,7 @@ describe("UserRepository", function() {
     expect(userRepository.users.length).to.equal(4);
   });
 
-  it("should return user object when given a user id", function() {
+  it.only("should return user object when given a user id", function() {
     expect(userRepository.getUser(2)).to.equal(userRepository.users[1]);
   });
 
