@@ -5,14 +5,37 @@ import {
 	todayDate,
 	userRepository
 } from "./scripts.js";
-import UserRepository from "./UserRepository";
-import User from "./User";
-import Activity from "./Activity";
-import Hydration from "./Hydration";
-import Sleep from "./Sleep";
 
-// console.log(user);
 const domUpdates = {
+
+  showInfo(event) {
+  let type = $(event.target)
+  		.attr("class")
+  		.split(" ")[0];
+  	let buttonType = $(event.target)
+  		.attr("class")
+  		.split(" ")[1];
+
+  	if ($(event.target).is("button")) {
+  		domUpdates.clear(type);
+  		$(`#${type}-main-card`).addClass("hide");
+  		$(`#${type}-${buttonType}-card`).removeClass("hide");
+  	}
+
+  	if ($(event.target).hasClass(`${type}-go-back-button`)) {
+  		domUpdates.clear(type);
+  	}
+  	domUpdates.displayStepCardInfo();
+  },
+
+  clear(category) {
+  	let allCategoryCards = $(`#${category}-card-container`)
+  		.children()
+  		.toArray();
+
+  	allCategoryCards.forEach(element => $(element).addClass("hide"));
+  	$(`#${category}-main-card`).removeClass("hide");
+  },
 
 	displaySleepInfo() {
 		$("#sleep-info-quality-today").text(
@@ -45,15 +68,10 @@ const domUpdates = {
 	},
 
 	displayDailyOuncesPerWeek(week) {
-
-
-
 		$('.daily-oz').each((i, display) => {
 			$(display).text(`${week[i].numOunces}`)
 		});
-		// for (var i = 0; i < dailyOz.length; i++) {
-		// 	dailyOz[i].innerText = user.getFluidOuncesByDate(Object.keys(sortedHydrationDataByDate[i])[0])
-		// }
+
 	},
 
 	displayNumOunces() {
@@ -129,9 +147,20 @@ const domUpdates = {
 		);
 	},
 
+  displayStepCardInfo() {
+  	$('#steps-info-active-minutes-today').text(user.calculateDailyMinutesActive(todayDate));
+  	$('#steps-info-miles-walked-today').text(user.calculateDailyMiles(todayDate));
+  	$('#steps-friend-active-minutes-average-today').text(userRepository.calculateAverageActivity(todayDate, 'minutesActive'));
+  	$('#steps-friend-steps-average-today').text(userRepository.calculateAverageActivity(todayDate, 'numSteps'));
+  	$('#steps-friend-average-step-goal').text(`${userRepository.calculateAverageStepGoal()}`);
+  	this.updateTrendingStepDays();
+  	$('#steps-calendar-total-active-minutes-weekly').text(`${user.calculateAverageMinutesActiveThisWeek(todayDate)}`);
+  	$('#steps-calendar-total-steps-weekly').text(`${user.calculateTotalStepsThisWeek(todayDate)}`);
+  },
+
 	displayHydrationCardInfo() {
-		displayAverageDailyHydration();
-		displayNumOunces();
+		this.displayAverageDailyHydration();
+		this.displayNumOunces();
 	},
 
 	displaySleepCardInfo() {
@@ -158,16 +187,27 @@ const domUpdates = {
 		);
 	},
 
+  showDropdown() {
+  	$("#dropdown-name").text(user.name.toUpperCase());
+  	$("#user-info-dropdown").toggleClass("hide");
+  	$("#dropdown-email").text(`EMAIL | ${user.email}`);
+  	$("#dropdown-goal").text(`DAILY STEP GOAL | ${user.dailyStepGoal}`);
+  	user.findFriendsTotalStepsForWeek(userRepository, todayDate);
+
+  	if ($("#dropdown-friends-steps-container").children().length === 0) {
+  		user.friendsWeeklySteps.forEach(friend => {
+  			$("#dropdown-friends-steps-container").append(`
+          <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
+          `);
+  		});
+  	}
+  },
+
 
 
 	getUserName(name) {
 		$("#header-name").text(`${name}'S FITLIT`);
 	}
-
-	// displayAllUsersAverageFlights(average) {
-	//     // let allAverageFlights = userRepository.calculateAverageActivity(todayDate, 'flightsOfStairs')
-	//     $('#stairs-friend-flights-average-today').text(`${average}`)
-	//   }
 }
 
 export default domUpdates;

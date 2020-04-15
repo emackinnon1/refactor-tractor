@@ -6,9 +6,6 @@ import sleepTestData from "../src/data/sleep-test-data";
 import hydrationTestData from "../src/data/hydration-test-data";
 
 import UserRepository from "../src/UserRepository";
-import User from "../src/User";
-import Sleep from "../src/Sleep";
-import Activity from "../src/Activity";
 
 describe("UserRepository", function() {
   let userRepository;
@@ -67,8 +64,4 @@ describe("UserRepository", function() {
   it("should calculate the average sleep quality for all users", function() {
     expect(userRepository.calculateAverageSleepQuality()).to.equal(3.2);
   });
-
-  // it('should have a method that finds the best sleepers', function() {
-  //   expect(userRepository.findBestSleepers("2019/06/16")).to.deep.equal([user1, user2]);
-  // });
 });

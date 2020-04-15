@@ -1,6 +1,192 @@
 /* This is an example of using Sass, otherwise plain CSS works too*/
-$primary-background: pink;
+// $primary-background: pink;
+//
+// body {
+//   background-color: $primary-background;
+// }
+
+
+@import "_variables";
+@import "_mixins";
+@import "_buttons";
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
-  background-color: $primary-background;
+  background-color: $main-dark;
+  color: $white;
+  font-family: "Oswald", sans-serif;
+}
+
+/* HEADER */
+
+header {
+  height: 9vw;
+  text-align: center;
+
+  #user-info-dropdown {
+    background-color: $main-dark;
+    color: $white;
+    margin-left: 60%;
+    margin-top: -1.2%;
+    position: relative;
+    text-align: center;
+    z-index: 100;
+  }
+
+  .dropdown-p {
+    font-size: 1.2vw;
+    font-weight: 300;
+    padding-bottom: 1vw;
+    padding-top: 0;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+#profile-button {
+  background-image: url(../images/profile.png);
+  background-position: center;
+  background-size: 5.6vw;
+  border: none;
+  display: inline;
+  float: right;
+  height: 5.6vw;
+  margin-right: 0.5vw;
+  margin-top: 1.6vw;
+  width: 5.6vw;
+}
+
+/* TEXT ELEMENTS */
+
+h1 {
+  color: $white;
+  display: inline;
+  font-size: 5.4vw;
+  letter-spacing: 0.2em;
+}
+
+h2 {
+  font-size: 7vw;
+  letter-spacing: 0.1em;
+}
+
+h3 {
+  display: inline;
+  font-family: "Work Sans", sans-serif;
+  font-size: 3vw;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+h4 {
+  font-size: 6vw;
+}
+
+h5 {
+  font-size: 1.8vw;
+  padding-bottom: 1vw;
+  text-align: center;
+}
+
+p {
+  font-family: "Work Sans", sans-serif;
+  font-size: 1.2vw;
+  font-weight: 600;
+  letter-spacing: 0.2vw;
+  margin-right: 1vw;
+  padding-top: 2vw;
+  text-align: center;
+}
+
+/* MAIN */
+
+main {
+  display: grid;
+  grid-template-areas:
+    "steps hydration"
+    "stairs sleep";
+  height: 100%;
+}
+
+.card-container {
+  color: $main-dark;
+  height: 350px;
+  width: 98%;
+}
+
+.main-card {
+  @include flex-display;
+  align-items: center;
+  height: 20vw;
+
+  .main-card-top-row {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .main-card-bottom-row {
+    text-align: center;
+    width: 100%;
+  }
+}
+
+#steps-card-container {
+  @include card-container-color($steps-color);
+}
+
+#hydration-card-container {
+  @include card-container-color($hydration-color);
+
+  .hydration-weekly-label {
+    font-size: 1vw;
+    padding-top: 1vw;
+  }
+
+  .hydration-weekly-amount {
+    font-size: 2vw;
+  }
+
+  .hydration-data-line {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.2vw;
+  }
+}
+
+#stairs-card-container {
+  @include card-container-color($stairs-color);
+}
+
+#sleep-card-container {
+  @include card-container-color($sleep-color);
+}
+
+.card-data-line {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2vw;
+}
+
+.trend-line {
+  font-size: 2vw;
+  text-align: center;
+  width: 20vw;
+}
+
+/* CHANGING CLASSES */
+.hide {
+  display: none;
+}
+
+button:focus {
+  box-shadow: $button-outline;
 }

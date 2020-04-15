@@ -60,7 +60,7 @@ class User {
       return total;
     }, 0);
     // domUpdates.displaySleepInfo()
-    
+
     return Number((total / record.length).toFixed(1));
   }
 
@@ -79,7 +79,7 @@ class User {
       result = dailyWaterIntake.numOunces;
     } else {
       result = "N/A";
-		}	
+		}
 		return result;
 	}
 
@@ -256,21 +256,3 @@ class User {
 }
 
 export default User;
-
-// iteration 5
-// findFriendsNames(users) {
-//   this.friends.forEach(friend => {
-//     this.friendsNames.push(users.find(user => user.id === friend).getFirstName());
-//   })
-// }
-
-// old ACTIVITY ITERATION METHODS
-
-// calculateDailyCalories(date) {
-//   let totalMinutes = this.activityRecord.filter(activity => {
-//     return activity.date === date
-//   }).reduce((sumMinutes, activity) => {
-//     return sumMinutes += activity.minutesActive
-//   }, 0);
-//   return Math.round(totalMinutes * 7.6);
-// }

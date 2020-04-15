@@ -1,6 +1,4 @@
 import User from "./User";
-import domUpates from "./domUpdates";
-import domUpdates from './domUpdates';
 
 
 class UserRepository {
@@ -11,7 +9,6 @@ class UserRepository {
       activityData,
       sleepData
     );
-    // this.longestSleepers = [];
   }
 
   makeUsers(userList, hydrationData, activityData, sleepData) {
@@ -25,7 +22,6 @@ class UserRepository {
     return this.users.find(user => {
       return user.id === id;
     });
-    domUpdates.getUserName();
   }
 
   calculateAverageStepGoal() {
@@ -53,11 +49,9 @@ class UserRepository {
     if (totalCount === 0 && activityCounts.length === 0) {
       result = 0;
       return result;
-      // domUpdates.displayAllUsersAverageFlights(result);
     }
     result = Math.round(totalCount / activityCounts.length);
     return result;
-    // domUpdates.displayAllUsersAverageFlights(result);
   }
 
   calculateAverageSleepQuality() {
@@ -95,13 +89,6 @@ class UserRepository {
       .shift()
     return worstSleeper.name;
   }
-
-// Find all users who average a sleep quality greater than 3 for a given week (7 days) - you should be able to calculate this for any week, not just the latest week
-//   findBestSleepers(date) {
-//     return this.users.filter(user => {
-//       return user.calculateAverageQualityThisWeek(date) > 3;
-//     })
-//   }
 }
 
 export default UserRepository;
